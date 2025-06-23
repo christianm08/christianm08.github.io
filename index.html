@@ -17,95 +17,90 @@ body {
     flex-direction: column;
     align-items: center;
     position: relative;
-    /* Animated background gradient */
-    animation: gradientBG 18s ease-in-out infinite;
+    /* Remove heavy animation for performance */
+    /* animation: gradientBG 18s ease-in-out infinite; */
     overflow-x: hidden;
 }
-@keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
+/* Removed @keyframes gradientBG for performance */
 body::before {
     content: '';
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
     pointer-events: none;
     background: url('https://www.transparenttextures.com/patterns/diamond-upholstery.png');
-    opacity: 0.10;
+    opacity: 0.06;
     z-index: 0;
 }
 .header {
-    margin-top: 2.8rem;
-    margin-bottom: 2.8rem;
+    margin-top: 2.2rem;
+    margin-bottom: 2.2rem;
     text-align: center;
 }
 .header h1 {
-    font-size: 3.1rem;
-    font-weight: 900;
-    letter-spacing: 3px;
+    font-size: 2.3rem;
+    font-weight: 800;
+    letter-spacing: 2px;
     margin: 0;
     background: linear-gradient(90deg, #4eb5f1 10%, #fff 50%, #ffb347 90%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-fill-color: transparent;
-    text-shadow: 0 6px 32px #000a, 0 2px 0 #2228;
-    filter: drop-shadow(0 2px 8px #4eb5f1aa);
+    text-shadow: 0 4px 18px #000a, 0 1px 0 #2228;
+    filter: drop-shadow(0 1px 4px #4eb5f1aa);
 }
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.2rem;
     width: 100vw;
-    max-width: 1100px;
-    margin-bottom: 2.5rem;
+    max-width: 1000px;
+    margin-bottom: 2rem;
     overflow-x: auto;
-    padding: 3rem 3vw 3rem 3vw;
+    padding: 2rem 2vw 2rem 2vw;
     box-sizing: border-box;
-    background: rgba(30, 40, 60, 0.85);
-    border-radius: 2.8rem;
-    box-shadow: 0 12px 48px #0007, 0 2px 0 #2222;
+    background: rgba(30, 40, 60, 0.80);
+    border-radius: 1.5rem;
+    box-shadow: 0 6px 24px #0005, 0 1.5px 0 #2222;
     z-index: 1;
-    border: 1.5px solid #4eb5f1;
-    backdrop-filter: blur(4px);
+    border: 1px solid #4eb5f1;
+    backdrop-filter: blur(2px);
 }
 a.button1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1.3em 1.7em;
-    border-radius: 2.5em;
+    padding: 1em 1.2em;
+    border-radius: 2em;
     box-sizing: border-box;
     text-decoration: none;
     font-family: 'Roboto', sans-serif;
     font-weight: 700;
-    font-size: 1.18rem;
+    font-size: 1.08rem;
     color: #fff;
     background: linear-gradient(100deg, #4eb5f1 0%, #4095c6 60%, #ffb347 100%);
-    box-shadow: 0 8px 32px #0003, 0 2px 0 #2222;
-    transition: transform 0.22s cubic-bezier(.4,2,.6,1), box-shadow 0.22s, background 0.25s, color 0.18s;
-    border: 2.5px solid #fff2;
+    box-shadow: 0 4px 16px #0002, 0 1.5px 0 #2222;
+    transition: transform 0.15s cubic-bezier(.4,2,.6,1), box-shadow 0.15s, background 0.18s, color 0.12s;
+    border: 1.5px solid #fff2;
     outline: none;
-    min-width: 160px;
+    min-width: 140px;
     max-width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     position: relative;
     z-index: 1;
-    letter-spacing: 0.7px;
-    backdrop-filter: blur(2.5px);
-    filter: drop-shadow(0 2px 8px #4eb5f1aa);
+    letter-spacing: 0.5px;
+    backdrop-filter: blur(1px);
+    filter: drop-shadow(0 1px 4px #4eb5f1aa);
     cursor: pointer;
 }
 a.button1:hover, a.button1:focus {
     background: linear-gradient(100deg, #ffb347 0%, #4eb5f1 60%, #4095c6 100%);
     color: #232526;
-    transform: translateY(-10px) scale(1.09) rotate(-1deg);
-    box-shadow: 0 24px 64px #0007, 0 2px 0 #2222;
+    transform: translateY(-5px) scale(1.04);
+    box-shadow: 0 12px 32px #0005, 0 1.5px 0 #2222;
     z-index: 10;
-    border: 2.5px solid #ffb347;
+    border: 1.5px solid #ffb347;
 }
 @media (max-width: 600px) {
     .header h1 {
