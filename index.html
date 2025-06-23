@@ -38,6 +38,8 @@ body {
     max-width: 1000px;
     margin-bottom: 2rem;
     overflow-x: auto;
+    padding: 2rem 2vw 2rem 2vw;
+    box-sizing: border-box;
 }
 a.button1 {
     display: flex;
@@ -61,11 +63,14 @@ a.button1 {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    position: relative;
+    z-index: 1;
 }
 a.button1:hover, a.button1:focus {
     background: linear-gradient(90deg, #4095c6 0%, #4eb5f1 100%);
     transform: translateY(-3px) scale(1.04);
     box-shadow: 0 8px 24px #0004;
+    z-index: 10;
 }
 @media (max-width: 600px) {
     .header h1 {
@@ -76,6 +81,7 @@ a.button1:hover, a.button1:focus {
         gap: 0.7rem;
         width: 100vw;
         overflow-x: auto;
+        padding: 1rem 1vw 1rem 1vw;
     }
     a.button1 {
         font-size: 1rem;
