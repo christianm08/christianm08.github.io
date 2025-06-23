@@ -34,9 +34,10 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 1.2rem;
-    width: 95vw;
+    width: 100vw;
     max-width: 900px;
     margin-bottom: 2rem;
+    overflow-x: auto;
 }
 a.button1 {
     display: flex;
@@ -55,6 +56,11 @@ a.button1 {
     transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
     border: none;
     outline: none;
+    min-width: 150px;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 a.button1:hover, a.button1:focus {
     background: linear-gradient(90deg, #4095c6 0%, #4eb5f1 100%);
@@ -66,12 +72,15 @@ a.button1:hover, a.button1:focus {
         font-size: 1.5rem;
     }
     .grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         gap: 0.7rem;
+        width: 100vw;
+        overflow-x: auto;
     }
     a.button1 {
         font-size: 1rem;
         padding: 0.9em 1em;
+        min-width: 120px;
     }
 }
 </style>
