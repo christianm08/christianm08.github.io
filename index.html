@@ -1,171 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DaddyIT</title>
-<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap" rel="stylesheet">
-<style>
-body {
-    background: linear-gradient(135deg, #232526 0%, #414345 100%);
-    min-height: 100vh;
-    margin: 0;
-    font-family: 'Roboto', sans-serif;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.header {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    text-align: center;
-}
-.header h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-    margin: 0;
-    color: #4eb5f1;
-    text-shadow: 0 2px 8px #0008;
-}
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 1.2rem;
-    width: 100vw;
-    max-width: 1000px;
-    margin-bottom: 2rem;
-    overflow-x: auto;
-    padding: 2rem 2vw 2rem 2vw;
-    box-sizing: border-box;
-}
-a.button1 {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.1em 1.2em;
-    border-radius: 1.5em;
-    box-sizing: border-box;
-    text-decoration: none;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 500;
-    font-size: 1.1rem;
-    color: #fff;
-    background: linear-gradient(90deg, #4eb5f1 0%, #4095c6 100%);
-    box-shadow: 0 4px 16px #0003;
-    transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
-    border: none;
-    outline: none;
-    min-width: 150px;
-    max-width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    position: relative;
-    z-index: 1;
-}
-a.button1:hover, a.button1:focus {
-    background: linear-gradient(90deg, #4095c6 0%, #4eb5f1 100%);
-    transform: translateY(-3px) scale(1.04);
-    box-shadow: 0 8px 24px #0004;
-    z-index: 10;
-}
-@media (max-width: 600px) {
-    .header h1 {
-        font-size: 1.5rem;
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DaddyIT</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #232526 0%, #414345 100%);
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
+
+    .header {
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin: 0;
+      color: #4eb5f1;
+      text-shadow: 0 2px 8px #0008;
+    }
+
     .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.2rem;
+      width: 100vw;
+      max-width: 1000px;
+      margin-bottom: 2rem;
+      overflow-x: auto;
+      padding: 2rem 2vw 2rem 2vw;
+      box-sizing: border-box;
+    }
+
+    a.button1 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.1em 1.2em;
+      border-radius: 1.5em;
+      box-sizing: border-box;
+      text-decoration: none;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 500;
+      font-size: 1.1rem;
+      color: #fff;
+      background: linear-gradient(90deg, #4eb5f1 0%, #4095c6 100%);
+      box-shadow: 0 4px 16px #0003;
+      transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
+      border: none;
+      outline: none;
+      min-width: 150px;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      position: relative;
+      z-index: 1;
+    }
+
+    a.button1:hover,
+    a.button1:focus {
+      background: linear-gradient(90deg, #4095c6 0%, #4eb5f1 100%);
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 8px 24px #0004;
+      z-index: 10;
+    }
+
+    @media (max-width: 600px) {
+      .header h1 {
+        font-size: 1.5rem;
+      }
+
+      .grid {
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         gap: 0.7rem;
         width: 100vw;
         overflow-x: auto;
         padding: 1rem 1vw 1rem 1vw;
-    }
-    a.button1 {
+      }
+
+      a.button1 {
         font-size: 1rem;
         padding: 0.9em 1em;
         min-width: 120px;
-    }
-}
-</style>
-</head>
-<body>
-<div class="header">
-    <h1>DaddyIT - Seleziona un Canale</h1>
-</div>
-<div class="grid" id="channelGrid">
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-878.php">EuroSport 1</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-879.php">EuroSport 2</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-861.php">Sky Cinema Action</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-859.php">Sky Cinema Collection</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-862.php">Sky Cinema Comedy</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-865.php">Sky Cinema Family</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-860.php">Sky Cinema Uno</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-863.php">Sky Cinema Uno +24</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-866.php">Sky Cinema Due +24</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-867.php">Sky Cinema Drama</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-864.php">Sky Cinema Romance</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-868.php">Sky Cinema Suspense</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-880.php">Sky Serie</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-871.php">Sky Calcio 1</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-872.php">Sky Calcio 2</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-873.php">Sky Calcio 3</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-874.php">Sky Calcio 4</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-875.php">Sky Calcio 5</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-876.php">Sky Calcio 6</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-869.php">Sky Sport 24</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-462.php">Sky Sport Arena</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-870.php">Sky Sport Calcio</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-460.php">Sky Sport Football</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-577.php">Sky Sport F1</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-575.php">Sky Sport MotoGP</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-576.php">Sky Sport Tennis</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-461.php">Sky Sport UNO</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-574.php">Sky Sport Golf</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-881.php">Sky UNO</a>
-<a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-877.php">Zona DAZN</a>
-</div>
-
-<div id="videoContainer" style="width:100%;max-width:1100px;min-height:400px;margin:0 auto 2rem auto;display:none;">
-  <iframe id="videoIframe" class="video responsive" marginheight="0" marginwidth="0" src="" name="iframe_a" scrolling="no" allowfullscreen="yes" width="100%" height="500" frameborder="0" style="border-radius:1.2rem;background:#111;min-height:400px;" allow="autoplay; fullscreen; encrypted-media; picture-in-picture; clipboard-write;">
-Your Browser Do not Support Iframe</iframe>
-</div>
-
-<footer style="width:100%;text-align:center;padding:1.5rem 0 1rem 0;color:#aaa;font-size:1rem;letter-spacing:0.5px;">
-  <hr style="border:0;border-top:1px solid #333;width:90%;margin:1.5rem auto 1rem auto;">
-  <span>Educational purpose only. See <a href="README.md" style="color:#4eb5f1;text-decoration:underline;">README</a> for details.</span>
-</footer>
-
-<script>
-// Funzione per aprire il canale nell'iframe
-const grid = document.getElementById('channelGrid');
-const videoContainer = document.getElementById('videoContainer');
-const videoIframe = document.getElementById('videoIframe');
-grid.addEventListener('click', function(e) {
-  const btn = e.target.closest('a.button1');
-  if(btn && btn.dataset.link) {
-    e.preventDefault();
-    // Prova ad aprire direttamente il link in una nuova scheda se l'iframe fallisce
-    videoIframe.src = btn.dataset.link;
-    videoContainer.style.display = 'block';
-    videoIframe.onload = function() {
-      // Se l'iframe carica, non fare nulla
-    };
-    videoIframe.onerror = function() {
-      window.open(btn.dataset.link, '_blank');
-    };
-    // Timeout di fallback: se dopo 2s l'iframe non carica, apri in nuova scheda
-    setTimeout(function() {
-      if (!videoIframe.contentWindow || videoIframe.contentWindow.length === 0) {
-        window.open(btn.dataset.link, '_blank');
       }
-    }, 2000);
-    videoIframe.scrollIntoView({behavior: 'smooth'});
-  }
-});
-</script>
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <h1>DaddyIT - Seleziona un Canale</h1>
+  </div>
+  <div class="grid" id="channelGrid">
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-878.php">EuroSport 1</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-879.php">EuroSport 2</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-861.php">Sky Cinema Action</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-859.php">Sky Cinema Collection</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-862.php">Sky Cinema Comedy</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-865.php">Sky Cinema Family</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-860.php">Sky Cinema Uno</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-863.php">Sky Cinema Uno +24</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-866.php">Sky Cinema Due +24</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-867.php">Sky Cinema Drama</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-864.php">Sky Cinema Romance</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-868.php">Sky Cinema Suspense</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-880.php">Sky Serie</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-871.php">Sky Calcio 1</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-872.php">Sky Calcio 2</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-873.php">Sky Calcio 3</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-874.php">Sky Calcio 4</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-875.php">Sky Calcio 5</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-876.php">Sky Calcio 6</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-869.php">Sky Sport 24</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-462.php">Sky Sport Arena</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-870.php">Sky Sport Calcio</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-460.php">Sky Sport Football</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-577.php">Sky Sport F1</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-575.php">Sky Sport MotoGP</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-576.php">Sky Sport Tennis</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-461.php">Sky Sport UNO</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-574.php">Sky Sport Golf</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-881.php">Sky UNO</a>
+    <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-877.php">Zona DAZN</a>
+  </div>
+
+  <div id="videoContainer" style="width:100%;max-width:1100px;min-height:400px;margin:0 auto 2rem auto;display:none;">
+    <iframe id="videoIframe" class="video responsive" marginheight="0" marginwidth="0" src="" name="iframe_a"
+      scrolling="no" allowfullscreen="yes" width="100%" height="500" frameborder="0"
+      style="border-radius:1.2rem;background:#111;min-height:400px;"
+      allow="autoplay; fullscreen; encrypted-media; picture-in-picture; clipboard-write; ">
+      Your Browser Do not Support Iframe</iframe>
+  </div>
+
+  <footer style="width:100%;text-align:center;padding:1.5rem 0 1rem 0;color:#aaa;font-size:1rem;letter-spacing:0.5px;">
+    <hr style="border:0;border-top:1px solid #333;width:90%;margin:1.5rem auto 1rem auto;">
+    <span>Educational purpose only. See <a href="README.md" style="color:#4eb5f1;text-decoration:underline;">README</a>
+      for details. - <a href="https://github.com/christianm08/christianm08.github.io"
+        style="color:#4eb5f1;text-decoration:underline;">GitHub</a></span>
+  </footer>
+
+  <script>
+    // Funzione per aprire il canale nell'iframe
+    const grid = document.getElementById('channelGrid');
+    const videoContainer = document.getElementById('videoContainer');
+    const videoIframe = document.getElementById('videoIframe');
+    grid.addEventListener('click', function (e) {
+      const btn = e.target.closest('a.button1');
+      if (btn && btn.dataset.link) {
+        e.preventDefault();
+        // Prova ad aprire direttamente il link in una nuova scheda se l'iframe fallisce
+        videoIframe.src = btn.dataset.link;
+        videoContainer.style.display = 'block';
+        videoIframe.onload = function () {
+          // Se l'iframe carica, non fare nulla
+        };
+        videoIframe.onerror = function () {
+          window.open(btn.dataset.link, '_blank');
+        };
+        // Timeout di fallback: se dopo 2s l'iframe non carica, apri in nuova scheda
+        setTimeout(function () {
+          if (!videoIframe.contentWindow || videoIframe.contentWindow.length === 0) {
+            window.open(btn.dataset.link, '_blank');
+          }
+        }, 2000);
+        videoIframe.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  </script>
 
 </body>
+
 </html>
