@@ -30,3 +30,9 @@ closeButton.addEventListener('click', function () {
     videoContainer.style.display = 'none';
     videoIframe.src = '';
 });
+// Funzione per tornare alla home senza .html nell'URL
+function goHome() {
+    let url = window.location.origin + window.location.pathname;
+    url = url.replace(/\/[^\/]*$/, '/'); // rimuove il file corrente
+    window.location.href = url + 'index'; // va su /index (senza .html)
+}
