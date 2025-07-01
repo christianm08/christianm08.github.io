@@ -2,21 +2,98 @@
 const sidebarLinks = document.querySelectorAll('.sidebar-link');
 const mainContent = document.querySelector('.main-content');
 
+function updateUrlSection(section) {
+    const url = new URL(window.location);
+    url.searchParams.set('section', section);
+    url.searchParams.delete('type');
+    url.searchParams.delete('tmdb');
+    url.searchParams.delete('season');
+    url.searchParams.delete('episode');
+    window.history.pushState({}, '', url);
+}
+
+function updateUrlContent(type, tmdbId, season, episode) {
+    const url = new URL(window.location);
+    url.searchParams.set('type', type);
+    url.searchParams.set('tmdb', tmdbId);
+    if (season) url.searchParams.set('season', season);
+    else url.searchParams.delete('season');
+    if (episode) url.searchParams.set('episode', episode);
+    else url.searchParams.delete('episode');
+    window.history.pushState({}, '', url);
+}
+
+function updateUrlSearchQuery(query) {
+    const url = new URL(window.location);
+    url.searchParams.set('section', 'cerca');
+    if (query) url.searchParams.set('query', query);
+    else url.searchParams.delete('query');
+    window.history.replaceState({}, '', url);
+}
+
 sidebarLinks.forEach(link => {
     link.addEventListener('click', function (e) {
         e.preventDefault();
         sidebarLinks.forEach(l => l.classList.remove('active'));
         this.classList.add('active');
-        if (this.textContent === 'Film') {
+        const section = this.textContent;
+        if (section === 'Film') {
+            updateUrlSection('film');
             loadMovies();
-        } else if (this.textContent === 'Serie TV') {
+        } else if (section === 'Serie TV') {
+            updateUrlSection('serie-tv');
             loadShows();
-        } else if (this.textContent === 'Mia Lista') {
+        } else if (section === 'Mia Lista') {
+            updateUrlSection('mia-lista');
             showMyList();
-        } else if (this.textContent === 'Cerca') {
+        } else if (section === 'Cerca') {
+            updateUrlSection('cerca');
             showSearch();
         }
     });
+});
+
+// All'avvio, mostra la sezione o il contenuto in base all'URL
+window.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URL(window.location).searchParams;
+    const type = urlParams.get('type');
+    const tmdb = urlParams.get('tmdb');
+    const season = urlParams.get('season');
+    const episode = urlParams.get('episode');
+    if (type && tmdb) {
+        // Mostra direttamente il dettaglio del contenuto
+        showPlayerWithInfo(type, tmdb, season, episode);
+        // Attiva la sezione corretta nella sidebar
+        let section = 'Film';
+        if (type === 'tv') section = 'Serie TV';
+        sidebarLinks.forEach(l => l.classList.remove('active'));
+        sidebarLinks.forEach(l => { if (l.textContent === section) l.classList.add('active'); });
+        return;
+    }
+    const section = urlParams.get('section');
+    let found = false;
+    if (section === 'film') {
+        sidebarLinks.forEach(l => { if (l.textContent === 'Film') l.classList.add('active'); });
+        loadMovies();
+        found = true;
+    } else if (section === 'serie-tv') {
+        sidebarLinks.forEach(l => { if (l.textContent === 'Serie TV') l.classList.add('active'); });
+        loadShows();
+        found = true;
+    } else if (section === 'mia-lista') {
+        sidebarLinks.forEach(l => { if (l.textContent === 'Mia Lista') l.classList.add('active'); });
+        showMyList();
+        found = true;
+    } else if (section === 'cerca') {
+        sidebarLinks.forEach(l => { if (l.textContent === 'Cerca') l.classList.add('active'); });
+        showSearch();
+        found = true;
+    }
+    if (!found) {
+        // Default: Film
+        sidebarLinks.forEach(l => { if (l.textContent === 'Film') l.classList.add('active'); });
+        loadMovies();
+    }
 });
 
 function filterItalianContent(items, type) {
@@ -75,6 +152,7 @@ function loadMovies() {
             mainContent.querySelectorAll('.catalog-card.clickable-card').forEach(card => {
                 card.addEventListener('click', function () {
                     const tmdbId = this.dataset.tmdbid;
+                    updateUrlContent('movie', tmdbId);
                     showPlayerWithInfo('movie', tmdbId);
                 });
             });
@@ -137,6 +215,7 @@ function loadShows() {
             mainContent.querySelectorAll('.catalog-card.clickable-card').forEach(card => {
                 card.addEventListener('click', function () {
                     const tmdbId = this.dataset.tmdbid;
+                    updateUrlContent('tv', tmdbId);
                     showPlayerWithInfo('tv', tmdbId);
                 });
             });
@@ -191,6 +270,7 @@ function showPlayer(embedUrl, backToSearch) {
 }
 
 function showPlayerWithInfo(type, tmdbId, season, episode) {
+    updateUrlContent(type, tmdbId, season, episode);
     mainContent.innerHTML = '<div class="player-embed-wrap">Caricamento informazioni...</div>';
     let url, embedUrl;
     if (type === 'movie') {
@@ -360,13 +440,40 @@ function showPlayerWithInfo(type, tmdbId, season, episode) {
             }
             // Listener back
             const backBtn = mainContent.querySelector('.back-btn');
-            backBtn.onclick = () => {
-                const active = document.querySelector('.sidebar-link.active');
-                if (active && active.textContent === 'Film') loadMovies();
-                else if (active && active.textContent === 'Serie TV') loadShows();
-                else if (active && active.textContent === 'Mia Lista') showMyList();
-                else if (active && active.textContent === 'Cerca') showSearch();
-            };
+            if (backBtn) {
+                backBtn.onclick = () => {
+                    // Recupera la sezione precedente dall'URL
+                    const params = new URL(window.location).searchParams;
+                    const section = params.get('section');
+                    if (section === 'film') {
+                        updateUrlSection('film');
+                        sidebarLinks.forEach(l => l.classList.remove('active'));
+                        sidebarLinks.forEach(l => { if (l.textContent === 'Film') l.classList.add('active'); });
+                        loadMovies();
+                    } else if (section === 'serie-tv') {
+                        updateUrlSection('serie-tv');
+                        sidebarLinks.forEach(l => l.classList.remove('active'));
+                        sidebarLinks.forEach(l => { if (l.textContent === 'Serie TV') l.classList.add('active'); });
+                        loadShows();
+                    } else if (section === 'mia-lista') {
+                        updateUrlSection('mia-lista');
+                        sidebarLinks.forEach(l => l.classList.remove('active'));
+                        sidebarLinks.forEach(l => { if (l.textContent === 'Mia Lista') l.classList.add('active'); });
+                        showMyList();
+                    } else if (section === 'cerca') {
+                        updateUrlSection('cerca');
+                        sidebarLinks.forEach(l => l.classList.remove('active'));
+                        sidebarLinks.forEach(l => { if (l.textContent === 'Cerca') l.classList.add('active'); });
+                        showSearch();
+                    } else {
+                        // Default: Film
+                        updateUrlSection('film');
+                        sidebarLinks.forEach(l => l.classList.remove('active'));
+                        sidebarLinks.forEach(l => { if (l.textContent === 'Film') l.classList.add('active'); });
+                        loadMovies();
+                    }
+                };
+            }
         })
         .catch(() => {
             mainContent.innerHTML = '<div class="player-embed-wrap">Errore nel caricamento delle informazioni.</div>';
@@ -440,9 +547,17 @@ function showSearch() {
     const showsDiv = document.getElementById('searchShowsResults');
     const searchInput = document.getElementById('searchInput');
     let searchTimeout;
+    // Precompila la ricerca se presente nell'URL
+    const urlParams = new URL(window.location).searchParams;
+    const urlQuery = urlParams.get('query') || '';
+    if (urlQuery) {
+        searchInput.value = urlQuery;
+        searchInput.dispatchEvent(new Event('input'));
+    }
     searchInput.addEventListener('input', function() {
         clearTimeout(searchTimeout);
         const query = this.value.trim();
+        updateUrlSearchQuery(query);
         if (!query) {
             moviesDiv.innerHTML = '';
             showsDiv.innerHTML = '';
@@ -457,34 +572,56 @@ function showSearch() {
             ]).then(([movies, shows]) => {
                 // Film
                 if (movies && Array.isArray(movies.results) && movies.results.length) {
-                    moviesDiv.innerHTML = movies.results.map(movie => `
-                        <div class="catalog-card clickable-card" data-tmdbid="${movie.id}" data-type="movie">
-                            <img src="https://image.tmdb.org/t/p/w300${movie.poster_path}" alt="${movie.title}" />
-                            <div class="catalog-title">${movie.title}</div>
-                        </div>
-                    `).join('');
+                    filterItalianContent(movies.results, 'movie').then(filteredMovies => {
+                        if (filteredMovies.length) {
+                            moviesDiv.innerHTML = filteredMovies.map(movie => `
+                                <div class="catalog-card clickable-card" data-tmdbid="${movie.id}" data-type="movie">
+                                    <img src="https://image.tmdb.org/t/p/w300${movie.poster_path}" alt="${movie.title}" />
+                                    <div class="catalog-title">${movie.title}</div>
+                                </div>
+                            `).join('');
+                        } else {
+                            moviesDiv.innerHTML = 'Nessun film trovato in italiano.';
+                        }
+                        // Listener per aprire il player cliccando sulla card
+                        mainContent.querySelectorAll('.catalog-card.clickable-card').forEach(card => {
+                            card.addEventListener('click', function () {
+                                const tmdbId = this.dataset.tmdbid;
+                                const type = this.dataset.type;
+                                updateUrlContent(type, tmdbId);
+                                showPlayerWithInfo(type, tmdbId);
+                            });
+                        });
+                    });
                 } else {
                     moviesDiv.innerHTML = 'Nessun film trovato.';
                 }
                 // Serie TV
                 if (shows && Array.isArray(shows.results) && shows.results.length) {
-                    showsDiv.innerHTML = shows.results.map(show => `
-                        <div class="catalog-card clickable-card" data-tmdbid="${show.id}" data-type="tv">
-                            <img src="https://image.tmdb.org/t/p/w300${show.poster_path}" alt="${show.name}" />
-                            <div class="catalog-title">${show.name}</div>
-                        </div>
-                    `).join('');
+                    filterItalianContent(shows.results, 'tv').then(filteredShows => {
+                        if (filteredShows.length) {
+                            showsDiv.innerHTML = filteredShows.map(show => `
+                                <div class="catalog-card clickable-card" data-tmdbid="${show.id}" data-type="tv">
+                                    <img src="https://image.tmdb.org/t/p/w300${show.poster_path}" alt="${show.name}" />
+                                    <div class="catalog-title">${show.name}</div>
+                                </div>
+                            `).join('');
+                        } else {
+                            showsDiv.innerHTML = 'Nessuna serie trovata in italiano.';
+                        }
+                        // Listener per aprire il player cliccando sulla card
+                        mainContent.querySelectorAll('.catalog-card.clickable-card').forEach(card => {
+                            card.addEventListener('click', function () {
+                                const tmdbId = this.dataset.tmdbid;
+                                const type = this.dataset.type;
+                                updateUrlContent(type, tmdbId);
+                                showPlayerWithInfo(type, tmdbId);
+                            });
+                        });
+                    });
                 } else {
                     showsDiv.innerHTML = 'Nessuna serie trovata.';
                 }
-                // Listener per aprire il player cliccando sulla card
-                mainContent.querySelectorAll('.catalog-card.clickable-card').forEach(card => {
-                    card.addEventListener('click', function () {
-                        const tmdbId = this.dataset.tmdbid;
-                        const type = this.dataset.type;
-                        showPlayerWithInfo(type, tmdbId);
-                    });
-                });
             }).catch(() => {
                 moviesDiv.innerHTML = 'Errore nella ricerca.';
                 showsDiv.innerHTML = 'Errore nella ricerca.';
@@ -522,6 +659,7 @@ function showMyList() {
         card.addEventListener('click', function () {
             const tmdbId = this.dataset.tmdbid;
             const type = this.dataset.type;
+            updateUrlContent(type, tmdbId);
             showPlayerWithInfo(type, tmdbId);
         });
     });
