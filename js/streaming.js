@@ -679,3 +679,37 @@ function goPage(page) {
     });
 }
 
+// === HAMBURGER MENU ===
+// Inserisci hamburger se non esiste già
+if (!document.querySelector('.hamburger-btn')) {
+    const hamburger = document.createElement('button');
+    hamburger.className = 'hamburger-btn';
+    hamburger.innerHTML = '<span></span><span></span><span></span>';
+    hamburger.setAttribute('aria-label', 'Apri menu');
+    hamburger.setAttribute('type', 'button');
+    document.body.insertBefore(hamburger, document.body.firstChild);
+}
+const sidebar = document.querySelector('.sidebar');
+const hamburgerBtn = document.querySelector('.hamburger-btn');
+if (sidebar && hamburgerBtn) {
+    hamburgerBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('sidebar-open');
+        hamburgerBtn.classList.toggle('open');
+        if (sidebar.classList.contains('sidebar-open')) {
+            document.body.classList.add('no-scroll');
+        } else {
+            document.body.classList.remove('no-scroll');
+        }
+    });
+    // Chiudi sidebar al click su un link (solo mobile)
+    sidebar.querySelectorAll('.sidebar-link').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 900) {
+                sidebar.classList.remove('sidebar-open');
+                hamburgerBtn.classList.remove('open');
+                document.body.classList.remove('no-scroll');
+            }
+        });
+    });
+}
+
