@@ -1,11 +1,18 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Arial, sans-serif;
     background: #181c22;
     color: #e6e6e6;
     margin: 0;
     padding: 0;
     display: flex;
     min-height: 100vh;
+    transition: background 0.4s;
+    animation: fadeInBody 0.7s cubic-bezier(0.4,0,0.2,1);
+}
+
+@keyframes fadeInBody {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 h1 {
@@ -13,26 +20,41 @@ h1 {
     text-align: center;
     margin-top: 0;
     margin-bottom: 2rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-size: 2.2rem;
+    text-shadow: 0 2px 8px #0005;
+    animation: slideDownFade 0.7s cubic-bezier(0.4,0,0.2,1);
+}
+
+@keyframes slideDownFade {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .sidebar {
-    width: 220px;
+    width: 200px;
     background: #23272f;
-    box-shadow: 2px 0 16px #0003;
+    box-shadow: 2px 0 16px #0002;
     display: flex;
     flex-direction: column;
     align-items: stretch;
     padding: 2rem 0 2rem 0;
     min-height: 100vh;
+    border-top-right-radius: 1.2rem;
+    border-bottom-right-radius: 1.2rem;
+    transition: box-shadow 0.3s, background 0.3s;
 }
 
 .sidebar-title {
     color: #4eb5f1;
-    font-size: 1.3rem;
-    font-weight: bold;
+    font-size: 1.2rem;
+    font-weight: 600;
     text-align: center;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
     letter-spacing: 1px;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #222b;
 }
 
 .sidebar nav ul {
@@ -43,19 +65,24 @@ h1 {
 
 .sidebar-link {
     display: block;
-    padding: 1.1em 2em;
+    padding: 1em 1.5em;
     color: #e6e6e6;
     text-decoration: none;
-    font-size: 1.1rem;
-    border-left: 4px solid transparent;
-    transition: background 0.2s, color 0.2s, border-color 0.2s;
+    font-size: 1.08rem;
+    border-left: 3px solid transparent;
+    border-radius: 0 1em 1em 0;
+    margin-bottom: 0.2em;
+    transition: background 0.18s, color 0.18s, border-color 0.18s, box-shadow 0.18s, transform 0.15s;
+    font-weight: 500;
 }
 
 .sidebar-link.active,
 .sidebar-link:hover {
-    background: #181c22;
+    background: #20232a;
     color: #4eb5f1;
-    border-left: 4px solid #4eb5f1;
+    border-left: 3px solid #4eb5f1;
+    box-shadow: 0 2px 8px #0002;
+    transform: translateX(2px) scale(1.03);
 }
 
 .main-content {
@@ -64,30 +91,39 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    min-width: 0;
+    animation: fadeInContent 0.7s cubic-bezier(0.4,0,0.2,1);
+    transition: background 0.3s;
+}
+
+@keyframes fadeInContent {
+    from { opacity: 0; filter: blur(8px); }
+    to { opacity: 1; filter: blur(0); }
 }
 
 .catalog-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 2.2rem 1.5rem;
+  gap: 2rem 1.2rem;
   justify-content: flex-start;
   align-items: flex-start;
 }
 
 .catalog-card {
-  width: 210px;
-  height: 320px;
+  width: 200px;
+  height: 300px;
   background: #181828;
-  border-radius: 14px;
-  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.13);
+  border-radius: 1rem;
+  box-shadow: 0 2px 12px 0 rgba(0,0,0,0.10);
   overflow: hidden;
   cursor: pointer;
   position: relative;
-  transition: transform 0.13s, box-shadow 0.13s;
+  transition: transform 0.13s, box-shadow 0.13s, border 0.13s;
   display: flex;
   align-items: stretch;
   justify-content: stretch;
   padding: 0;
+  border: 1.5px solid #23272f;
 }
 
 .catalog-card img {
@@ -95,7 +131,7 @@ h1 {
   height: 100%;
   object-fit: cover;
   display: block;
-  border-radius: 14px;
+  border-radius: 1rem;
   transition: filter 0.15s;
 }
 
@@ -104,9 +140,10 @@ h1 {
 }
 
 .catalog-card:hover {
-  transform: scale(1.045);
-  box-shadow: 0 6px 32px 0 rgba(178,7,16,0.18);
+  transform: scale(1.035);
+  box-shadow: 0 6px 24px 0 #4eb5f133;
   z-index: 2;
+  border: 1.5px solid #4eb5f1;
 }
 
 .player-embed-wrap {
@@ -115,12 +152,13 @@ h1 {
     margin: 2rem auto 2rem auto;
     aspect-ratio: 16/9;
     background: #111;
-    border-radius: 1.2rem;
-    box-shadow: 0 4px 16px #0006;
+    border-radius: 1rem;
+    box-shadow: 0 2px 12px #0003;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: box-shadow 0.2s;
 }
 
 .player-iframe {
@@ -129,6 +167,7 @@ h1 {
     border: none;
     background: #111;
     display: block;
+    border-radius: 1rem;
 }
 
 .back-btn {
@@ -143,14 +182,14 @@ h1 {
     font-weight: 600;
     cursor: pointer;
     box-shadow: 0 2px 8px #0078d733;
-    transition: background 0.2s, color 0.2s, transform 0.15s;
+    transition: background 0.18s, color 0.18s, transform 0.13s;
 }
 
 .back-btn:hover,
 .back-btn:focus {
     background: #181c22;
     color: #fff;
-    transform: scale(1.05);
+    transform: scale(1.04);
 }
 
 .info-flex {
@@ -489,3 +528,5 @@ h1 {
   color: #fff;
   transform: scale(1.05);
 }
+
+/* Minimal: nascondi elementi inutili, mantieni solo struttura e focus su contenuto */

@@ -373,6 +373,18 @@ function showPlayerWithInfo(type, tmdbId, season, episode) {
         });
 }
 
+// Transizione fade-in per i contenuti dinamici
+function showContent(html) {
+    const main = document.getElementById('mainContent');
+    if (!main) return;
+    main.style.opacity = 0;
+    setTimeout(() => {
+        main.innerHTML = html;
+        main.style.transition = 'opacity 0.5s cubic-bezier(0.22,1,0.36,1)';
+        main.style.opacity = 1;
+    }, 200);
+}
+
 // Utility per gestire la lista in localStorage
 function getMyList() {
     return JSON.parse(localStorage.getItem('myList') || '[]');

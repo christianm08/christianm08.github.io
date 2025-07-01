@@ -10,7 +10,7 @@
 
 <body>
     <div class="sidebar">
-        <div class="sidebar-title">Menu</div>
+        <div class="sidebar-title">Streaming</div>
         <nav>
             <ul>
                 <li><a href="#" class="sidebar-link active">Film</a></li>
@@ -19,12 +19,28 @@
                 <li><a href="#" class="sidebar-link" id="search-link">Cerca</a></li>
             </ul>
         </nav>
+        <button onclick="window.location.href='index.html'" class="sidebar-link"
+            style="margin:2.5rem 1.5em 0 1.5em;display:block;text-align:center;font-weight:600;background:rgba(78,181,241,0.13);border-radius:1em;transition:background 0.2s;cursor:pointer;border:none;outline:none;">&larr;
+            Torna alla Home</button>
     </div>
-    <div class="main-content">
+    <div class="main-content" id="mainContent">
         <h1>Benvenuto nella pagina Streaming</h1>
         <!-- Qui verranno mostrati i contenuti -->
     </div>
     <script src="js/streaming.js"></script>
+    <script>
+    // Transizione fade-in per i contenuti dinamici
+    function showContent(html) {
+        const main = document.getElementById('mainContent');
+        main.style.opacity = 0;
+        setTimeout(() => {
+            main.innerHTML = html;
+            main.style.transition = 'opacity 0.5s cubic-bezier(0.22,1,0.36,1)';
+            main.style.opacity = 1;
+        }, 200);
+    }
+    // Esempio: puoi usare showContent('<h1>Nuovo contenuto</h1>') per vedere la transizione
+    </script>
 </body>
 
 </html>
