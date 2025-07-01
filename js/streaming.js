@@ -285,6 +285,7 @@ function showPlayerWithInfo(type, tmdbId, season, episode) {
         .then(res => res.json())
         .then(data => {
             if (type === 'movie') {
+                // --- INIZIO AGGIUNTA TRAILER YOUTUBE ---
                 // Recupera il trailer da TMDb
                 fetch(`https://api.themoviedb.org/3/movie/${tmdbId}/videos?api_key=55ecd6c5211c736b4c2f3b7d3342198d&language=it-IT`)
                     .then(res => res.json())
@@ -298,8 +299,8 @@ function showPlayerWithInfo(type, tmdbId, season, episode) {
                                 trailerEmbed = `
                                     <div class="trailer-block">
                                         <h3>Trailer</h3>
-                                        <div class="trailer-embed-wrap">
-                                            <iframe width="100%" height="360" src="https://www.youtube.com/embed/${trailer.key}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+                                        <div class="trailer-embed-16by9">
+                                            <iframe src="https://www.youtube.com/embed/${trailer.key}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
                                         </div>
                                     </div>
                                 `;
@@ -386,7 +387,7 @@ function showPlayerWithInfo(type, tmdbId, season, episode) {
                         }
                     })
                     .catch(() => {
-                        // Se errore nel recupero trailer, mostra comunque la pagina senza trailer
+                        // Se errore, mostra la pagina senza trailer
                         const inList = isInMyList(data.id, 'movie');
                         let infoBlock = `
                             <div class="info-flex info-flex-split">
@@ -466,6 +467,7 @@ function showPlayerWithInfo(type, tmdbId, season, episode) {
                             };
                         }
                     });
+                // --- FINE AGGIUNTA TRAILER YOUTUBE ---
             } else {
                 let seasons = (data.seasons||[]).filter(s=>s.season_number>0);
                 let selectedSeason = seasons.length ? seasons[0].season_number : 1;
