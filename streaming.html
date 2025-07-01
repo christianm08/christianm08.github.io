@@ -6,22 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Streaming</title>
     <link rel="stylesheet" href="css/streaming.css">
+    <!-- Font Awesome CDN for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
     <div class="sidebar">
-        <div class="sidebar-title">Streaming</div>
+        <div class="sidebar-title"><i class="fa-solid fa-clapperboard"></i> Streaming</div>
         <nav>
-            <ul>
-                <li><a href="#" class="sidebar-link active">Film</a></li>
-                <li><a href="#" class="sidebar-link">Serie TV</a></li>
-                <li><a href="#" class="sidebar-link">Mia Lista</a></li>
-                <li><a href="#" class="sidebar-link" id="search-link">Cerca</a></li>
+            <ul>                
+                <li><a href="#" class="sidebar-link" id="home-link" onclick="goPage('index'); return false;"><i class="fa-solid fa-home"></i> <span>Torna alla home</span></a></li>
+                <li><a href="#" class="sidebar-link active" data-section="film"><i class="fa-solid fa-film"></i> <span>Film</span></a></li>
+                <li><a href="#" class="sidebar-link" data-section="serie-tv"><i class="fa-solid fa-tv"></i> <span>Serie TV</span></a></li>
+                <li><a href="#" class="sidebar-link" data-section="mia-lista"><i class="fa-solid fa-heart"></i> <span>Mia Lista</span></a></li>
+                <li><a href="#" class="sidebar-link" data-section="cerca" id="search-link"><i class="fa-solid fa-magnifying-glass"></i> <span>Cerca</span></a></li>
             </ul>
         </nav>
-        <button onclick="goPage('index')" class="sidebar-link"
-            style="margin:2.5rem 1.5em 0 1.5em;display:block;text-align:center;font-weight:600;background:rgba(78,181,241,0.13);border-radius:1em;transition:background 0.2s;cursor:pointer;border:none;outline:none;">&larr;
-            Torna alla Home</button>
     </div>
     <div class="main-content" id="mainContent">
         <h1>Benvenuto nella pagina Streaming</h1>

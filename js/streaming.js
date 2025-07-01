@@ -1,4 +1,4 @@
-// Gestione selezione sidebar
+// Gestione selezione navbar (ex-sidebar)
 const sidebarLinks = document.querySelectorAll('.sidebar-link');
 const mainContent = document.querySelector('.main-content');
 
@@ -31,22 +31,34 @@ function updateUrlSearchQuery(query) {
     window.history.replaceState({}, '', url);
 }
 
+function setActiveNav(section) {
+    sidebarLinks.forEach(link => {
+        // Non attivare "Torna alla home" o link senza data-section
+        if (link.dataset.section === section) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
+}
+
 sidebarLinks.forEach(link => {
     link.addEventListener('click', function (e) {
+        // Se è un link esterno (es: Torna alla home), lascia il comportamento di default
+        if (this.dataset.section === undefined) return;
         e.preventDefault();
-        sidebarLinks.forEach(l => l.classList.remove('active'));
-        this.classList.add('active');
-        const section = this.textContent;
-        if (section === 'Film') {
+        setActiveNav(this.dataset.section);
+        const section = this.dataset.section;
+        if (section === 'film') {
             updateUrlSection('film');
             loadMovies();
-        } else if (section === 'Serie TV') {
+        } else if (section === 'serie-tv') {
             updateUrlSection('serie-tv');
             loadShows();
-        } else if (section === 'Mia Lista') {
+        } else if (section === 'mia-lista') {
             updateUrlSection('mia-lista');
             showMyList();
-        } else if (section === 'Cerca') {
+        } else if (section === 'cerca') {
             updateUrlSection('cerca');
             showSearch();
         }
@@ -55,46 +67,50 @@ sidebarLinks.forEach(link => {
 
 // All'avvio, mostra la sezione o il contenuto in base all'URL
 window.addEventListener('DOMContentLoaded', () => {
+    renderFromUrl();
+});
+
+function renderFromUrl() {
     const urlParams = new URL(window.location).searchParams;
     const type = urlParams.get('type');
     const tmdb = urlParams.get('tmdb');
     const season = urlParams.get('season');
     const episode = urlParams.get('episode');
     if (type && tmdb) {
-        // Mostra direttamente il dettaglio del contenuto
         showPlayerWithInfo(type, tmdb, season, episode);
-        // Attiva la sezione corretta nella sidebar
-        let section = 'Film';
-        if (type === 'tv') section = 'Serie TV';
-        sidebarLinks.forEach(l => l.classList.remove('active'));
-        sidebarLinks.forEach(l => { if (l.textContent === section) l.classList.add('active'); });
+        let section = 'film';
+        if (type === 'tv') section = 'serie-tv';
+        setActiveNav(section);
         return;
     }
     const section = urlParams.get('section');
     let found = false;
     if (section === 'film') {
-        sidebarLinks.forEach(l => { if (l.textContent === 'Film') l.classList.add('active'); });
+        setActiveNav('film');
         loadMovies();
         found = true;
     } else if (section === 'serie-tv') {
-        sidebarLinks.forEach(l => { if (l.textContent === 'Serie TV') l.classList.add('active'); });
+        setActiveNav('serie-tv');
         loadShows();
         found = true;
     } else if (section === 'mia-lista') {
-        sidebarLinks.forEach(l => { if (l.textContent === 'Mia Lista') l.classList.add('active'); });
+        setActiveNav('mia-lista');
         showMyList();
         found = true;
     } else if (section === 'cerca') {
-        sidebarLinks.forEach(l => { if (l.textContent === 'Cerca') l.classList.add('active'); });
+        setActiveNav('cerca');
         showSearch();
         found = true;
     }
     if (!found) {
-        // Default: Film
-        sidebarLinks.forEach(l => { if (l.textContent === 'Film') l.classList.add('active'); });
+        setActiveNav('film');
         loadMovies();
     }
-});
+}
+
+window.addEventListener('popstate', renderFromUrl);
+
+// Gestione selezione sidebar
 
 function filterItalianContent(items, type) {
     // type: 'movie' o 'tv'
@@ -124,42 +140,45 @@ loadMovies();
 
 
 
+// Modifica loadMovies
 function loadMovies() {
-    mainContent.innerHTML = '<h1>Film Popolari</h1><div class="catalog-grid">Caricamento...</div>';
-    // Recupera più pagine di film popolari (ad esempio le prime 3 pagine)
-    const pages = [1, 2, 3];
-    Promise.all(pages.map(page =>
-        fetch(`https://api.themoviedb.org/3/movie/popular?language=it-IT&page=${page}&api_key=55ecd6c5211c736b4c2f3b7d3342198d`).then(res => res.json())
-    )).then(resultsArr => {
-        // Unisci tutti i risultati in un unico array
-        const allResults = resultsArr.flatMap(r => Array.isArray(r.results) ? r.results : []);
-        if (!allResults.length) {
-            mainContent.querySelector('.catalog-grid').textContent = 'Nessun film trovato.';
-            return;
-        }
-        filterItalianContent(allResults, 'movie').then(filtered => {
-            if (!filtered.length) {
-                mainContent.querySelector('.catalog-grid').textContent = 'Nessun film disponibile in italiano.';
-                return;
-            }
-            mainContent.querySelector('.catalog-grid').innerHTML = filtered.map(movie => `
-                <div class="catalog-card clickable-card" data-tmdbid="${movie.id}">
-                    <img src="https://image.tmdb.org/t/p/w300${movie.poster_path}" alt="${movie.title}" />
-                    <div class="catalog-title">${movie.title}</div>
-                </div>
-            `).join('');
-            // Aggiungi listener per aprire il player cliccando sulla card
-            mainContent.querySelectorAll('.catalog-card.clickable-card').forEach(card => {
-                card.addEventListener('click', function () {
-                    const tmdbId = this.dataset.tmdbid;
-                    updateUrlContent('movie', tmdbId);
-                    showPlayerWithInfo('movie', tmdbId);
-                });
-            });
-        });
-    }).catch(() => {
-        mainContent.querySelector('.catalog-grid').textContent = 'Errore nel caricamento.';
-    });
+  mainContent.innerHTML = '<h1>Film Popolari</h1>' + renderCatalogGridWithArrows('Caricamento...');
+  const pages = [1, 2, 3];
+  Promise.all(pages.map(page =>
+      fetch(`https://api.themoviedb.org/3/movie/popular?language=it-IT&page=${page}&api_key=55ecd6c5211c736b4c2f3b7d3342198d`).then(res => res.json())
+  )).then(resultsArr => {
+      const allResults = resultsArr.flatMap(r => Array.isArray(r.results) ? r.results : []);
+      if (!allResults.length) {
+          mainContent.querySelector('.catalog-grid').textContent = 'Nessun film trovato.';
+          setupCatalogGridArrows();
+          return;
+      }
+      filterItalianContent(allResults, 'movie').then(filtered => {
+          if (!filtered.length) {
+              mainContent.querySelector('.catalog-grid').textContent = 'Nessun film disponibile in italiano.';
+              setupCatalogGridArrows();
+              return;
+          }
+          const cards = filtered.map(movie => `
+              <div class="catalog-card clickable-card" data-tmdbid="${movie.id}">
+                  <img src="https://image.tmdb.org/t/p/w300${movie.poster_path}" alt="${movie.title}" />
+                  <div class="catalog-title">${movie.title}</div>
+              </div>
+          `).join('');
+          mainContent.querySelector('.catalog-grid').innerHTML = cards;
+          setupCatalogGridArrows();
+          mainContent.querySelectorAll('.catalog-card.clickable-card').forEach(card => {
+              card.addEventListener('click', function () {
+                  const tmdbId = this.dataset.tmdbid;
+                  updateUrlContent('movie', tmdbId);
+                  showPlayerWithInfo('movie', tmdbId);
+              });
+          });
+      });
+  }).catch(() => {
+      mainContent.querySelector('.catalog-grid').textContent = 'Errore nel caricamento.';
+      setupCatalogGridArrows();
+  });
 }
 
 function addMoviePlayListeners() {
@@ -188,7 +207,7 @@ function addMoviePlayListeners() {
 }
 
 function loadShows() {
-    mainContent.innerHTML = '<h1>Serie TV Popolari</h1><div class="catalog-grid">Caricamento...</div>';
+    mainContent.innerHTML = '<h1>Serie TV Popolari</h1>' + renderCatalogGridWithArrows('Caricamento...');
     // Recupera più pagine di serie popolari (ad esempio le prime 3 pagine)
     const pages = [1, 2, 3];
     Promise.all(pages.map(page =>
@@ -198,19 +217,23 @@ function loadShows() {
         const allResults = resultsArr.flatMap(r => Array.isArray(r.results) ? r.results : []);
         if (!allResults.length) {
             mainContent.querySelector('.catalog-grid').textContent = 'Nessuna serie trovata.';
+            setupCatalogGridArrows();
             return;
         }
         filterItalianContent(allResults, 'tv').then(filtered => {
             if (!filtered.length) {
                 mainContent.querySelector('.catalog-grid').textContent = 'Nessuna serie disponibile in italiano.';
+                setupCatalogGridArrows();
                 return;
             }
-            mainContent.querySelector('.catalog-grid').innerHTML = filtered.map(show => `
+            const cards = filtered.map(show => `
                 <div class="catalog-card clickable-card" data-tmdbid="${show.id}">
                     <img src="https://image.tmdb.org/t/p/w300${show.poster_path}" alt="${show.name}" />
                     <div class="catalog-title">${show.name}</div>
                 </div>
             `).join('');
+            mainContent.querySelector('.catalog-grid').innerHTML = cards;
+            setupCatalogGridArrows();
             // Aggiungi listener per aprire il player cliccando sulla card della serie TV
             mainContent.querySelectorAll('.catalog-card.clickable-card').forEach(card => {
                 card.addEventListener('click', function () {
@@ -222,6 +245,7 @@ function loadShows() {
         });
     }).catch(() => {
         mainContent.querySelector('.catalog-grid').textContent = 'Errore nel caricamento.';
+        setupCatalogGridArrows();
     });
 }
 
@@ -335,7 +359,7 @@ function showPlayerWithInfo(type, tmdbId, season, episode) {
                         else if (activeSection === 'Serie TV') backLabel = 'serie TV';
                         else if (activeSection === 'Mia Lista') backLabel = 'mia lista';
                         mainContent.innerHTML = `
-                            <button class="back-btn" style="position:absolute;right:0;top:0;margin:2.5rem 2.5rem 0 0;z-index:2;">&larr; Torna a ${backLabel}</button>
+                            <button class="back-btn" style="position:absolute;right:0;top:0;margin:5rem 5rem 0 0;z-index:2;">&larr; Torna a ${backLabel}</button>
                             <div class="content-info">${infoBlock}</div>
                         `;
                         // Listener per aggiungi/rimuovi da lista
@@ -416,7 +440,7 @@ function showPlayerWithInfo(type, tmdbId, season, episode) {
                         else if (activeSection === 'Serie TV') backLabel = 'serie TV';
                         else if (activeSection === 'Mia Lista') backLabel = 'mia lista';
                         mainContent.innerHTML = `
-                            <button class="back-btn" style="position:absolute;right:0;top:0;margin:2.5rem 2.5rem 0 0;z-index:2;">&larr; Torna a ${backLabel}</button>
+                            <button class="back-btn" style="position:absolute;right:0;top:0;margin:5rem 5rem 0 0;z-index:2;">&larr; Torna a ${backLabel}</button>
                             <div class="content-info">${infoBlock}</div>
                         `;
                         // Listener per aggiungi/rimuovi da lista
@@ -496,8 +520,8 @@ function showPlayerWithInfo(type, tmdbId, season, episode) {
                                 }
                                 return `
                                     <div class="episode-card" data-epnum="${ep.episode_number}">
-                                        <div class="ep-thumb-wrap">
-                                            <img src="${imgSrc}" alt="Episodio ${ep.episode_number}" />
+                                        <div class="ep-thumb-wrap" style="max-width: 320px; margin: 0 auto;">
+                                            <img src="${imgSrc}" alt="Episodio ${ep.episode_number}" style="width:100%;height:auto;max-height:240px;object-fit:cover;border-radius:0.7em;" />
                                         </div>
                                         <div class="ep-info">
                                             <div class="ep-title">Ep. ${ep.episode_number} - ${ep.name || ''}</div>
@@ -521,7 +545,7 @@ function showPlayerWithInfo(type, tmdbId, season, episode) {
                 let seasonCards = seasons.map(s => `
                     <div class="season-card${s.season_number == selectedSeason ? ' selected' : ''}" data-season="${s.season_number}">
                         <div class="season-thumb-wrap">
-                            <img src="${s.poster_path ? `https://image.tmdb.org/t/p/w300${s.poster_path}` : (data.poster_path ? `https://image.tmdb.org/t/p/w300${data.poster_path}` : 'https://via.placeholder.com/200x300?text=No+Image')}" alt="${s.name}" />
+                            <img src="${s.poster_path ? `https://image.tmdb.org/t/p/w300${s.poster_path}` : (data.poster_path ? `https://image.tmdb.org/t/p/w300${data.poster_path}` : 'https://via.placeholder.com/200x300?text=No+Image')}", alt="${s.name}" />
                         </div>
                         <div class="season-info">
                             <div class="season-title">${s.name}</div>
@@ -545,8 +569,16 @@ function showPlayerWithInfo(type, tmdbId, season, episode) {
                             <button class="play-btn add-remove-list-btn" data-tmdbid="${data.id}" data-type="tv" data-poster="${data.poster_path || ''}" data-title="${data.name}">
                                 ${isInMyList(data.id, 'tv') ? 'Rimuovi da lista' : 'Aggiungi a lista'}
                             </button>
-                            <div class="season-cards-wrap">${seasonCards}</div>
-                            <div class="episode-cards-wrap"></div>
+                            <div class="season-cards-wrap-wrap" style="position:relative;max-width:82vw;width:82%;overflow:hidden;padding:0 1.5em 0 1.5em;box-sizing:border-box;display:flex;align-items:center;">
+                              <button class="season-cards-arrow left" type="button" aria-label="Scorri stagioni a sinistra"><i class="fa fa-chevron-left"></i></button>
+                              <div class="season-cards-wrap" style="display:flex;flex-direction:row;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;gap:1.2em;width:100%;scroll-behavior:smooth;box-sizing:border-box;">${seasonCards}</div>
+                              <button class="season-cards-arrow right" type="button" aria-label="Scorri stagioni a destra"><i class="fa fa-chevron-right"></i></button>
+                            </div>
+                            <div class="episode-cards-wrap-wrap" style="position:relative;max-width:82vw;width:82%;overflow:hidden;padding:0 1.5em 0 1.5em;box-sizing:border-box;display:flex;align-items:center;">
+                              <button class="episode-cards-arrow left" type="button" aria-label="Scorri episodi a sinistra"><i class="fa fa-chevron-left"></i></button>
+                              <div class="episode-cards-wrap" style="display:flex;flex-direction:row;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;gap:1.2em;width:100%;scroll-behavior:smooth;box-sizing:border-box;"></div>
+                              <button class="episode-cards-arrow right" type="button" aria-label="Scorri episodi a destra"><i class="fa fa-chevron-right"></i></button>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -557,7 +589,7 @@ function showPlayerWithInfo(type, tmdbId, season, episode) {
                 else if (activeSection === 'Serie TV') backLabel = 'serie TV';
                 else if (activeSection === 'Mia Lista') backLabel = 'mia lista';
                 mainContent.innerHTML = `
-                    <button class="back-btn" style="position:absolute;right:0;top:0;margin:2.5rem 2.5rem 0 0;z-index:2;">&larr; Torna a ${backLabel}</button>
+                    <button class="back-btn" style="position:absolute;right:0;top:0;margin:5rem 5rem 0 0;z-index:2;">&larr; Torna a ${backLabel}</button>
                     <div class="content-info">${infoBlock}</div>
                 `;
                 // Listener cambio stagione tramite card
@@ -566,6 +598,7 @@ function showPlayerWithInfo(type, tmdbId, season, episode) {
                         mainContent.querySelectorAll('.season-card').forEach(c => c.classList.remove('selected'));
                         this.classList.add('selected');
                         renderEpisodes(this.dataset.season);
+                        setupEpisodeSeasonArrows(); // Aggiorna frecce episodi dopo cambio stagione
                     });
                 });
                 // Listener per aggiungi/rimuovi da lista nelle serie TV
@@ -578,6 +611,7 @@ function showPlayerWithInfo(type, tmdbId, season, episode) {
                     showPlayerWithInfo('tv', data.id);
                 };
                 renderEpisodes(selectedSeason);
+                setupEpisodeSeasonArrows(); // Inizializza frecce dopo render
             }
             // Listener back
             const backBtn = mainContent.querySelector('.back-btn');
@@ -665,7 +699,159 @@ function renderAddRemoveBtn(item, type) {
     }
 }
 
-// Modifica showSearch per includere i bottoni lista
+// Utility per creare la griglia con frecce
+function renderCatalogGridWithArrows(inner, gridId = '', extraClass = '') {
+  return `
+    <div class="catalog-grid-wrap">
+      <button class="catalog-scroll-arrow left" type="button" aria-label="Scorri a sinistra"><i class="fa fa-chevron-left"></i></button>
+      <div class="catalog-grid${extraClass ? ' ' + extraClass : ''}"${gridId ? ` id="${gridId}"` : ''}>${inner}</div>
+      <button class="catalog-scroll-arrow right" type="button" aria-label="Scorri a destra"><i class="fa fa-chevron-right"></i></button>
+    </div>
+  `;
+}
+
+// Scroll handler per tutte le griglie con frecce
+function setupCatalogGridArrows() {
+  document.querySelectorAll('.catalog-grid-wrap').forEach((wrap, idx) => {
+    const grid = wrap.querySelector('.catalog-grid');
+    const left = wrap.querySelector('.catalog-scroll-arrow.left');
+    const right = wrap.querySelector('.catalog-scroll-arrow.right');
+    if (!grid || !left || !right) return;
+    left.onclick = () => grid.scrollBy({ left: -grid.offsetWidth * 0.8, behavior: 'smooth' });
+    right.onclick = () => grid.scrollBy({ left: grid.offsetWidth * 0.8, behavior: 'smooth' });
+    // Salva posizione scroll su localStorage
+    const gridKey = window.location.search + '_grid_' + idx;
+    grid.addEventListener('scroll', () => {
+      localStorage.setItem(gridKey, grid.scrollLeft);
+    });
+    // Ripristina posizione scroll se presente
+    setTimeout(() => {
+      const saved = localStorage.getItem(gridKey);
+      if (saved) grid.scrollLeft = parseInt(saved, 10);
+    }, 0);
+  });
+}
+
+// Scroll handler per stagioni ed episodi
+function setupEpisodeSeasonArrows() {
+  // Stagioni
+  document.querySelectorAll('.season-cards-wrap-wrap').forEach((wrap, idx) => {
+    const grid = wrap.querySelector('.season-cards-wrap');
+    const left = wrap.querySelector('.season-cards-arrow.left');
+    const right = wrap.querySelector('.season-cards-arrow.right');
+    if (!grid || !left || !right) return;
+    left.onclick = () => grid.scrollBy({ left: -grid.offsetWidth * 0.8, behavior: 'smooth' });
+    right.onclick = () => grid.scrollBy({ left: grid.offsetWidth * 0.8, behavior: 'smooth' });
+    // Mostra/nascondi le frecce in base allo scroll
+    function updateArrows() {
+      left.style.visibility = grid.scrollLeft > 5 ? 'visible' : 'hidden';
+      right.style.visibility = (grid.scrollLeft + grid.offsetWidth < grid.scrollWidth - 5) ? 'visible' : 'hidden';
+    }
+    grid.addEventListener('scroll', updateArrows);
+    window.addEventListener('resize', updateArrows);
+    setTimeout(updateArrows, 100);
+  });
+  // Episodi
+  document.querySelectorAll('.episode-cards-wrap-wrap').forEach((wrap, idx) => {
+    const grid = wrap.querySelector('.episode-cards-wrap');
+    const left = wrap.querySelector('.episode-cards-arrow.left');
+    const right = wrap.querySelector('.episode-cards-arrow.right');
+    if (!grid || !left || !right) return;
+    left.onclick = () => grid.scrollBy({ left: -grid.offsetWidth * 0.8, behavior: 'smooth' });
+    right.onclick = () => grid.scrollBy({ left: grid.offsetWidth * 0.8, behavior: 'smooth' });
+    function updateArrows() {
+      left.style.visibility = grid.scrollLeft > 5 ? 'visible' : 'hidden';
+      right.style.visibility = (grid.scrollLeft + grid.offsetWidth < grid.scrollWidth - 5) ? 'visible' : 'hidden';
+    }
+    grid.addEventListener('scroll', updateArrows);
+    window.addEventListener('resize', updateArrows);
+    setTimeout(updateArrows, 100);
+  });
+}
+
+// Modifica loadMovies
+function loadMovies() {
+  mainContent.innerHTML = '<h1>Film Popolari</h1>' + renderCatalogGridWithArrows('Caricamento...');
+  const pages = [1, 2, 3];
+  Promise.all(pages.map(page =>
+      fetch(`https://api.themoviedb.org/3/movie/popular?language=it-IT&page=${page}&api_key=55ecd6c5211c736b4c2f3b7d3342198d`).then(res => res.json())
+  )).then(resultsArr => {
+      const allResults = resultsArr.flatMap(r => Array.isArray(r.results) ? r.results : []);
+      if (!allResults.length) {
+          mainContent.querySelector('.catalog-grid').textContent = 'Nessun film trovato.';
+          setupCatalogGridArrows();
+          return;
+      }
+      filterItalianContent(allResults, 'movie').then(filtered => {
+          if (!filtered.length) {
+              mainContent.querySelector('.catalog-grid').textContent = 'Nessun film disponibile in italiano.';
+              setupCatalogGridArrows();
+              return;
+          }
+          const cards = filtered.map(movie => `
+              <div class="catalog-card clickable-card" data-tmdbid="${movie.id}">
+                  <img src="https://image.tmdb.org/t/p/w300${movie.poster_path}" alt="${movie.title}" />
+                  <div class="catalog-title">${movie.title}</div>
+              </div>
+          `).join('');
+          mainContent.querySelector('.catalog-grid').innerHTML = cards;
+          setupCatalogGridArrows();
+          mainContent.querySelectorAll('.catalog-card.clickable-card').forEach(card => {
+              card.addEventListener('click', function () {
+                  const tmdbId = this.dataset.tmdbid;
+                  updateUrlContent('movie', tmdbId);
+                  showPlayerWithInfo('movie', tmdbId);
+              });
+          });
+      });
+  }).catch(() => {
+      mainContent.querySelector('.catalog-grid').textContent = 'Errore nel caricamento.';
+      setupCatalogGridArrows();
+  });
+}
+
+// Modifica loadShows
+function loadShows() {
+  mainContent.innerHTML = '<h1>Serie TV Popolari</h1>' + renderCatalogGridWithArrows('Caricamento...');
+  const pages = [1, 2, 3];
+  Promise.all(pages.map(page =>
+      fetch(`https://api.themoviedb.org/3/tv/popular?language=it-IT&page=${page}&api_key=55ecd6c5211c736b4c2f3b7d3342198d`).then(res => res.json())
+  )).then(resultsArr => {
+      const allResults = resultsArr.flatMap(r => Array.isArray(r.results) ? r.results : []);
+      if (!allResults.length) {
+          mainContent.querySelector('.catalog-grid').textContent = 'Nessuna serie trovata.';
+          setupCatalogGridArrows();
+          return;
+      }
+      filterItalianContent(allResults, 'tv').then(filtered => {
+          if (!filtered.length) {
+              mainContent.querySelector('.catalog-grid').textContent = 'Nessuna serie disponibile in italiano.';
+              setupCatalogGridArrows();
+              return;
+          }
+          const cards = filtered.map(show => `
+              <div class="catalog-card clickable-card" data-tmdbid="${show.id}">
+                  <img src="https://image.tmdb.org/t/p/w300${show.poster_path}" alt="${show.name}" />
+                  <div class="catalog-title">${show.name}</div>
+              </div>
+          `).join('');
+          mainContent.querySelector('.catalog-grid').innerHTML = cards;
+          setupCatalogGridArrows();
+          mainContent.querySelectorAll('.catalog-card.clickable-card').forEach(card => {
+              card.addEventListener('click', function () {
+                  const tmdbId = this.dataset.tmdbid;
+                  updateUrlContent('tv', tmdbId);
+                  showPlayerWithInfo('tv', tmdbId);
+              });
+          });
+      });
+  }).catch(() => {
+      mainContent.querySelector('.catalog-grid').textContent = 'Errore nel caricamento.';
+      setupCatalogGridArrows();
+  });
+}
+
+// Modifica showSearch
 function showSearch() {
     mainContent.innerHTML = `
         <h1>Cerca Film o Serie TV</h1>
@@ -675,11 +861,11 @@ function showSearch() {
         <div class="search-results-wrap">
             <div class="search-movies-section">
                 <h2 style="margin-top:1.5em;">Film</h2>
-                <div class="catalog-grid" id="searchMoviesResults"></div>
+                ${renderCatalogGridWithArrows('', 'searchMoviesResults')}
             </div>
             <div class="search-shows-section">
                 <h2 style="margin-top:2.5em;">Serie TV</h2>
-                <div class="catalog-grid" id="searchShowsResults"></div>
+                ${renderCatalogGridWithArrows('', 'searchShowsResults')}
             </div>
         </div>
     `;
@@ -702,6 +888,7 @@ function showSearch() {
         if (!query) {
             moviesDiv.innerHTML = '';
             showsDiv.innerHTML = '';
+            setupCatalogGridArrows();
             return;
         }
         moviesDiv.innerHTML = 'Caricamento...';
@@ -724,7 +911,7 @@ function showSearch() {
                         } else {
                             moviesDiv.innerHTML = 'Nessun film trovato in italiano.';
                         }
-                        // Listener per aprire il player cliccando sulla card
+                        setupCatalogGridArrows();
                         mainContent.querySelectorAll('.catalog-card.clickable-card').forEach(card => {
                             card.addEventListener('click', function () {
                                 const tmdbId = this.dataset.tmdbid;
@@ -736,6 +923,7 @@ function showSearch() {
                     });
                 } else {
                     moviesDiv.innerHTML = 'Nessun film trovato.';
+                    setupCatalogGridArrows();
                 }
                 // Serie TV
                 if (shows && Array.isArray(shows.results) && shows.results.length) {
@@ -750,7 +938,7 @@ function showSearch() {
                         } else {
                             showsDiv.innerHTML = 'Nessuna serie trovata in italiano.';
                         }
-                        // Listener per aprire il player cliccando sulla card
+                        setupCatalogGridArrows();
                         mainContent.querySelectorAll('.catalog-card.clickable-card').forEach(card => {
                             card.addEventListener('click', function () {
                                 const tmdbId = this.dataset.tmdbid;
@@ -762,14 +950,17 @@ function showSearch() {
                     });
                 } else {
                     showsDiv.innerHTML = 'Nessuna serie trovata.';
+                    setupCatalogGridArrows();
                 }
             }).catch(() => {
                 moviesDiv.innerHTML = 'Errore nella ricerca.';
                 showsDiv.innerHTML = 'Errore nella ricerca.';
+                setupCatalogGridArrows();
             });
         }, 350);
     });
     form.onsubmit = function(e) { e.preventDefault(); };
+    setupCatalogGridArrows(); // Per le griglie vuote iniziali
 }
 
 // Implementa la visualizzazione della lista
@@ -777,25 +968,29 @@ function showMyList() {
     const list = getMyList();
     const movies = list.filter(item => item.type === 'movie');
     const shows = list.filter(item => item.type === 'tv');
-    mainContent.innerHTML = '<h1>Mia Lista</h1>' +
-        `<div class="mylist-section">
-            <h2 style="margin-top:1.5em;">Film</h2>` +
-            (movies.length ? `<div class="catalog-grid">${movies.map(item => `
-                <div class="catalog-card clickable-card" data-tmdbid="${item.id}" data-type="${item.type}">
-                    <img src="https://image.tmdb.org/t/p/w300${item.poster_path}" alt="${item.title || item.name}" />
-                    <div class="catalog-title">${item.title || item.name}</div>
-                </div>
-            `).join('')}</div>` : '<div class="catalog-grid">Nessun film in lista.</div>') +
-        `</div>
+    mainContent.innerHTML = `
+        <h1>Mia Lista</h1>
         <div class="mylist-section">
-            <h2 style="margin-top:2.5em;">Serie TV</h2>` +
-            (shows.length ? `<div class="catalog-grid">${shows.map(item => `
+            <h2 style="margin-top:1.5em;">Film</h2>
+            ${renderCatalogGridWithArrows(movies.length ? movies.map(item => `
                 <div class="catalog-card clickable-card" data-tmdbid="${item.id}" data-type="${item.type}">
                     <img src="https://image.tmdb.org/t/p/w300${item.poster_path}" alt="${item.title || item.name}" />
                     <div class="catalog-title">${item.title || item.name}</div>
                 </div>
-            `).join('')}</div>` : '<div class="catalog-grid">Nessuna serie in lista.</div>') +
-        `</div>`;
+            `).join('') : 'Nessun film in lista.')}
+        </div>
+        <div class="mylist-section">
+            <h2 style="margin-top:2.5em;">Serie TV</h2>
+            ${renderCatalogGridWithArrows(shows.length ? shows.map(item => `
+                <div class="catalog-card clickable-card" data-tmdbid="${item.id}" data-type="${item.type}">
+                    <img src="https://image.tmdb.org/t/p/w300${item.poster_path}" alt="${item.title || item.name}" />
+                    <div class="catalog-title">${item.title || item.name}</div>
+                </div>
+            `).join('') : 'Nessuna serie in lista.')}
+        </div>
+    `;
+    setupCatalogGridArrows();
+    // Listener per aprire il player cliccando sulla card
     mainContent.querySelectorAll('.catalog-card.clickable-card').forEach(card => {
         card.addEventListener('click', function () {
             const tmdbId = this.dataset.tmdbid;
@@ -817,40 +1012,6 @@ function goPage(page) {
         }
     }).catch(() => {
         window.location.href = url + page + '.html';
-    });
-}
-
-// === HAMBURGER MENU ===
-// Inserisci hamburger se non esiste già
-if (!document.querySelector('.hamburger-btn')) {
-    const hamburger = document.createElement('button');
-    hamburger.className = 'hamburger-btn';
-    hamburger.innerHTML = '<span></span><span></span><span></span>';
-    hamburger.setAttribute('aria-label', 'Apri menu');
-    hamburger.setAttribute('type', 'button');
-    document.body.insertBefore(hamburger, document.body.firstChild);
-}
-const sidebar = document.querySelector('.sidebar');
-const hamburgerBtn = document.querySelector('.hamburger-btn');
-if (sidebar && hamburgerBtn) {
-    hamburgerBtn.addEventListener('click', () => {
-        sidebar.classList.toggle('sidebar-open');
-        hamburgerBtn.classList.toggle('open');
-        if (sidebar.classList.contains('sidebar-open')) {
-            document.body.classList.add('no-scroll');
-        } else {
-            document.body.classList.remove('no-scroll');
-        }
-    });
-    // Chiudi sidebar al click su un link (solo mobile)
-    sidebar.querySelectorAll('.sidebar-link').forEach(link => {
-        link.addEventListener('click', () => {
-            if (window.innerWidth <= 900) {
-                sidebar.classList.remove('sidebar-open');
-                hamburgerBtn.classList.remove('open');
-                document.body.classList.remove('no-scroll');
-            }
-        });
     });
 }
 
