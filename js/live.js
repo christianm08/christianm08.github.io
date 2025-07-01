@@ -32,7 +32,16 @@ closeButton.addEventListener('click', function () {
 });
 // Funzione per tornare alla home senza .html nell'URL
 function goHome() {
-    let url = window.location.origin + window.location.pathname;
-    url = url.replace(/\/[^\/]*$/, '/'); // rimuove il file corrente
-    window.location.href = url + 'index'; // va su /index (senza .html)
+    // Se sei su /live.html o altro, vai su / oppure /index (senza estensione)
+    let url = window.location.origin + '/';
+    // Se esiste una route /index, va lì, altrimenti solo /
+    fetch(url + 'index', {method: 'HEAD'}).then(resp => {
+        if (resp.ok) {
+            window.location.href = url + 'index';
+        } else {
+            window.location.href = url;
+        }
+    }).catch(() => {
+        window.location.href = url;
+    });
 }
