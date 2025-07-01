@@ -1,0 +1,491 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #181c22;
+    color: #e6e6e6;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    min-height: 100vh;
+}
+
+h1 {
+    color: #4eb5f1;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 2rem;
+}
+
+.sidebar {
+    width: 220px;
+    background: #23272f;
+    box-shadow: 2px 0 16px #0003;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 2rem 0 2rem 0;
+    min-height: 100vh;
+}
+
+.sidebar-title {
+    color: #4eb5f1;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    letter-spacing: 1px;
+}
+
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-link {
+    display: block;
+    padding: 1.1em 2em;
+    color: #e6e6e6;
+    text-decoration: none;
+    font-size: 1.1rem;
+    border-left: 4px solid transparent;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.sidebar-link.active,
+.sidebar-link:hover {
+    background: #181c22;
+    color: #4eb5f1;
+    border-left: 4px solid #4eb5f1;
+}
+
+.main-content {
+    flex: 1;
+    padding: 3rem 2rem 2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.catalog-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.2rem 1.5rem;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.catalog-card {
+  width: 210px;
+  height: 320px;
+  background: #181828;
+  border-radius: 14px;
+  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.13);
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.13s, box-shadow 0.13s;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  padding: 0;
+}
+
+.catalog-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 14px;
+  transition: filter 0.15s;
+}
+
+.catalog-card .catalog-title {
+  display: none;
+}
+
+.catalog-card:hover {
+  transform: scale(1.045);
+  box-shadow: 0 6px 32px 0 rgba(178,7,16,0.18);
+  z-index: 2;
+}
+
+.player-embed-wrap {
+    width: 100%;
+    max-width: 900px;
+    margin: 2rem auto 2rem auto;
+    aspect-ratio: 16/9;
+    background: #111;
+    border-radius: 1.2rem;
+    box-shadow: 0 4px 16px #0006;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.player-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: #111;
+    display: block;
+}
+
+.back-btn {
+    margin: 0 auto;
+    display: block;
+    background: #23272f;
+    color: #4eb5f1;
+    border: none;
+    border-radius: 2em;
+    padding: 0.7em 1.5em;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 8px #0078d733;
+    transition: background 0.2s, color 0.2s, transform 0.15s;
+}
+
+.back-btn:hover,
+.back-btn:focus {
+    background: #181c22;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+.info-flex {
+    display: flex;
+    gap: 2em;
+    align-items: flex-start;
+    margin-bottom: 2em;
+}
+
+.info-poster {
+    width: 240px;
+    border-radius: 1.2em;
+    box-shadow: 0 4px 18px #0005;
+}
+
+.info-details {
+    flex: 1;
+}
+
+.info-details h2 {
+    margin: 0 0 0.5em 0;
+    font-size: 2.2em;
+    color: #4eb5f1;
+}
+
+.info-meta {
+    color: #aaa;
+    font-size: 1.15em;
+    margin-bottom: 1em;
+}
+
+.info-overview {
+    font-size: 1.18em;
+    line-height: 1.6;
+    margin-bottom: 1.2em;
+}
+
+.info-rating {
+    font-size: 1.2em;
+    color: #ffd700;
+    margin-bottom: 1em;
+    display: flex;
+    align-items: center;
+    gap: 0.7em;
+}
+
+.info-rating .star {
+    font-size: 1.5em;
+    color: #ffd700;
+    filter: drop-shadow(0 0 2px #0008);
+}
+
+.info-rating .vote-count {
+    color: #aaa;
+    font-size: 1em;
+    margin-left: 0.5em;
+}
+
+.info-selectors {
+    margin-top: 1.5em;
+}
+
+.styled-selectors {
+    display: flex;
+    gap: 1.5em;
+    align-items: flex-end;
+    margin-top: 1.7em;
+    flex-wrap: wrap;
+}
+
+.selector-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4em;
+}
+
+.selector-group label {
+    font-size: 1.08em;
+    color: #4eb5f1;
+    font-weight: 600;
+    margin-bottom: 0.2em;
+    letter-spacing: 0.5px;
+}
+
+#seasonSelect, #episodeInput {
+    padding: 0.5em 1em;
+    border-radius: 1.5em;
+    border: 1.5px solid #4eb5f1;
+    background: #23272f;
+    color: #e6e6e6;
+    font-size: 1.08em;
+    outline: none;
+    transition: border 0.2s;
+    margin-right: 0.5em;
+}
+
+#seasonSelect:focus, #episodeInput:focus {
+    border: 1.5px solid #0078d7;
+}
+
+.episode-cards-wrap {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 1.2em;
+    margin-top: 1.5em;
+    width: 100%;
+    justify-items: start;
+    align-items: start;
+}
+
+.episode-card {
+    background: #23272f;
+    border-radius: 1em;
+    box-shadow: 0 2px 8px #0005;
+    cursor: pointer;
+    transition: box-shadow 0.18s, transform 0.18s, border 0.18s;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 2px solid #23272f;
+    color: #fff;
+    min-width: 180px;
+}
+
+.episode-card.selected, .episode-card:hover {
+    box-shadow: 0 6px 24px #0008;
+    border: 2px solid #4eb5f1;
+    color: #e53935;
+    background: #23272f;
+}
+
+.season-cards-wrap {
+    display: flex;
+    gap: 1.2em;
+    margin: 2.2em 0 1.2em 0;
+    flex-wrap: wrap;
+}
+
+.season-card {
+    background: #23272f;
+    border-radius: 1em;
+    box-shadow: 0 2px 8px #0005;
+    cursor: pointer;
+    transition: box-shadow 0.18s, transform 0.18s, border 0.18s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    border: 2.5px solid #23272f;
+    min-width: 140px;
+    max-width: 160px;
+    flex: 1 1 140px;
+    color: #fff;
+    padding: 0.7em 0.7em 0.9em 0.7em;
+}
+
+.season-card.selected, .season-card:hover {
+    box-shadow: 0 6px 24px #0008;
+    border: 2.5px solid #4eb5f1;
+    color: #e53935;
+    background: #23272f;
+}
+
+.season-thumb-wrap {
+    width: 100%;
+    aspect-ratio: 2/3;
+    background: #181c22;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5em;
+}
+
+.season-thumb-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.7em;
+}
+
+.season-title {
+    color: #4eb5f1;
+    font-weight: 700;
+    font-size: 1.13em;
+    margin-bottom: 0.2em;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+.season-epcount {
+    color: #fff;
+    font-size: 0.98em;
+}
+
+.ep-thumb-wrap {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #181c22;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ep-thumb-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-bottom: 1px solid #23272f;
+}
+
+.ep-info {
+    padding: 1em 1em 0.7em 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+}
+
+.ep-title {
+    color: #4eb5f1;
+    font-weight: 600;
+    font-size: 1.08em;
+    margin-bottom: 0.2em;
+}
+
+.ep-date {
+    color: #aaa;
+    font-size: 0.98em;
+}
+
+/* Player popup overlay grande e centrato, con grafica moderna */
+.player-popup-overlay {
+  position: fixed;
+  z-index: 9999;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(20,20,30,0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s;
+}
+.player-popup-content {
+  background: #181828;
+  border-radius: 18px;
+  box-shadow: 0 8px 40px 0 rgba(0,0,0,0.45);
+  padding: 0;
+  max-width: 98vw;
+  width: 1280px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  position: relative;
+  animation: popupIn 0.25s;
+}
+.player-popup-content .player-iframe {
+  width: 100%;
+  aspect-ratio: 16/9;
+  height: auto;
+  min-height: 480px;
+  max-height: 80vh;
+  border-radius: 12px 12px 0 0;
+  border: none;
+  background: #000;
+  display: block;
+}
+.player-popup-close {
+  position: absolute;
+  top: 10px;
+  right: 18px;
+  font-size: 2.2em;
+  color: #fff;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+  transition: color 0.15s;
+}
+.player-popup-close:hover {
+  color: #B20710;
+}
+@keyframes fadeIn {
+  from { opacity: 0; } to { opacity: 1; }
+}
+@keyframes popupIn {
+  from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; }
+}
+@media (max-width: 1400px) {
+  .player-popup-content { width: 98vw; min-width: 0; }
+}
+@media (max-width: 900px) {
+  .player-popup-content { width: 99vw; min-width: 0; border-radius: 0; }
+  .player-popup-content .player-iframe { min-height: 180px; height: 40vh; }
+}
+
+@media (max-width: 1200px) {
+    .info-flex-split { flex-direction: column; gap: 1.5em; }
+    .info-poster-col { max-width: 100vw; }
+    .info-poster-large { max-width: 100vw; margin: 0 auto; }
+}
+
+@media (max-width: 900px) {
+    .season-cards-wrap { gap: 0.7em; }
+    .season-card { min-width: 100px; max-width: 120px; }
+    .episode-cards-wrap { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.7em; }
+    .catalog-card { width: 140px; height: 210px; }
+}
+
+@media (max-width: 600px) {
+    .info-flex-split { flex-direction: column; gap: 1em; }
+    .info-poster-col { max-width: 100vw; justify-content: center; }
+    .info-poster-large { max-width: 100vw; margin: 0 auto; }
+    .season-cards-wrap { gap: 0.5em; }
+    .season-card { min-width: 80px; max-width: 100px; }
+    .episode-cards-wrap { grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 0.5em; }
+    .catalog-card { width: 100px; height: 150px; }
+}
+
+.play-btn, .add-remove-list-btn, .add-list-btn, .remove-list-btn {
+  background: #23272f;
+  color: #4eb5f1;
+  border: none;
+  border-radius: 2em;
+  padding: 0.7em 1.5em;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #0078d733;
+  transition: background 0.2s, color 0.2s, transform 0.15s;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  display: inline-block;
+}
+.play-btn:hover, .add-remove-list-btn:hover, .add-list-btn:hover, .remove-list-btn:hover,
+.play-btn:focus, .add-remove-list-btn:focus, .add-list-btn:focus, .remove-list-btn:focus {
+  background: #181c22;
+  color: #fff;
+  transform: scale(1.05);
+}
