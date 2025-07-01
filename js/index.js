@@ -1,7 +1,3 @@
-document.addEventListener('DOMContentLoaded', function () {
-    console.log('Index page loaded');
-});
-
 // Funzione per navigare senza .html nell'URL
 function goPage(page) {
     let url = window.location.origin + '/';
