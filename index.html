@@ -14,15 +14,21 @@
         <section class="section-link" id="streaming-section">
             <h2>Streaming</h2>
             <p>Accedi alla sezione streaming per guardare i contenuti disponibili.</p>
-            <a href="streaming.html" class="button-section">Vai a Streaming</a>
+            <a href="#" class="button-section" onclick="goPage('streaming');return false;">Vai a Streaming</a>
         </section>
         <section class="section-link" id="live-section">
             <h2>Live</h2>
             <p>Seleziona un canale live dalla lista dedicata.</p>
-            <a href="live.html" class="button-section">Vai a Live</a>
+            <a href="#" class="button-section" onclick="goPage('live');return false;">Vai a Live</a>
         </section>
     </main>
     <script src="js/index.js"></script>
+    <script>
+    function goPage(page) {
+        let url = window.location.origin + '/' + page;
+        window.location.href = url;
+    }
+    </script>
 
     <footer
         style="width:100%;text-align:center;padding:1.5rem 0 1rem 0;color:#aaa;font-size:1rem;letter-spacing:0.5px;">
