@@ -713,3 +713,46 @@ if (sidebar && hamburgerBtn) {
     });
 }
 
+// Gestione back/forward del browser
+function renderFromUrl() {
+    const urlParams = new URL(window.location).searchParams;
+    const type = urlParams.get('type');
+    const tmdb = urlParams.get('tmdb');
+    const season = urlParams.get('season');
+    const episode = urlParams.get('episode');
+    if (type && tmdb) {
+        showPlayerWithInfo(type, tmdb, season, episode);
+        let section = 'Film';
+        if (type === 'tv') section = 'Serie TV';
+        sidebarLinks.forEach(l => l.classList.remove('active'));
+        sidebarLinks.forEach(l => { if (l.textContent === section) l.classList.add('active'); });
+        return;
+    }
+    const section = urlParams.get('section');
+    let found = false;
+    if (section === 'film') {
+        sidebarLinks.forEach(l => { if (l.textContent === 'Film') l.classList.add('active'); });
+        loadMovies();
+        found = true;
+    } else if (section === 'serie-tv') {
+        sidebarLinks.forEach(l => { if (l.textContent === 'Serie TV') l.classList.add('active'); });
+        loadShows();
+        found = true;
+    } else if (section === 'mia-lista') {
+        sidebarLinks.forEach(l => { if (l.textContent === 'Mia Lista') l.classList.add('active'); });
+        showMyList();
+        found = true;
+    } else if (section === 'cerca') {
+        sidebarLinks.forEach(l => { if (l.textContent === 'Cerca') l.classList.add('active'); });
+        showSearch();
+        found = true;
+    }
+    if (!found) {
+        sidebarLinks.forEach(l => { if (l.textContent === 'Film') l.classList.add('active'); });
+        loadMovies();
+    }
+}
+
+window.addEventListener('DOMContentLoaded', renderFromUrl);
+window.addEventListener('popstate', renderFromUrl);
+
