@@ -285,48 +285,187 @@ function showPlayerWithInfo(type, tmdbId, season, episode) {
         .then(res => res.json())
         .then(data => {
             if (type === 'movie') {
-                const inList = isInMyList(data.id, 'movie');
-                let infoBlock = `
-                    <div class="info-flex info-flex-split">
-                        <div class="info-poster-col">
-                            <img class="info-poster-large" src="https://image.tmdb.org/t/p/w780${data.poster_path}" alt="${data.title}" />
-                        </div>
-                        <div class="info-details-col">
-                            <h2>${data.title}</h2>
-                            <p class="info-meta"><span>${data.release_date ? data.release_date.substring(0,4) : '-'}</span> &bull; <span>${(data.genres||[]).map(g=>g.name).join(', ')}</span></p>
-                            <div class="info-rating">
-                                <span class="star">★</span> <span>${data.vote_average ? data.vote_average.toFixed(1) : '-'}/10</span>
-                                <span class="vote-count">(${data.vote_count || 0} voti)</span>
+                // Recupera il trailer da TMDb
+                fetch(`https://api.themoviedb.org/3/movie/${tmdbId}/videos?api_key=55ecd6c5211c736b4c2f3b7d3342198d&language=it-IT`)
+                    .then(res => res.json())
+                    .then(videosData => {
+                        let trailerEmbed = '';
+                        if (videosData && Array.isArray(videosData.results)) {
+                            // Cerca trailer YouTube prioritario in italiano, poi fallback a qualsiasi lingua
+                            let trailer = videosData.results.find(v => v.type === 'Trailer' && v.site === 'YouTube' && v.iso_639_1 === 'it') ||
+                                videosData.results.find(v => v.type === 'Trailer' && v.site === 'YouTube');
+                            if (trailer) {
+                                trailerEmbed = `
+                                    <div class="trailer-block">
+                                        <h3>Trailer</h3>
+                                        <div class="trailer-embed-wrap">
+                                            <iframe width="100%" height="360" src="https://www.youtube.com/embed/${trailer.key}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+                                        </div>
+                                    </div>
+                                `;
+                            }
+                        }
+                        const inList = isInMyList(data.id, 'movie');
+                        let infoBlock = `
+                            <div class="info-flex info-flex-split">
+                                <div class="info-poster-col">
+                                    <img class="info-poster-large" src="https://image.tmdb.org/t/p/w780${data.poster_path}" alt="${data.title}" />
+                                </div>
+                                <div class="info-details-col">
+                                    <h2>${data.title}</h2>
+                                    <p class="info-meta"><span>${data.release_date ? data.release_date.substring(0,4) : '-'}</span> &bull; <span>${(data.genres||[]).map(g=>g.name).join(', ')}</span></p>
+                                    <div class="info-rating">
+                                        <span class="star">★</span> <span>${data.vote_average ? data.vote_average.toFixed(1) : '-'}/10</span>
+                                        <span class="vote-count">(${data.vote_count || 0} voti)</span>
+                                    </div>
+                                    <p class="info-overview">${data.overview || 'Nessuna descrizione.'}</p>
+                                    <button class="play-btn add-remove-list-btn" data-tmdbid="${data.id}" data-type="movie" data-poster="${data.poster_path || ''}" data-title="${data.title}">
+                                        ${inList ? 'Rimuovi da lista' : 'Aggiungi a lista'}
+                                    </button>
+                                    <button class="play-btn play-btn-watch" style="margin-top:1.5em;" type="button">Guarda</button>
+                                    ${trailerEmbed}
+                                </div>
                             </div>
-                            <p class="info-overview">${data.overview || 'Nessuna descrizione.'}</p>
-                            <button class="play-btn add-remove-list-btn" data-tmdbid="${data.id}" data-type="movie" data-poster="${data.poster_path || ''}" data-title="${data.title}">
-                                ${inList ? 'Rimuovi da lista' : 'Aggiungi a lista'}
-                            </button>
-                            <button class="play-btn play-btn-watch" style="margin-top:1.5em;" type="button">Guarda</button>
-                        </div>
-                    </div>
-                `;
-                let backLabel = 'catalogo';
-                const activeSection = document.querySelector('.sidebar-link.active')?.textContent;
-                if (activeSection === 'Cerca') backLabel = 'ricerca';
-                else if (activeSection === 'Film') backLabel = 'film';
-                else if (activeSection === 'Serie TV') backLabel = 'serie TV';
-                else if (activeSection === 'Mia Lista') backLabel = 'mia lista';
-                mainContent.innerHTML = `
-                    <button class="back-btn" style="position:absolute;right:0;top:0;margin:2.5rem 2.5rem 0 0;z-index:2;">&larr; Torna a ${backLabel}</button>
-                    <div class="content-info">${infoBlock}</div>
-                `;
-                // Listener per aggiungi/rimuovi da lista
-                mainContent.querySelector('.add-remove-list-btn').onclick = function() {
-                    if (isInMyList(data.id, 'movie')) {
-                        removeFromMyList(data.id, 'movie');
-                    } else {
-                        addToMyList({ id: data.id, poster_path: data.poster_path, title: data.title }, 'movie');
-                    }
-                    showPlayerWithInfo('movie', data.id);
-                };
-                // Listener per aprire il player popup
-                mainContent.querySelector('.play-btn-watch').onclick = () => showPlayer(embedUrl);
+                        `;
+                        let backLabel = 'catalogo';
+                        const activeSection = document.querySelector('.sidebar-link.active')?.textContent;
+                        if (activeSection === 'Cerca') backLabel = 'ricerca';
+                        else if (activeSection === 'Film') backLabel = 'film';
+                        else if (activeSection === 'Serie TV') backLabel = 'serie TV';
+                        else if (activeSection === 'Mia Lista') backLabel = 'mia lista';
+                        mainContent.innerHTML = `
+                            <button class="back-btn" style="position:absolute;right:0;top:0;margin:2.5rem 2.5rem 0 0;z-index:2;">&larr; Torna a ${backLabel}</button>
+                            <div class="content-info">${infoBlock}</div>
+                        `;
+                        // Listener per aggiungi/rimuovi da lista
+                        mainContent.querySelector('.add-remove-list-btn').onclick = function() {
+                            if (isInMyList(data.id, 'movie')) {
+                                removeFromMyList(data.id, 'movie');
+                            } else {
+                                addToMyList({ id: data.id, poster_path: data.poster_path, title: data.title }, 'movie');
+                            }
+                            showPlayerWithInfo('movie', data.id);
+                        };
+                        // Listener per aprire il player popup
+                        mainContent.querySelector('.play-btn-watch').onclick = () => showPlayer(embedUrl);
+                        // Gestione back
+                        const backBtn = mainContent.querySelector('.back-btn');
+                        if (backBtn) {
+                            backBtn.onclick = () => {
+                                // Recupera la sezione precedente dall'URL
+                                const params = new URL(window.location).searchParams;
+                                const section = params.get('section');
+                                if (section === 'film') {
+                                    updateUrlSection('film');
+                                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                                    sidebarLinks.forEach(l => { if (l.textContent === 'Film') l.classList.add('active'); });
+                                    loadMovies();
+                                } else if (section === 'serie-tv') {
+                                    updateUrlSection('serie-tv');
+                                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                                    sidebarLinks.forEach(l => { if (l.textContent === 'Serie TV') l.classList.add('active'); });
+                                    loadShows();
+                                } else if (section === 'mia-lista') {
+                                    updateUrlSection('mia-lista');
+                                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                                    sidebarLinks.forEach(l => { if (l.textContent === 'Mia Lista') l.classList.add('active'); });
+                                    showMyList();
+                                } else if (section === 'cerca') {
+                                    updateUrlSection('cerca');
+                                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                                    sidebarLinks.forEach(l => { if (l.textContent === 'Cerca') l.classList.add('active'); });
+                                    showSearch();
+                                } else {
+                                    // Default: Film
+                                    updateUrlSection('film');
+                                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                                    sidebarLinks.forEach(l => { if (l.textContent === 'Film') l.classList.add('active'); });
+                                    loadMovies();
+                                }
+                            };
+                        }
+                    })
+                    .catch(() => {
+                        // Se errore nel recupero trailer, mostra comunque la pagina senza trailer
+                        const inList = isInMyList(data.id, 'movie');
+                        let infoBlock = `
+                            <div class="info-flex info-flex-split">
+                                <div class="info-poster-col">
+                                    <img class="info-poster-large" src="https://image.tmdb.org/t/p/w780${data.poster_path}" alt="${data.title}" />
+                                </div>
+                                <div class="info-details-col">
+                                    <h2>${data.title}</h2>
+                                    <p class="info-meta"><span>${data.release_date ? data.release_date.substring(0,4) : '-'}</span> &bull; <span>${(data.genres||[]).map(g=>g.name).join(', ')}</span></p>
+                                    <div class="info-rating">
+                                        <span class="star">★</span> <span>${data.vote_average ? data.vote_average.toFixed(1) : '-'}/10</span>
+                                        <span class="vote-count">(${data.vote_count || 0} voti)</span>
+                                    </div>
+                                    <p class="info-overview">${data.overview || 'Nessuna descrizione.'}</p>
+                                    <button class="play-btn add-remove-list-btn" data-tmdbid="${data.id}" data-type="movie" data-poster="${data.poster_path || ''}" data-title="${data.title}">
+                                        ${inList ? 'Rimuovi da lista' : 'Aggiungi a lista'}
+                                    </button>
+                                    <button class="play-btn play-btn-watch" style="margin-top:1.5em;" type="button">Guarda</button>
+                                </div>
+                            </div>
+                        `;
+                        let backLabel = 'catalogo';
+                        const activeSection = document.querySelector('.sidebar-link.active')?.textContent;
+                        if (activeSection === 'Cerca') backLabel = 'ricerca';
+                        else if (activeSection === 'Film') backLabel = 'film';
+                        else if (activeSection === 'Serie TV') backLabel = 'serie TV';
+                        else if (activeSection === 'Mia Lista') backLabel = 'mia lista';
+                        mainContent.innerHTML = `
+                            <button class="back-btn" style="position:absolute;right:0;top:0;margin:2.5rem 2.5rem 0 0;z-index:2;">&larr; Torna a ${backLabel}</button>
+                            <div class="content-info">${infoBlock}</div>
+                        `;
+                        // Listener per aggiungi/rimuovi da lista
+                        mainContent.querySelector('.add-remove-list-btn').onclick = function() {
+                            if (isInMyList(data.id, 'movie')) {
+                                removeFromMyList(data.id, 'movie');
+                            } else {
+                                addToMyList({ id: data.id, poster_path: data.poster_path, title: data.title }, 'movie');
+                            }
+                            showPlayerWithInfo('movie', data.id);
+                        };
+                        // Listener per aprire il player popup
+                        mainContent.querySelector('.play-btn-watch').onclick = () => showPlayer(embedUrl);
+                        // Gestione back
+                        const backBtn = mainContent.querySelector('.back-btn');
+                        if (backBtn) {
+                            backBtn.onclick = () => {
+                                // Recupera la sezione precedente dall'URL
+                                const params = new URL(window.location).searchParams;
+                                const section = params.get('section');
+                                if (section === 'film') {
+                                    updateUrlSection('film');
+                                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                                    sidebarLinks.forEach(l => { if (l.textContent === 'Film') l.classList.add('active'); });
+                                    loadMovies();
+                                } else if (section === 'serie-tv') {
+                                    updateUrlSection('serie-tv');
+                                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                                    sidebarLinks.forEach(l => { if (l.textContent === 'Serie TV') l.classList.add('active'); });
+                                    loadShows();
+                                } else if (section === 'mia-lista') {
+                                    updateUrlSection('mia-lista');
+                                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                                    sidebarLinks.forEach(l => { if (l.textContent === 'Mia Lista') l.classList.add('active'); });
+                                    showMyList();
+                                } else if (section === 'cerca') {
+                                    updateUrlSection('cerca');
+                                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                                    sidebarLinks.forEach(l => { if (l.textContent === 'Cerca') l.classList.add('active'); });
+                                    showSearch();
+                                } else {
+                                    // Default: Film
+                                    updateUrlSection('film');
+                                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                                    sidebarLinks.forEach(l => { if (l.textContent === 'Film') l.classList.add('active'); });
+                                    loadMovies();
+                                }
+                            };
+                        }
+                    });
             } else {
                 let seasons = (data.seasons||[]).filter(s=>s.season_number>0);
                 let selectedSeason = seasons.length ? seasons[0].season_number : 1;
