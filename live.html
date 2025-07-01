@@ -13,9 +13,13 @@
 <body>
     <div class="header">
         <h1>DaddyIT - Seleziona un Canale</h1>
-        <button onclick="goHome()"
+        <button onclick="goPage('index')"
             style="margin-top:1.5rem;padding:0.7em 1.5em;border-radius:2em;background:linear-gradient(90deg,#0078d7 0%,#4eb5f1 100%);color:#fff;font-weight:600;font-size:1.05rem;border:none;box-shadow:0 2px 8px #0078d733;cursor:pointer;transition:background 0.2s,transform 0.15s;outline:none;">&larr;
             Torna alla Home</button>
+        <button onclick="goPage('live')"
+            style="margin-top:0.7rem;margin-left:0.5rem;padding:0.7em 1.5em;border-radius:2em;background:linear-gradient(90deg,#4eb5f1 0%,#0078d7 100%);color:#fff;font-weight:600;font-size:1.05rem;border:none;box-shadow:0 2px 8px #0078d733;cursor:pointer;transition:background 0.2s,transform 0.15s;outline:none;">Live</button>
+        <button onclick="goPage('streaming')"
+            style="margin-top:0.7rem;margin-left:0.5rem;padding:0.7em 1.5em;border-radius:2em;background:linear-gradient(90deg,#4eb5f1 0%,#0078d7 100%);color:#fff;font-weight:600;font-size:1.05rem;border:none;box-shadow:0 2px 8px #0078d733;cursor:pointer;transition:background 0.2s,transform 0.15s;outline:none;">Streaming</button>
     </div>
     <div class="grid" id="channelGrid">
         <a class="button1" href="#" data-link="https://thedaddy.click/embed/stream-878.php">EuroSport 1</a>
