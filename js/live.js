@@ -45,16 +45,12 @@ function goHome() {
         window.location.href = url;
     });
 }
-// Funzione per navigare senza .html nell'URL
+// Funzione per navigare senza .html nell'URL (versione compatibile con GitHub Pages e server statici)
 function goPage(page) {
-    let url = window.location.origin + '/';
-    fetch(url + page, {method: 'HEAD'}).then(resp => {
-        if (resp.ok) {
-            window.location.href = url + page;
-        } else {
-            window.location.href = url + page + '.html';
-        }
-    }).catch(() => {
-        window.location.href = url + page + '.html';
-    });
+    // Prova a usare la History API per nascondere .html
+    let url = window.location.origin + '/' + page;
+    // Se la pagina corrente è già quella richiesta, non fare nulla
+    if (window.location.pathname.replace(/\/+$/, '') === '/' + page) return;
+    // Prova a navigare senza .html
+    window.location.href = url;
 }
