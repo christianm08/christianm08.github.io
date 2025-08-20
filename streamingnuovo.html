@@ -1,0 +1,237 @@
+<!DOCTYPE html><html lang="it"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix Clone</title>
+    <link rel="stylesheet" href="css/style_streaming.css">
+    <link href="css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header/Navbar -->
+    <header class="navbar" id="navbar">
+        <div class="navbar-content">
+            <div class="navbar-left">
+                <div class="logo">
+                    <span class="logo-text">NETFLIX</span>
+                </div>
+                <nav class="nav-menu" id="navMenu">
+                    <a href="#home" class="nav-link active" data-page="home">Home</a>
+                    <a href="#film" class="nav-link" data-page="movies">Film</a>
+                    <a href="#serie-tv" class="nav-link" data-page="tv">Serie TV</a>
+                    <a href="#libreria" class="nav-link" data-page="library">La mia Libreria</a>
+                </nav>
+            </div>
+            <div class="navbar-right">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon" id="searchToggle"></i>
+                    <input type="text" class="search-input" id="searchInput" placeholder="Cerca film, serie TV...">
+                </div>
+                <div class="profile-menu">
+                    <i class="fas fa-user-circle profile-icon"></i>
+                </div>
+                <div class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        
+        <!-- Home Page -->
+        <div class="page" id="homePage">
+            <!-- Hero Banner -->
+            <section class="hero-banner" id="heroBanner">
+                <div class="hero-content">
+                    <div class="hero-info">
+                        <h1 class="hero-title" id="heroTitle">Caricamento...</h1>
+                        <p class="hero-description" id="heroDescription">Caricamento...</p>
+                        <div class="hero-buttons">
+                            <button class="btn btn-primary" id="heroPlayBtn">
+                                <i class="fas fa-play"></i> Riproduci
+                            </button>
+                            <button class="btn btn-secondary" id="heroInfoBtn">
+                                <i class="fas fa-info-circle"></i> Maggiori info
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-overlay"></div>
+            </section>
+
+            <!-- Content Rows -->
+            <div class="content-sections" id="contentSections">
+                <div class="loading-skeleton">
+                    <div class="skeleton-row">
+                        <div class="skeleton-title"></div>
+                        <div class="skeleton-cards">
+                            <div class="skeleton-card"></div>
+                            <div class="skeleton-card"></div>
+                            <div class="skeleton-card"></div>
+                            <div class="skeleton-card"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Movies Page -->
+        <div class="page hidden" id="moviesPage">
+            <div class="page-header">
+                <h1>Film</h1>
+                <div class="filters">
+                    <select class="filter-select" id="movieGenreFilter">
+                        <option value="">Tutti i generi</option>
+                    </select>
+                    <select class="filter-select" id="movieSortFilter">
+                        <option value="popularity.desc">Più popolari</option>
+                        <option value="vote_average.desc">Miglior valutazione</option>
+                        <option value="release_date.desc">Più recenti</option>
+                    </select>
+                </div>
+            </div>
+            <div class="content-grid" id="moviesGrid">
+                <div class="loading-grid">
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TV Shows Page -->
+        <div class="page hidden" id="tvPage">
+            <div class="page-header">
+                <h1>Serie TV</h1>
+                <div class="filters">
+                    <select class="filter-select" id="tvGenreFilter">
+                        <option value="">Tutti i generi</option>
+                    </select>
+                    <select class="filter-select" id="tvSortFilter">
+                        <option value="popularity.desc">Più popolari</option>
+                        <option value="vote_average.desc">Miglior valutazione</option>
+                        <option value="first_air_date.desc">Più recenti</option>
+                    </select>
+                </div>
+            </div>
+            <div class="content-grid" id="tvGrid">
+                <div class="loading-grid">
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                    <div class="skeleton-card"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Library Page -->
+        <div class="page hidden" id="libraryPage">
+            <div class="page-header">
+                <h1>La mia Libreria</h1>
+            </div>
+            <div class="content-grid" id="libraryGrid">
+                <div class="empty-library">
+                    <i class="fas fa-bookmark"></i>
+                    <h3>La tua libreria è vuota</h3>
+                    <p>Aggiungi contenuti alla tua libreria per guardarli più tardi</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Results Page -->
+        <div class="page hidden" id="searchPage">
+            <div class="page-header">
+                <h1>Risultati di ricerca</h1>
+                <span class="search-query" id="searchQuery"></span>
+            </div>
+            <div class="content-grid" id="searchGrid">
+                <div class="no-results hidden">
+                    <i class="fas fa-search"></i>
+                    <h3>Nessun risultato trovato</h3>
+                    <p>Prova a cercare con parole chiave diverse</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Details Page -->
+        <div class="page hidden" id="detailsPage">
+            <div class="details-hero">
+                <div class="details-content">
+                    <div class="details-info">
+                        <h1 class="details-title" id="detailsTitle"></h1>
+                        <div class="details-meta">
+                            <span class="details-year" id="detailsYear"></span>
+                            <span class="details-rating" id="detailsRating"></span>
+                            <span class="details-duration" id="detailsDuration"></span>
+                        </div>
+                        <p class="details-description" id="detailsDescription"></p>
+                        <div class="details-genres" id="detailsGenres"></div>
+                        <div class="details-buttons">
+                            <button class="btn btn-primary" id="detailsPlayBtn">
+                                <i class="fas fa-play"></i> Riproduci
+                            </button>
+                            <button class="btn btn-secondary" id="detailsLibraryBtn">
+                                <i class="fas fa-plus"></i> La mia Libreria
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="details-overlay"></div>
+            </div>
+
+            <div class="details-sections">
+                <!-- TV Show Seasons -->
+                <div class="seasons-section hidden" id="seasonsSection">
+                    <h2>Stagioni</h2>
+                    <div class="seasons-selector">
+                        <select class="filter-select" id="seasonSelect">
+                            <option value="">Seleziona stagione</option>
+                        </select>
+                    </div>
+                    <div class="episodes-list" id="episodesList"></div>
+                </div>
+
+                <!-- Cast Section -->
+                <div class="cast-section" id="castSection">
+                    <h2>Cast</h2>
+                    <div class="cast-list" id="castList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video Player Page -->
+        <div class="page hidden" id="playerPage">
+            <div class="player-container">
+                <div class="player-header">
+                    <button class="player-back-btn" id="playerBackBtn">
+                        <i class="fas fa-arrow-left"></i> Indietro
+                    </button>
+                    <h2 class="player-title" id="playerTitle"></h2>
+                </div>
+                <div class="video-player" id="videoPlayer">
+                    <iframe id="playerIframe" allowfullscreen=""></iframe>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner hidden" id="loadingSpinner">
+        <div class="spinner"></div>
+        <p>Caricamento...</p>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast hidden" id="toast">
+        <span id="toastMessage"></span>
+    </div>
+
+    <script src="js/app.js"></script>
+
+</body></html>
