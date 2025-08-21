@@ -19,8 +19,42 @@ class NetflixApp {
     async initializeApp() {
         this.setupEventListeners();
         await this.loadGenres();
-        await this.loadHomePage();
-        this.showPage('home');
+        
+        // Handle URL hash on page load and hash changes
+        window.addEventListener('hashchange', () => this.handleUrlHash());
+        await this.handleUrlHash();
+    }
+
+    async handleUrlHash() {
+        const hash = window.location.hash.slice(1); // Remove the # symbol
+        if (!hash) {
+            await this.loadHomePage();
+            this.showPage('home');
+            return;
+        }
+
+        const parts = hash.split('/');
+        const page = parts[0];
+        
+        if (parts.length === 3 && (parts[1] === 'movie' || parts[1] === 'tv')) {
+            // Handle content details: #page/type/id
+            const type = parts[1];
+            const id = parts[2];
+            
+            // Load the basic content first
+            await this.loadHomePage();
+            this.showPage(page);
+            
+            // Then fetch and show the specific content
+            const content = await this.apiRequest(`/${type}/${id}`);
+            if (content) {
+                this.showContentDetails(content, type);
+            }
+        } else {
+            // Handle simple page navigation
+            await this.loadHomePage();
+            this.showPage(page);
+        }
     }
 
     setupEventListeners() {
@@ -204,6 +238,9 @@ class NetflixApp {
         }
         
         document.getElementById('navMenu').classList.remove('active');
+        
+        // Update URL hash for page navigation
+        window.location.hash = page;
 
         switch (page) {
             case 'home':
@@ -555,6 +592,9 @@ class NetflixApp {
     async showContentDetails(content, type) {
         try {
             this.showLoadingSpinner();
+
+            // Update URL hash with content type and ID
+            window.location.hash = `${this.currentPage}/${type}/${content.id}`;
 
             const detailsResponse = await this.apiRequest(`/${type}/${content.id}`, {
                 append_to_response: 'credits,videos'
