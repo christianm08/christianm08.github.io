@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canali Live</title>
+    <link rel="stylesheet" href="css/live_nuovo.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <h1 class="logo">📺 Canali Live</h1>
+                    <div class="server-selector">
+                        <label for="server-select" class="form-label">Server:</label>
+                        <select id="server-select" class="form-control server-dropdown">
+                            <option value="dlhd.click">Server 1 - dlhd.click</option>
+                            <option value="thedaddy.to">Server 2 - thedaddy.to</option>
+                            <option value="d.daddylivehd.sx">Server 3 - d.daddylivehd.sx</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="container">
+                <div class="channels-section">
+                    <h2>Canali Disponibili</h2>
+                    <div class="channels-filter">
+                        <button class="filter-btn active" data-category="all">Tutti</button>
+                        <button class="filter-btn" data-category="sport">Sport</button>
+                        <button class="filter-btn" data-category="cinema">Cinema</button>
+                        <button class="filter-btn" data-category="calcio">Calcio</button>
+                        <button class="filter-btn" data-category="tv">TV</button>
+                    </div>
+                    <div class="channels-grid" id="channels-grid">
+                        <!-- Channels will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Player Modal -->
+        <div class="modal player-modal hidden" id="player-modal">
+            <div class="modal-backdrop" id="modal-backdrop"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="channel-title">Canale</h3>
+                    <button class="modal-close" id="close-modal">✕</button>
+                </div>
+                <div class="modal-body">
+                    <div class="player-container">
+                        <iframe id="player-frame" src="" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay hidden" id="loading-overlay">
+            <div class="loading-spinner"></div>
+            <p>Caricamento stream...</p>
+        </div>
+    </div>
+
+    <script src="js/live_nuovo.js"></script>
+</body>
+</html>
