@@ -791,11 +791,11 @@ body {
   overflow: hidden; /* Nasconde le scrollbar */
   scrollbar-width: none; /* Per Firefox */
   -ms-overflow-style: none; /* Per Internet Explorer e Edge */
-  transform: scale(0.80); 
+  transform: scale(0.75); 
   transform-origin: top left;
   pointer-events: none;
-  width: 125%; 
-  height: 125%;
+  width: 133.33%; 
+  height: 133.33%;
   position: absolute;
   top: 0;
   left: 0;
@@ -1001,7 +1001,13 @@ body {
     .card {
         aspect-ratio: 3/4;
     }
-    
+
+    .card-iframe {
+      transform: scale(0.80); 
+      width: 125%; 
+      height: 125%;
+    }
+
     .card-title {
         font-size: var(--font-size-xl);
     }
