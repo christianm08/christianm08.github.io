@@ -733,7 +733,7 @@ select.form-control {
 
 @font-face {
   font-family: 'FKGroteskNeue';
-  src: url('../fonts/FKGroteskNeue.woff2')
+  src: url('fonts/FKGroteskNeue.woff2')
     format('woff2');
 }
 
