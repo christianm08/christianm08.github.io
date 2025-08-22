@@ -1,5 +1,5 @@
-// Netflix Clone JavaScript Application
-class NetflixApp {
+// workflix Clone JavaScript Application
+class workflixApp {
     constructor() {
         this.apiKey = '55ecd6c5211c736b4c2f3b7d3342198d';
         this.apiBaseUrl = 'https://api.themoviedb.org/3';
@@ -8,8 +8,8 @@ class NetflixApp {
 
         this.currentPage = 'home';
         this.currentContent = null;
-        this.library = JSON.parse(localStorage.getItem('netflix-library') || '[]');
-        this.watchedContent = JSON.parse(localStorage.getItem('netflix-watched') || '{}');
+        this.library = JSON.parse(localStorage.getItem('workflix-library') || '[]');
+        this.watchedContent = JSON.parse(localStorage.getItem('workflix-watched') || '{}');
         this.genres = [];
         this.searchTimeout = null;
         this.searchActive = false;
@@ -864,7 +864,7 @@ class NetflixApp {
             this.showToast('Aggiunto alla libreria');
         }
 
-        localStorage.setItem('netflix-library', JSON.stringify(this.library));
+        localStorage.setItem('workflix-library', JSON.stringify(this.library));
 
         // Update button
         const libraryBtn = document.getElementById('detailsLibraryBtn');
@@ -939,7 +939,7 @@ class NetflixApp {
         }
 
         // Save to localStorage
-        localStorage.setItem('netflix-watched', JSON.stringify(this.watchedContent));
+        localStorage.setItem('workflix-watched', JSON.stringify(this.watchedContent));
 
         // Update UI
         this.updateWatchedUI(contentId, type, episodeId);
@@ -1004,5 +1004,5 @@ class NetflixApp {
 
 // Initialize the app when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    new NetflixApp();
+    new workflixApp();
 });

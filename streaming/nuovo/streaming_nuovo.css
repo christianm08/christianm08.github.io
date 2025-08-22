@@ -773,7 +773,7 @@ select.form-control {
 }
 
 /* END PERPLEXITY DESIGN SYSTEM */
-/* Netflix Clone Styles */
+/* workflix Clone Styles */
 * {
   margin: 0;
   padding: 0;
@@ -781,13 +781,13 @@ select.form-control {
 }
 
 :root {
-  --netflix-red: #E50914;
-  --netflix-black: #000000;
-  --netflix-dark-gray: #141414;
-  --netflix-medium-gray: #221F1F;
-  --netflix-light-gray: #564D4D;
-  --netflix-text-gray: #757575;
-  --netflix-white: #FFFFFF;
+  --workflix-red: #E50914;
+  --workflix-black: #000000;
+  --workflix-dark-gray: #141414;
+  --workflix-medium-gray: #221F1F;
+  --workflix-light-gray: #564D4D;
+  --workflix-text-gray: #757575;
+  --workflix-white: #FFFFFF;
   --transition-smooth: all 0.3s ease-in-out;
   --border-radius: 8px;
   --glassmorphism-bg: rgba(20, 20, 20, 0.8);
@@ -796,8 +796,8 @@ select.form-control {
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  background-color: var(--netflix-black);
-  color: var(--netflix-white);
+  background-color: var(--workflix-black);
+  color: var(--workflix-white);
   overflow-x: hidden;
   line-height: 1.6;
 }
@@ -846,7 +846,7 @@ body {
 }
 
 .nav-link {
-  color: var(--netflix-white);
+  color: var(--workflix-white);
   text-decoration: none;
   font-size: 14px;
   transition: var(--transition-smooth);
@@ -855,7 +855,7 @@ body {
 
 .nav-link:hover,
 .nav-link.active {
-  color: var(--netflix-red);
+  color: var(--workflix-red);
 }
 
 .nav-link.active::after {
@@ -865,7 +865,7 @@ body {
   left: 0;
   right: 0;
   height: 2px;
-  background: var(--netflix-red);
+  background: var(--workflix-red);
 }
 
 .navbar-right {
@@ -881,7 +881,7 @@ body {
 }
 
 .search-icon {
-  color: var(--netflix-white);
+  color: var(--workflix-white);
   font-size: 18px;
   cursor: pointer;
   transition: var(--transition-smooth);
@@ -889,7 +889,7 @@ body {
 }
 
 .search-icon:hover {
-  color: var(--netflix-red);
+  color: var(--workflix-red);
 }
 
 .search-input {
@@ -897,7 +897,7 @@ body {
   border: 1px solid var(--glassmorphism-border);
   padding: 8px 16px;
   border-radius: var(--border-radius);
-  color: var(--netflix-white);
+  color: var(--workflix-white);
   font-size: 14px;
   width: 0;
   opacity: 0;
@@ -921,28 +921,28 @@ body {
 
 .search-input:focus {
   outline: none;
-  border-color: var(--netflix-red);
+  border-color: var(--workflix-red);
   box-shadow: 0 0 10px rgba(229, 9, 20, 0.3);
 }
 
 .search-input::placeholder {
-  color: var(--netflix-text-gray);
+  color: var(--workflix-text-gray);
 }
 
 .profile-icon {
-  color: var(--netflix-white);
+  color: var(--workflix-white);
   font-size: 24px;
   cursor: pointer;
   transition: var(--transition-smooth);
 }
 
 .profile-icon:hover {
-  color: var(--netflix-red);
+  color: var(--workflix-red);
 }
 
 .mobile-menu-toggle {
   display: none;
-  color: var(--netflix-white);
+  color: var(--workflix-white);
   font-size: 20px;
   cursor: pointer;
 }
@@ -973,7 +973,7 @@ body {
   display: flex;
   align-items: flex-end;
   margin-bottom: 40px;
-  background-color: var(--netflix-dark-gray);
+  background-color: var(--workflix-dark-gray);
 }
 
 .hero-content {
@@ -1033,8 +1033,8 @@ body {
 }
 
 .btn-primary {
-  background: var(--netflix-red);
-  color: var(--netflix-white);
+  background: var(--workflix-red);
+  color: var(--workflix-white);
 }
 
 .btn-primary:hover {
@@ -1044,7 +1044,7 @@ body {
 
 .btn-secondary {
   background: var(--glassmorphism-bg);
-  color: var(--netflix-white);
+  color: var(--workflix-white);
   border: 1px solid var(--glassmorphism-border);
   backdrop-filter: blur(10px);
 }
@@ -1068,7 +1068,7 @@ body {
   font-size: 1.8rem;
   font-weight: bold;
   margin-bottom: 15px;
-  color: var(--netflix-white);
+  color: var(--workflix-white);
 }
 
 .row-content {
@@ -1084,12 +1084,12 @@ body {
 }
 
 .row-content::-webkit-scrollbar-track {
-  background: var(--netflix-medium-gray);
+  background: var(--workflix-medium-gray);
   border-radius: 3px;
 }
 
 .row-content::-webkit-scrollbar-thumb {
-  background: var(--netflix-light-gray);
+  background: var(--workflix-light-gray);
   border-radius: 3px;
 }
 
@@ -1102,7 +1102,7 @@ body {
   position: relative;
   cursor: pointer;
   transition: var(--transition-smooth);
-  background: var(--netflix-dark-gray);
+  background: var(--workflix-dark-gray);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1119,7 +1119,7 @@ body {
   height: 100%;
   object-fit: cover;
   transition: var(--transition-smooth);
-  background-color: var(--netflix-dark-gray);
+  background-color: var(--workflix-dark-gray);
 }
 
 .card-image:hover {
@@ -1127,17 +1127,17 @@ body {
 }
 
 .card-image.loading {
-  background: linear-gradient(90deg, var(--netflix-dark-gray) 0%, var(--netflix-medium-gray) 50%, var(--netflix-dark-gray) 100%);
+  background: linear-gradient(90deg, var(--workflix-dark-gray) 0%, var(--workflix-medium-gray) 50%, var(--workflix-dark-gray) 100%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
 }
 
 .card-image.error {
-  background: var(--netflix-dark-gray);
+  background: var(--workflix-dark-gray);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--netflix-text-gray);
+  color: var(--workflix-text-gray);
   font-size: 2rem;
 }
 
@@ -1164,7 +1164,7 @@ body {
 
 .card-meta {
   font-size: 0.8rem;
-  color: var(--netflix-text-gray);
+  color: var(--workflix-text-gray);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1182,18 +1182,18 @@ body {
   height: 100%;
   padding: 20px;
   text-align: center;
-  background: var(--netflix-medium-gray);
+  background: var(--workflix-medium-gray);
 }
 
 .card-fallback i {
   font-size: 2rem;
-  color: var(--netflix-text-gray);
+  color: var(--workflix-text-gray);
   margin-bottom: 10px;
 }
 
 .card-fallback .card-title {
   font-size: 0.9rem;
-  color: var(--netflix-white);
+  color: var(--workflix-white);
   margin-bottom: 5px;
 }
 
@@ -1218,7 +1218,7 @@ body {
 .filter-select {
   background: var(--glassmorphism-bg);
   border: 1px solid var(--glassmorphism-border);
-  color: var(--netflix-white);
+  color: var(--workflix-white);
   padding: 8px 16px;
   border-radius: var(--border-radius);
   font-size: 14px;
@@ -1228,12 +1228,12 @@ body {
 
 .filter-select:focus {
   outline: none;
-  border-color: var(--netflix-red);
+  border-color: var(--workflix-red);
 }
 
 .filter-select option {
-  background: var(--netflix-dark-gray);
-  color: var(--netflix-white);
+  background: var(--workflix-dark-gray);
+  color: var(--workflix-white);
 }
 
 /* Content Grid */
@@ -1250,7 +1250,7 @@ body {
 .no-results {
   text-align: center;
   padding: 80px 20px;
-  color: var(--netflix-text-gray);
+  color: var(--workflix-text-gray);
   grid-column: 1 / -1;
 }
 
@@ -1258,14 +1258,14 @@ body {
 .no-results i {
   font-size: 4rem;
   margin-bottom: 20px;
-  color: var(--netflix-light-gray);
+  color: var(--workflix-light-gray);
 }
 
 .empty-library h3,
 .no-results h3 {
   font-size: 1.5rem;
   margin-bottom: 10px;
-  color: var(--netflix-white);
+  color: var(--workflix-white);
 }
 
 /* Details Page */
@@ -1278,7 +1278,7 @@ body {
   display: flex;
   align-items: flex-end;
   margin-bottom: 40px;
-  background-color: var(--netflix-dark-gray);
+  background-color: var(--workflix-dark-gray);
 }
 
 .details-content {
@@ -1392,7 +1392,7 @@ body {
 }
 
 .episode-meta {
-  color: var(--netflix-text-gray);
+  color: var(--workflix-text-gray);
   font-size: 0.9rem;
   margin-bottom: 10px;
 }
@@ -1414,12 +1414,12 @@ body {
 }
 
 .cast-list::-webkit-scrollbar-track {
-  background: var(--netflix-medium-gray);
+  background: var(--workflix-medium-gray);
   border-radius: 3px;
 }
 
 .cast-list::-webkit-scrollbar-thumb {
-  background: var(--netflix-light-gray);
+  background: var(--workflix-light-gray);
   border-radius: 3px;
 }
 
@@ -1436,7 +1436,7 @@ body {
   object-fit: cover;
   margin-bottom: 10px;
   border: 2px solid var(--glassmorphism-border);
-  background: var(--netflix-dark-gray);
+  background: var(--workflix-dark-gray);
 }
 
 .cast-name {
@@ -1447,13 +1447,13 @@ body {
 
 .cast-character {
   font-size: 0.8rem;
-  color: var(--netflix-text-gray);
+  color: var(--workflix-text-gray);
 }
 
 /* Video Player */
 .player-container {
   height: 100vh;
-  background: var(--netflix-black);
+  background: var(--workflix-black);
   display: flex;
   flex-direction: column;
 }
@@ -1471,7 +1471,7 @@ body {
 .player-back-btn {
   background: var(--glassmorphism-bg);
   border: 1px solid var(--glassmorphism-border);
-  color: var(--netflix-white);
+  color: var(--workflix-white);
   padding: 10px 15px;
   border-radius: var(--border-radius);
   cursor: pointer;
@@ -1481,7 +1481,7 @@ body {
 }
 
 .player-back-btn:hover {
-  background: var(--netflix-red);
+  background: var(--workflix-red);
 }
 
 .player-title {
@@ -1491,7 +1491,7 @@ body {
 
 .video-player {
   flex: 1;
-  background: var(--netflix-black);
+  background: var(--workflix-black);
 }
 
 .video-player iframe {
@@ -1512,7 +1512,7 @@ body {
 .skeleton-title {
   width: 200px;
   height: 24px;
-  background: var(--netflix-dark-gray);
+  background: var(--workflix-dark-gray);
   border-radius: var(--border-radius);
   margin-bottom: 15px;
   animation: shimmer 1.5s infinite;
@@ -1526,7 +1526,7 @@ body {
 .skeleton-card {
   width: 200px;
   height: 300px;
-  background: var(--netflix-dark-gray);
+  background: var(--workflix-dark-gray);
   border-radius: var(--border-radius);
   animation: shimmer 1.5s infinite;
 }
@@ -1572,8 +1572,8 @@ body {
 .spinner {
   width: 50px;
   height: 50px;
-  border: 3px solid var(--netflix-dark-gray);
-  border-top: 3px solid var(--netflix-red);
+  border: 3px solid var(--workflix-dark-gray);
+  border-top: 3px solid var(--workflix-red);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: 20px;
@@ -1596,7 +1596,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
   background: var(--glassmorphism-bg);
-  color: var(--netflix-white);
+  color: var(--workflix-white);
   padding: 15px 25px;
   border-radius: var(--border-radius);
   border: 1px solid var(--glassmorphism-border);
@@ -1619,7 +1619,7 @@ body {
 
 /* Search Page */
 .search-query {
-  color: var(--netflix-text-gray);
+  color: var(--workflix-text-gray);
   font-size: 1.2rem;
   font-style: italic;
 }
