@@ -791,11 +791,11 @@ body {
   overflow: hidden; /* Nasconde le scrollbar */
   scrollbar-width: none; /* Per Firefox */
   -ms-overflow-style: none; /* Per Internet Explorer e Edge */
-  transform: scale(0.67);
+  transform: scale(0.80); 
   transform-origin: top left;
   pointer-events: none;
-  width: 149.25%; 
-  height: 149.25%;
+  width: 125%; 
+  height: 125%;
   position: absolute;
   top: 0;
   left: 0;
