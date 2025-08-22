@@ -812,9 +812,9 @@ body {
 }
 
 #streaming-old {
-  transform: scale(0.67);
-  width: 149.253%;
-  height: 149.253%;
+  transform: scale(0.60);
+  width: 166.66%;
+  height: 166.66%;
 }
 
 /* Background glassmorphism */
