@@ -9,6 +9,7 @@ class NetflixApp {
         this.currentPage = 'home';
         this.currentContent = null;
         this.library = JSON.parse(localStorage.getItem('netflix-library') || '[]');
+        this.watchedContent = JSON.parse(localStorage.getItem('netflix-watched') || '{}');
         this.genres = [];
         this.searchTimeout = null;
         this.searchActive = false;
@@ -374,6 +375,8 @@ class NetflixApp {
     createContentCard(item, type) {
         const card = document.createElement('div');
         card.className = 'content-card';
+        card.setAttribute('data-id', item.id);
+        card.setAttribute('data-type', type);
 
         const title = item.title || item.name;
         const posterPath = item.poster_path;
@@ -416,6 +419,9 @@ class NetflixApp {
         const rating = document.createElement('span');
         rating.className = 'card-rating';
         rating.innerHTML = `<i class="fas fa-star"></i> ${item.vote_average ? item.vote_average.toFixed(1) : 'N/A'}`;
+
+        // Add watched button
+        this.addWatchedButton(overlay, item.id, type);
 
         cardMeta.appendChild(year);
         cardMeta.appendChild(rating);
@@ -755,6 +761,8 @@ class NetflixApp {
                 seasonData.episodes.forEach(episode => {
                     const episodeCard = document.createElement('div');
                     episodeCard.className = 'episode-card';
+                    episodeCard.setAttribute('data-episode-id', episode.id);
+                    episodeCard.setAttribute('data-series-id', tvId);
 
                     const airDate = episode.air_date ? new Date(episode.air_date).toLocaleDateString('it-IT') : 'Data sconosciuta';
 
@@ -772,6 +780,9 @@ class NetflixApp {
                         this.playTVEpisode(tvId, seasonNumber, episode.episode_number, episode.name);
                     });
 
+                    // Add watched button for episode
+                    this.addWatchedButton(episodeCard, tvId, 'tv', episode.id);
+
                     episodesList.appendChild(episodeCard);
                 });
             }
@@ -783,6 +794,11 @@ class NetflixApp {
     playContent(content, type, seasonNumber = null, episodeNumber = null) {
         const playerTitle = document.getElementById('playerTitle');
         const playerIframe = document.getElementById('playerIframe');
+
+        // Mark as watched when playing
+        if (type === 'movie') {
+            this.toggleWatched(content.id, type, null, true);
+        }
 
         let videoUrl = '';
         let title = content.title || content.name;
@@ -803,10 +819,23 @@ class NetflixApp {
         this.showPage('player');
     }
 
-    playTVEpisode(tvId, seasonNumber, episodeNumber, episodeTitle) {
+    async playTVEpisode(tvId, seasonNumber, episodeNumber, episodeTitle) {
         const content = this.currentContent;
         const playerTitle = document.getElementById('playerTitle');
         const playerIframe = document.getElementById('playerIframe');
+
+        // Get episode details to get the episode ID
+        try {
+            const seasonData = await this.apiRequest(`/tv/${tvId}/season/${seasonNumber}`);
+            if (seasonData && seasonData.episodes) {
+                const episode = seasonData.episodes.find(ep => ep.episode_number === episodeNumber);
+                if (episode) {
+                    this.toggleWatched(tvId, 'tv', episode.id, true);
+                }
+            }
+        } catch (error) {
+            console.error('Failed to mark episode as watched:', error);
+        }
 
         const videoUrl = `${this.vixSrcBaseUrl}/tv/${tvId}/${seasonNumber}/${episodeNumber}?lang=it&primaryColor=E50914&secondaryColor=FFFFFF&autoplay=false`;
         const title = `${content.name} - ${episodeTitle}`;
@@ -879,6 +908,97 @@ class NetflixApp {
         const genreList = this.genres[type] || [];
         const genre = genreList.find(g => g.id === genreId);
         return genre ? genre.name : 'Sconosciuto';
+    }
+
+    // Watched content management
+    toggleWatched(contentId, type, episodeId = null, forceWatched = false) {
+        if (!this.watchedContent[type]) {
+            this.watchedContent[type] = {};
+        }
+
+        if (type === 'tv' && episodeId) {
+            if (!this.watchedContent[type][contentId]) {
+                this.watchedContent[type][contentId] = { episodes: {} };
+            }
+            const episodes = this.watchedContent[type][contentId].episodes;
+            episodes[episodeId] = forceWatched || !episodes[episodeId];
+            
+            // Update series watched status based on all episodes
+            const allEpisodes = document.querySelectorAll(`[data-series-id="${contentId}"] .episode-card`);
+            const allWatched = Array.from(allEpisodes).every(ep => 
+                episodes[ep.getAttribute('data-episode-id')]
+            );
+            this.watchedContent[type][contentId].fullyWatched = allWatched;
+        } else {
+            // For movies or entire TV series
+            if (!this.watchedContent[type][contentId]) {
+                this.watchedContent[type][contentId] = { fullyWatched: forceWatched || true };
+            } else {
+                this.watchedContent[type][contentId].fullyWatched = forceWatched || !this.watchedContent[type][contentId].fullyWatched;
+            }
+        }
+
+        // Save to localStorage
+        localStorage.setItem('netflix-watched', JSON.stringify(this.watchedContent));
+        
+        // Update UI
+        this.updateWatchedUI(contentId, type, episodeId);
+    }
+
+    isWatched(contentId, type, episodeId = null) {
+        if (!this.watchedContent[type] || !this.watchedContent[type][contentId]) {
+            return false;
+        }
+
+        if (type === 'tv' && episodeId) {
+            return this.watchedContent[type][contentId]?.episodes?.[episodeId] || false;
+        }
+
+        return this.watchedContent[type][contentId]?.fullyWatched || false;
+    }
+
+    updateWatchedUI(contentId, type, episodeId = null) {
+        const isWatched = this.isWatched(contentId, type, episodeId);
+        
+        if (episodeId) {
+            // Update episode UI
+            const episodeCard = document.querySelector(`.episode-card[data-episode-id="${episodeId}"]`);
+            if (episodeCard) {
+                const watchedIcon = episodeCard.querySelector('.watched-icon');
+                watchedIcon.classList.toggle('watched', isWatched);
+                watchedIcon.title = isWatched ? 'Contrassegna come non visto' : 'Contrassegna come visto';
+            }
+        } else {
+            // Update movie/series UI
+            const contentCards = document.querySelectorAll(`.content-card[data-id="${contentId}"][data-type="${type}"]`);
+            contentCards.forEach(card => {
+                const watchedIcon = card.querySelector('.watched-icon');
+                if (watchedIcon) {
+                    watchedIcon.classList.toggle('watched', isWatched);
+                    watchedIcon.title = isWatched ? 'Contrassegna come non visto' : 'Contrassegna come visto';
+                }
+            });
+        }
+    }
+
+    addWatchedButton(element, contentId, type, episodeId = null) {
+        const watchedIcon = document.createElement('div');
+        watchedIcon.className = 'watched-icon';
+        watchedIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
+        
+        const isWatched = this.isWatched(contentId, type, episodeId);
+        if (isWatched) {
+            watchedIcon.classList.add('watched');
+        }
+        
+        watchedIcon.title = isWatched ? 'Contrassegna come non visto' : 'Contrassegna come visto';
+        
+        watchedIcon.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.toggleWatched(contentId, type, episodeId);
+        });
+        
+        element.appendChild(watchedIcon);
     }
 }
 

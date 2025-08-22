@@ -1,0 +1,44 @@
+/* Watched Content Styling */
+.watched-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 2;
+}
+
+.content-card:hover .watched-icon,
+.episode-card:hover .watched-icon {
+    opacity: 1;
+}
+
+.watched-icon i {
+    color: #fff;
+    font-size: 16px;
+}
+
+.watched-icon.watched {
+    opacity: 1;
+    background: var(--color-teal-500);
+}
+
+.watched-icon.watched i {
+    color: #fff;
+}
+
+.episode-card .watched-icon {
+    position: relative;
+    top: 0;
+    right: 0;
+    margin-left: auto;
+    opacity: 0.7;
+}
