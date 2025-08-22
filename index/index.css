@@ -794,8 +794,8 @@ body {
   transform: scale(0.75); 
   transform-origin: top left;
   pointer-events: none;
-  width: 149.253%;
-  height: 149.253%;
+  width: 133.33%; 
+  height: 133.33%;
   position: absolute;
   top: 0;
   left: 0;
@@ -804,11 +804,18 @@ body {
   z-index: 0;
 }
 
+
+
 /* Per nascondere scrollbar in WebKit (Chrome, Safari) */
 .card-iframe::-webkit-scrollbar {
   display: none;
 }
 
+#streaming-old {
+  transform: scale(0.67);
+  width: 149.253%;
+  height: 149.253%;
+}
 
 /* Background glassmorphism */
 .card::before {
