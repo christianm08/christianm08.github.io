@@ -32,7 +32,6 @@ christianm08.github.io
 |   └── images/
 |       ├── 20.png
 |       ├── canale5.png
-|       ├── canali-live-streaming.zip
 |       ├── eurosport1.png
 |       ├── eurosport2.png
 |       ├── italia1.png
