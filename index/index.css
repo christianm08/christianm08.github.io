@@ -787,6 +787,29 @@ body {
     z-index: 1;
 }
 
+.card-iframe {
+  overflow: hidden; /* Nasconde le scrollbar */
+  scrollbar-width: none; /* Per Firefox */
+  -ms-overflow-style: none; /* Per Internet Explorer e Edge */
+  transform: scale(0.67);
+  transform-origin: top left;
+  pointer-events: none;
+  width: 149.25%; 
+  height: 149.25%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: none;
+  filter: blur(2px) brightness(0.8);
+  z-index: 0;
+}
+
+/* Per nascondere scrollbar in WebKit (Chrome, Safari) */
+.card-iframe::-webkit-scrollbar {
+  display: none;
+}
+
+
 /* Background glassmorphism */
 .card::before {
     content: '';
