@@ -1001,12 +1001,6 @@ body {
     .card {
         aspect-ratio: 16/11;
     }
-
-    .card-iframe {
-      transform: scale(0.9);
-      width: 111.11%;
-      height: 111.11%;
-    }
     
     .card-title {
         font-size: var(--font-size-xl);
