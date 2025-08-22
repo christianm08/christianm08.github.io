@@ -1095,8 +1095,8 @@ body {
 
 .content-card {
   flex-shrink: 0;
-  width: 250px;
-  height: 375px;
+  width: 200px;
+  height: 300px;
   border-radius: var(--border-radius);
   overflow: hidden;
   position: relative;
