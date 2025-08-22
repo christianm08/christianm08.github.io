@@ -1,35 +1,47 @@
 body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: #181c22;
-    color: #e6e6e6;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    min-height: 100vh;
-    transition: background 0.4s;
-    animation: fadeInBody 0.7s cubic-bezier(0.4,0,0.2,1);
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #181c22;
+  color: #e6e6e6;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  min-height: 100vh;
+  transition: background 0.4s;
+  animation: fadeInBody 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes fadeInBody {
-    from { opacity: 0; }
-    to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 h1 {
-    color: #4eb5f1;
-    text-align: center;
-    margin-top: 0;
-    margin-bottom: 2rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    font-size: 2.2rem;
-    text-shadow: 0 2px 8px #0005;
-    animation: slideDownFade 0.7s cubic-bezier(0.4,0,0.2,1);
+  color: #4eb5f1;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  font-size: 2.2rem;
+  text-shadow: 0 2px 8px #0005;
+  animation: slideDownFade 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes slideDownFade {
-    from { opacity: 0; transform: translateY(-30px); }
-    to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* === NAVBAR TOP/BOTTOM === */
@@ -54,6 +66,7 @@ h1 {
   z-index: 11000;
   transition: box-shadow 0.3s, background 0.3s;
 }
+
 .sidebar-title {
   display: flex;
   align-items: center;
@@ -69,6 +82,7 @@ h1 {
   padding-bottom: 0;
   padding-right: 1.5rem;
 }
+
 .sidebar nav ul {
   display: flex;
   flex-direction: row;
@@ -78,6 +92,7 @@ h1 {
   padding: 0;
   list-style: none;
 }
+
 .sidebar-link {
   border-radius: 1.5em;
   border-left: none;
@@ -98,26 +113,30 @@ h1 {
   outline: none;
   text-decoration: none !important;
 }
+
 .sidebar-link i {
   font-size: 1.15em;
   color: #4eb5f1;
   transition: color 0.18s;
 }
+
 .sidebar-link.active,
 .sidebar-link:hover,
 .sidebar-link:focus {
-  background: rgba(78,181,241,0.13);
+  background: rgba(78, 181, 241, 0.13);
   color: #4eb5f1;
   /* border-bottom: 3px solid #4eb5f1; */
   box-shadow: 0 2px 8px #4eb5f133;
   transform: translateY(2px) scale(1.04);
   text-decoration: none !important;
 }
+
 .sidebar-link.active i,
 .sidebar-link:hover i,
 .sidebar-link:focus i {
   color: #fff;
 }
+
 .home-btn {
   margin-left: auto;
   margin-right: 0;
@@ -134,7 +153,9 @@ h1 {
   gap: 0.7em;
   transition: background 0.18s, color 0.18s, box-shadow 0.18s, transform 0.15s;
 }
-.home-btn:hover, .home-btn:focus {
+
+.home-btn:hover,
+.home-btn:focus {
   background: linear-gradient(90deg, #0078d7 0%, #4eb5f1 100%);
   color: #fff;
   box-shadow: 0 4px 18px #4eb5f199;
@@ -161,14 +182,17 @@ h1 {
     padding: 0 0.5rem;
     background: linear-gradient(0deg, #23272f 60%, #181c22 100%);
   }
+
   .sidebar-title {
     display: none;
   }
+
   .sidebar nav ul {
     width: 100%;
     justify-content: space-around;
     gap: 0;
   }
+
   .sidebar-link {
     flex-direction: column;
     justify-content: center;
@@ -189,34 +213,41 @@ h1 {
     transition: background 0.18s, color 0.18s, border-color 0.18s, box-shadow 0.18s, transform 0.15s;
     text-decoration: none;
   }
+
   .sidebar-link span {
     display: none;
   }
+
   .sidebar-link i {
     font-size: 1.5em;
     pointer-events: none;
   }
+
   .sidebar-link.active,
   .sidebar-link:hover,
   .sidebar-link:focus {
-   text-decoration: none;
-    background: rgba(78,181,241,0.18);
+    text-decoration: none;
+    background: rgba(78, 181, 241, 0.18);
     color: #4eb5f1;
     /* border-bottom: 3px solid #4eb5f1; */
     box-shadow: 0 2px 8px #4eb5f133;
     transform: scale(1.12);
     text-decoration: none !important;
   }
+
   .sidebar-link.active i,
   .sidebar-link:hover i,
   .sidebar-link:focus i {
     color: #fff;
   }
+
   .home-btn {
     display: none;
   }
+
   .main-content {
-    padding-bottom: 90px !important; /* spazio extra per la navbar mobile */
+    padding-bottom: 90px !important;
+    /* spazio extra per la navbar mobile */
   }
 }
 
@@ -227,7 +258,10 @@ h1 {
     visibility: visible !important;
     opacity: 1 !important;
     position: fixed !important;
-    left: 0; right: 0; bottom: 0; top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
     width: 100vw !important;
     height: 64px !important;
     max-width: 100vw !important;
@@ -263,7 +297,7 @@ h1 {
   height: 300px;
   background: #181828;
   border-radius: 1rem;
-  box-shadow: 0 2px 12px 0 rgba(0,0,0,0.10);
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.10);
   overflow: hidden;
   cursor: pointer;
   position: relative;
@@ -296,178 +330,181 @@ h1 {
 }
 
 .player-embed-wrap {
-    width: 100%;
-    max-width: 900px;
-    margin: 2rem auto 2rem auto;
-    aspect-ratio: 16/9;
-    background: #111;
-    border-radius: 1rem;
-    box-shadow: 0 2px 12px #0003;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: box-shadow 0.2s;
+  width: 100%;
+  max-width: 900px;
+  margin: 2rem auto 2rem auto;
+  aspect-ratio: 16/9;
+  background: #111;
+  border-radius: 1rem;
+  box-shadow: 0 2px 12px #0003;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 0.2s;
 }
 
 .player-iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    background: #111;
-    display: block;
-    border-radius: 1rem;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #111;
+  display: block;
+  border-radius: 1rem;
 }
 
 .back-btn {
-    margin: 0 auto;
-    display: block;
-    background: #23272f;
-    color: #4eb5f1;
-    border: none;
-    border-radius: 2em;
-    padding: 0.7em 1.5em;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 2px 8px #0078d733;
-    transition: background 0.18s, color 0.18s, transform 0.13s;
+  margin: 0 auto;
+  display: block;
+  background: #23272f;
+  color: #4eb5f1;
+  border: none;
+  border-radius: 2em;
+  padding: 0.7em 1.5em;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #0078d733;
+  transition: background 0.18s, color 0.18s, transform 0.13s;
 }
 
 .back-btn:hover,
 .back-btn:focus {
-    background: #181c22;
-    color: #fff;
-    transform: scale(1.04);
+  background: #181c22;
+  color: #fff;
+  transform: scale(1.04);
 }
 
 .info-flex {
-    display: flex;
-    gap: 2em;
-    align-items: flex-start;
-    margin-bottom: 2em;
+  display: flex;
+  gap: 2em;
+  align-items: flex-start;
+  margin-bottom: 2em;
 }
 
 .info-poster {
-    width: 240px;
-    border-radius: 1.2em;
-    box-shadow: 0 4px 18px #0005;
+  width: 240px;
+  border-radius: 1.2em;
+  box-shadow: 0 4px 18px #0005;
 }
 
 .info-details {
-    flex: 1;
+  flex: 1;
 }
 
 .info-details h2 {
-    margin: 0 0 0.5em 0;
-    font-size: 2.2em;
-    color: #4eb5f1;
+  margin: 0 0 0.5em 0;
+  font-size: 2.2em;
+  color: #4eb5f1;
 }
 
 .info-meta {
-    color: #aaa;
-    font-size: 1.15em;
-    margin-bottom: 1em;
+  color: #aaa;
+  font-size: 1.15em;
+  margin-bottom: 1em;
 }
 
 .info-overview {
-    font-size: 1.18em;
-    line-height: 1.6;
-    margin-bottom: 1.2em;
+  font-size: 1.18em;
+  line-height: 1.6;
+  margin-bottom: 1.2em;
 }
 
 .info-rating {
-    font-size: 1.2em;
-    color: #ffd700;
-    margin-bottom: 1em;
-    display: flex;
-    align-items: center;
-    gap: 0.7em;
+  font-size: 1.2em;
+  color: #ffd700;
+  margin-bottom: 1em;
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
 }
 
 .info-rating .star {
-    font-size: 1.5em;
-    color: #ffd700;
-    filter: drop-shadow(0 0 2px #0008);
+  font-size: 1.5em;
+  color: #ffd700;
+  filter: drop-shadow(0 0 2px #0008);
 }
 
 .info-rating .vote-count {
-    color: #aaa;
-    font-size: 1em;
-    margin-left: 0.5em;
+  color: #aaa;
+  font-size: 1em;
+  margin-left: 0.5em;
 }
 
 .info-selectors {
-    margin-top: 1.5em;
+  margin-top: 1.5em;
 }
 
 .styled-selectors {
-    display: flex;
-    gap: 1.5em;
-    align-items: flex-end;
-    margin-top: 1.7em;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 1.5em;
+  align-items: flex-end;
+  margin-top: 1.7em;
+  flex-wrap: wrap;
 }
 
 .selector-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
 }
 
 .selector-group label {
-    font-size: 1.08em;
-    color: #4eb5f1;
-    font-weight: 600;
-    margin-bottom: 0.2em;
-    letter-spacing: 0.5px;
+  font-size: 1.08em;
+  color: #4eb5f1;
+  font-weight: 600;
+  margin-bottom: 0.2em;
+  letter-spacing: 0.5px;
 }
 
-#seasonSelect, #episodeInput {
-    padding: 0.5em 1em;
-    border-radius: 1.5em;
-    border: 1.5px solid #4eb5f1;
-    background: #23272f;
-    color: #e6e6e6;
-    font-size: 1.08em;
-    outline: none;
-    transition: border 0.2s;
-    margin-right: 0.5em;
+#seasonSelect,
+#episodeInput {
+  padding: 0.5em 1em;
+  border-radius: 1.5em;
+  border: 1.5px solid #4eb5f1;
+  background: #23272f;
+  color: #e6e6e6;
+  font-size: 1.08em;
+  outline: none;
+  transition: border 0.2s;
+  margin-right: 0.5em;
 }
 
-#seasonSelect:focus, #episodeInput:focus {
-    border: 1.5px solid #0078d7;
+#seasonSelect:focus,
+#episodeInput:focus {
+  border: 1.5px solid #0078d7;
 }
 
 .episode-cards-wrap {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-    gap: 1.2em;
-    margin-top: 1.5em;
-    width: 100%;
-    justify-items: start;
-    align-items: start;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1.2em;
+  margin-top: 1.5em;
+  width: 100%;
+  justify-items: start;
+  align-items: start;
 }
 
 .episode-card {
-    background: #23272f;
-    border-radius: 1em;
-    box-shadow: 0 2px 8px #0005;
-    cursor: pointer;
-    transition: box-shadow 0.18s, transform 0.18s, border 0.18s;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    border: 2px solid #23272f;
-    color: #fff;
-    min-width: 180px;
+  background: #23272f;
+  border-radius: 1em;
+  box-shadow: 0 2px 8px #0005;
+  cursor: pointer;
+  transition: box-shadow 0.18s, transform 0.18s, border 0.18s;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 2px solid #23272f;
+  color: #fff;
+  min-width: 180px;
 }
 
-.episode-card.selected, .episode-card:hover {
-    box-shadow: 0 6px 24px #0008;
-    border: 2px solid #4eb5f1;
-    color: #e53935;
-    background: #23272f;
+.episode-card.selected,
+.episode-card:hover {
+  box-shadow: 0 6px 24px #0008;
+  border: 2px solid #4eb5f1;
+  color: #e53935;
+  background: #23272f;
 }
 
 .season-cards-wrap {
@@ -483,24 +520,28 @@ h1 {
   scrollbar-width: thin;
   scrollbar-color: #4eb5f1 #23272f;
 }
+
 .season-cards-wrap::-webkit-scrollbar {
   height: 8px;
   background: #23272f;
 }
+
 .season-cards-wrap::-webkit-scrollbar-thumb {
   background: #4eb5f1;
   border-radius: 4px;
 }
+
 .season-card {
   flex: 0 0 auto;
 }
+
 .season-cards-arrow {
   display: none;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   z-index: 10;
-  background: rgba(24,28,34,0.92);
+  background: rgba(24, 28, 34, 0.92);
   color: #4eb5f1;
   border: none;
   border-radius: 50%;
@@ -515,156 +556,171 @@ h1 {
   justify-content: center;
   opacity: 0.85;
 }
+
 .season-cards-arrow:hover {
   background: #4eb5f1;
   color: #fff;
   opacity: 1;
 }
+
 .season-cards-arrow.left {
   left: 0.5em;
 }
+
 .season-cards-arrow.right {
   right: 2em;
 }
+
 .season-cards-arrow i {
   pointer-events: none;
 }
+
 @media (min-width: 901px) {
   .season-cards-arrow {
     display: flex;
   }
+
   .season-cards-wrap-wrap {
     position: relative;
     width: 100%;
   }
 }
+
 @media (max-width: 900px) {
   .season-cards-wrap {
     gap: 0.7em;
     scrollbar-width: none;
   }
+
   .season-cards-wrap::-webkit-scrollbar {
     display: none;
   }
+
   .season-cards-arrow {
     display: none !important;
   }
 }
+
 /* --- END SCORRIMENTO ORIZZONTALE STAGIONI E FRECCE --- */
 
 .season-cards-wrap {
-    display: flex;
-    gap: 1.2em;
-    margin: 2.2em 0 1.2em 0;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 1.2em;
+  margin: 2.2em 0 1.2em 0;
+  flex-wrap: wrap;
 }
 
 .season-card {
-    background: #23272f;
-    border-radius: 1em;
-    box-shadow: 0 2px 8px #0005;
-    cursor: pointer;
-    transition: box-shadow 0.18s, transform 0.18s, border 0.18s;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow: hidden;
-    border: 2.5px solid #23272f;
-    min-width: 140px;
-    max-width: 160px;
-    flex: 1 1 140px;
-    color: #fff;
-    padding: 0.7em 0.7em 0.9em 0.7em;
+  background: #23272f;
+  border-radius: 1em;
+  box-shadow: 0 2px 8px #0005;
+  cursor: pointer;
+  transition: box-shadow 0.18s, transform 0.18s, border 0.18s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  border: 2.5px solid #23272f;
+  min-width: 140px;
+  max-width: 160px;
+  flex: 1 1 140px;
+  color: #fff;
+  padding: 0.7em 0.7em 0.9em 0.7em;
 }
 
-.season-card.selected, .season-card:hover {
-    box-shadow: 0 6px 24px #0008;
-    border: 2.5px solid #4eb5f1;
-    color: #e53935;
-    background: #23272f;
+.season-card.selected,
+.season-card:hover {
+  box-shadow: 0 6px 24px #0008;
+  border: 2.5px solid #4eb5f1;
+  color: #e53935;
+  background: #23272f;
 }
 
 .season-thumb-wrap {
-    width: 100%;
-    aspect-ratio: 2/3;
-    background: #181c22;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 0.5em;
+  width: 100%;
+  aspect-ratio: 2/3;
+  background: #181c22;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5em;
 }
 
 .season-thumb-wrap img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 0.7em;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0.7em;
 }
 
 .season-title {
-    color: #4eb5f1;
-    font-weight: 700;
-    font-size: 1.13em;
-    margin-bottom: 0.2em;
-    text-align: center;
-    letter-spacing: 0.5px;
+  color: #4eb5f1;
+  font-weight: 700;
+  font-size: 1.13em;
+  margin-bottom: 0.2em;
+  text-align: center;
+  letter-spacing: 0.5px;
 }
 
 .season-epcount {
-    color: #fff;
-    font-size: 0.98em;
+  color: #fff;
+  font-size: 0.98em;
 }
 
 .ep-thumb-wrap {
-    width: 100%;
-    aspect-ratio: 16/9;
-    background: #181c22;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: #181c22;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .ep-thumb-wrap img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-bottom: 1px solid #23272f;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-bottom: 1px solid #23272f;
 }
 
 .ep-info {
-    padding: 1em 1em 0.7em 1em;
-    display: flex;
-    flex-direction: column;
-    gap: 0.3em;
+  padding: 1em 1em 0.7em 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
 }
 
 .ep-title {
-    color: #4eb5f1;
-    font-weight: 600;
-    font-size: 1.08em;
-    margin-bottom: 0.2em;
+  color: #4eb5f1;
+  font-weight: 600;
+  font-size: 1.08em;
+  margin-bottom: 0.2em;
 }
 
 .ep-date {
-    color: #aaa;
-    font-size: 0.98em;
+  color: #aaa;
+  font-size: 0.98em;
 }
 
 /* Player popup overlay grande e centrato, con grafica moderna */
 .player-popup-overlay {
   position: fixed;
   z-index: 9999;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(20,20,30,0.92);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(20, 20, 30, 0.92);
   display: flex;
   align-items: center;
   justify-content: center;
   animation: fadeIn 0.2s;
 }
+
 .player-popup-content {
   background: #181828;
   border-radius: 18px;
-  box-shadow: 0 8px 40px 0 rgba(0,0,0,0.45);
+  box-shadow: 0 8px 40px 0 rgba(0, 0, 0, 0.45);
   padding: 0;
   max-width: 98vw;
   width: 1280px;
@@ -675,6 +731,7 @@ h1 {
   position: relative;
   animation: popupIn 0.25s;
 }
+
 .player-popup-content .player-iframe {
   width: 100%;
   aspect-ratio: 16/9;
@@ -686,6 +743,7 @@ h1 {
   background: #000;
   display: block;
 }
+
 .player-popup-close {
   position: absolute;
   top: 10px;
@@ -698,34 +756,89 @@ h1 {
   z-index: 2;
   transition: color 0.15s;
 }
+
 .player-popup-close:hover {
   color: #B20710;
 }
+
 @keyframes fadeIn {
-  from { opacity: 0; } to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
+
 @keyframes popupIn {
-  from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
+
 @media (max-width: 1400px) {
-  .player-popup-content { width: 98vw; min-width: 0; }
+  .player-popup-content {
+    width: 98vw;
+    min-width: 0;
+  }
 }
+
 @media (max-width: 900px) {
-  .player-popup-content { width: 99vw; min-width: 0; border-radius: 0; }
-  .player-popup-content .player-iframe { min-height: 180px; height: 40vh; }
+  .player-popup-content {
+    width: 99vw;
+    min-width: 0;
+    border-radius: 0;
+  }
+
+  .player-popup-content .player-iframe {
+    min-height: 180px;
+    height: 40vh;
+  }
 }
 
 @media (max-width: 1200px) {
-    .info-flex-split { flex-direction: column; gap: 1.5em; }
-    .info-poster-col { max-width: 100vw; }
-    .info-poster-large { max-width: 100vw; margin: 0 auto; }
+  .info-flex-split {
+    flex-direction: column;
+    gap: 1.5em;
+  }
+
+  .info-poster-col {
+    max-width: 100vw;
+  }
+
+  .info-poster-large {
+    max-width: 100vw;
+    margin: 0 auto;
+  }
 }
 
 @media (max-width: 900px) {
-    .season-cards-wrap { gap: 0.7em; }
-    .season-card { min-width: 100px; max-width: 120px; }
-    .episode-cards-wrap { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.7em; }
-    .catalog-card { width: 140px; height: 210px; }
+  .season-cards-wrap {
+    gap: 0.7em;
+  }
+
+  .season-card {
+    min-width: 100px;
+    max-width: 120px;
+  }
+
+  .episode-cards-wrap {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.7em;
+  }
+
+  .catalog-card {
+    width: 140px;
+    height: 210px;
+  }
+
   .catalog-grid {
     display: flex;
     flex-direction: column;
@@ -733,6 +846,7 @@ h1 {
     gap: 1.2rem 0;
     justify-content: flex-start;
   }
+
   .catalog-card {
     width: 200px;
     min-width: 200px;
@@ -745,14 +859,41 @@ h1 {
 }
 
 @media (max-width: 600px) {
-    .info-flex-split { flex-direction: column; gap: 1em; }
-    .info-poster-col { max-width: 100vw; justify-content: center; }
-    .info-poster-large { max-width: 100vw; margin: 0 auto; }
-    .season-cards-wrap { gap: 0.5em; }
-    .season-card { min-width: 80px; max-width: 100px; }
-    .episode-cards-wrap { grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 0.5em; }
-    .catalog-card { width: 100px; height: 150px; }
-    .catalog-card {
+  .info-flex-split {
+    flex-direction: column;
+    gap: 1em;
+  }
+
+  .info-poster-col {
+    max-width: 100vw;
+    justify-content: center;
+  }
+
+  .info-poster-large {
+    max-width: 100vw;
+    margin: 0 auto;
+  }
+
+  .season-cards-wrap {
+    gap: 0.5em;
+  }
+
+  .season-card {
+    min-width: 80px;
+    max-width: 100px;
+  }
+
+  .episode-cards-wrap {
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 0.5em;
+  }
+
+  .catalog-card {
+    width: 100px;
+    height: 150px;
+  }
+
+  .catalog-card {
     width: 92vw;
     min-width: 180px;
     max-width: 98vw;
@@ -760,12 +901,16 @@ h1 {
     min-height: 270px;
     max-height: 420px;
   }
+
   .catalog-grid {
     gap: 1rem 0;
   }
 }
 
-.play-btn, .add-remove-list-btn, .add-list-btn, .remove-list-btn {
+.play-btn,
+.add-remove-list-btn,
+.add-list-btn,
+.remove-list-btn {
   background: #23272f;
   color: #4eb5f1;
   border: none;
@@ -780,8 +925,15 @@ h1 {
   margin-bottom: 0.5em;
   display: inline-block;
 }
-.play-btn:hover, .add-remove-list-btn:hover, .add-list-btn:hover, .remove-list-btn:hover,
-.play-btn:focus, .add-remove-list-btn:focus, .add-list-btn:focus, .remove-list-btn:focus {
+
+.play-btn:hover,
+.add-remove-list-btn:hover,
+.add-list-btn:hover,
+.remove-list-btn:hover,
+.play-btn:focus,
+.add-remove-list-btn:focus,
+.add-list-btn:focus,
+.remove-list-btn:focus {
   background: #181c22;
   color: #fff;
   transform: scale(1.05);
@@ -808,6 +960,7 @@ h1 {
   padding: 0;
   transition: background 0.2s;
 }
+
 .hamburger-btn span {
   display: block;
   width: 24px;
@@ -815,14 +968,17 @@ h1 {
   background: #4eb5f1;
   border-radius: 2px;
   margin: 4px auto;
-  transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 .hamburger-btn.open span:nth-child(1) {
   transform: translateY(7px) rotate(45deg);
 }
+
 .hamburger-btn.open span:nth-child(2) {
   opacity: 0;
 }
+
 .hamburger-btn.open span:nth-child(3) {
   transform: translateY(-7px) rotate(-45deg);
 }
@@ -832,25 +988,31 @@ h1 {
   .hamburger-btn {
     display: flex;
   }
+
   .sidebar {
     position: fixed;
-    top: 0; left: 0; bottom: 0;
+    top: 0;
+    left: 0;
+    bottom: 0;
     width: 80vw;
     max-width: 320px;
     min-width: 0;
     z-index: 11000;
     transform: translateX(-100%);
-    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), box-shadow 0.3s;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s;
     box-shadow: 2px 0 24px #0008;
     border-radius: 0 1.2rem 1.2rem 0;
   }
+
   .sidebar.sidebar-open {
     transform: translateX(0);
   }
+
   body.no-scroll {
     overflow: hidden !important;
     touch-action: none;
   }
+
   .main-content {
     padding-left: 0 !important;
     padding-top: 4.5rem !important;
@@ -862,20 +1024,24 @@ h1 {
 .trailer-embed-16by9 {
   position: relative;
   width: 100%;
-  padding-bottom: 56.25%; /* 16:9 */
+  padding-bottom: 56.25%;
+  /* 16:9 */
   height: 0;
   margin-top: 1.5em;
   margin-bottom: 1.5em;
 }
+
 .trailer-embed-16by9 iframe {
   position: absolute;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   border: 0;
   border-radius: 12px;
   background: #000;
 }
+
 .trailer-block h3 {
   margin-bottom: 0.5em;
   font-size: 1.2em;
@@ -891,11 +1057,13 @@ h1 {
     gap: 1.2rem 0;
     width: 100vw;
   }
+
   .catalog-card {
     width: 92vw;
     min-width: 180px;
     max-width: 98vw;
-    height: calc(92vw * 1.5); /* 2:3 aspect ratio */
+    height: calc(92vw * 1.5);
+    /* 2:3 aspect ratio */
     min-height: 270px;
     max-height: 420px;
     margin: 0.2em 0;
@@ -911,6 +1079,7 @@ h1 {
     min-height: 210px;
     max-height: 420px;
   }
+
   .catalog-grid {
     gap: 1rem 0;
   }
@@ -924,6 +1093,7 @@ h1 {
   margin: 2.2em 0 1.2em 0;
   gap: 0.7em;
 }
+
 #searchInput {
   font-size: 1.15rem;
   padding: 0.7em 1.2em 0.7em 2.5em;
@@ -937,10 +1107,12 @@ h1 {
   box-shadow: 0 2px 12px #0003;
   transition: box-shadow 0.18s, background 0.18s;
 }
+
 #searchInput:focus {
   box-shadow: 0 4px 18px #4eb5f199;
   background-color: #181c22;
 }
+
 .search-clear-btn {
   display: none;
   position: absolute;
@@ -954,10 +1126,12 @@ h1 {
   cursor: pointer;
   z-index: 2;
 }
+
 @media (max-width: 900px) {
   .search-form {
     margin: 1.2em 0 0.7em 0;
   }
+
   #searchInput {
     width: 98vw;
     max-width: 99vw;
@@ -965,6 +1139,7 @@ h1 {
     padding-left: 2.2em;
   }
 }
+
 .search-results-wrap {
   display: flex;
   flex-direction: row;
@@ -973,6 +1148,7 @@ h1 {
   align-items: flex-start;
   flex-wrap: wrap;
 }
+
 @media (max-width: 900px) {
   .search-results-wrap {
     flex-direction: column;
@@ -980,7 +1156,9 @@ h1 {
     align-items: center;
   }
 }
-.search-movies-section, .search-shows-section {
+
+.search-movies-section,
+.search-shows-section {
   background: #181c22;
   border-radius: 1.2em;
   box-shadow: 0 2px 12px #0002;
@@ -990,8 +1168,11 @@ h1 {
   max-width: 600px;
   width: 100%;
 }
+
 @media (max-width: 900px) {
-  .search-movies-section, .search-shows-section {
+
+  .search-movies-section,
+  .search-shows-section {
     min-width: 0;
     max-width: 98vw;
     width: 98vw;
@@ -999,13 +1180,16 @@ h1 {
     margin-bottom: 1em;
   }
 }
-.search-movies-section h2, .search-shows-section h2 {
+
+.search-movies-section h2,
+.search-shows-section h2 {
   color: #4eb5f1;
   font-size: 1.18em;
   margin-bottom: 0.7em;
   margin-top: 0.2em;
   letter-spacing: 0.5px;
 }
+
 .search-no-results {
   color: #aaa;
   text-align: center;
@@ -1016,11 +1200,13 @@ h1 {
   align-items: center;
   gap: 0.5em;
 }
+
 .search-no-results i {
   font-size: 2.2em;
   color: #4eb5f1;
   margin-bottom: 0.2em;
 }
+
 .search-loading {
   text-align: center;
   color: #4eb5f1;
@@ -1031,20 +1217,29 @@ h1 {
   align-items: center;
   gap: 0.5em;
 }
+
 .search-loading .fa-spinner {
   animation: spin 1.2s linear infinite;
 }
+
 @keyframes spin {
-  100% { transform: rotate(360deg); }
+  100% {
+    transform: rotate(360deg);
+  }
 }
+
 /* Migliora la griglia risultati cerca su mobile: una card per riga, centrata */
 @media (max-width: 900px) {
-  #searchMoviesResults.catalog-grid, #searchShowsResults.catalog-grid {
+
+  #searchMoviesResults.catalog-grid,
+  #searchShowsResults.catalog-grid {
     flex-direction: column;
     align-items: center;
     gap: 1.1em 0;
   }
-  #searchMoviesResults .catalog-card, #searchShowsResults .catalog-card {
+
+  #searchMoviesResults .catalog-card,
+  #searchShowsResults .catalog-card {
     width: 92vw;
     min-width: 180px;
     max-width: 98vw;
@@ -1054,6 +1249,7 @@ h1 {
     margin: 0.2em 0;
   }
 }
+
 /* --- END SEARCH PAGE IMPROVEMENTS --- */
 
 /* --- GRIGLIE A SCORRIMENTO ORIZZONTALE SEMPRE --- */
@@ -1073,10 +1269,12 @@ h1 {
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
 }
+
 .catalog-card {
   flex: 0 0 auto !important;
   scroll-snap-align: start;
 }
+
 /* Nascondi scrollbar per estetica */
 .catalog-grid::-webkit-scrollbar,
 #searchMoviesResults.catalog-grid::-webkit-scrollbar,
@@ -1084,13 +1282,16 @@ h1 {
   height: 0.5em;
   background: transparent;
 }
+
 .catalog-grid::-webkit-scrollbar-thumb,
 #searchMoviesResults.catalog-grid::-webkit-scrollbar-thumb,
 #searchShowsResults.catalog-grid::-webkit-scrollbar-thumb {
   background: #23272f;
   border-radius: 1em;
 }
+
 @media (max-width: 900px) {
+
   .catalog-grid,
   #searchMoviesResults.catalog-grid,
   #searchShowsResults.catalog-grid {
@@ -1098,12 +1299,15 @@ h1 {
     padding-bottom: 0.7em;
     width: 100vw;
   }
+
   .catalog-card {
     margin: 0 0.2em;
   }
 }
+
 /* Rimuovi tutte le regole che forzano la colonna sulle griglie */
 @media (max-width: 900px) {
+
   .catalog-grid,
   #searchMoviesResults.catalog-grid,
   #searchShowsResults.catalog-grid {
@@ -1113,11 +1317,13 @@ h1 {
     justify-content: flex-start;
   }
 }
+
 @media (max-width: 600px) {
   .catalog-grid {
     gap: 0.5em 0.5em;
   }
 }
+
 /* --- END GRIGLIE A SCORRIMENTO ORIZZONTALE SEMPRE --- */
 
 /* --- FIX: scrollbar solo sulla griglia, non su tutta la pagina --- */
@@ -1130,12 +1336,15 @@ h1 {
   width: 100%;
   box-sizing: border-box;
 }
+
 .main-content {
   overflow-x: visible;
 }
+
 body {
   overflow-x: hidden;
 }
+
 /* --- END FIX --- */
 
 /* --- FRECCE SCORRIMENTO DESKTOP --- */
@@ -1145,7 +1354,7 @@ body {
   top: 50%;
   transform: translateY(-50%);
   z-index: 10;
-  background: rgba(24,28,34,0.92);
+  background: rgba(24, 28, 34, 0.92);
   color: #4eb5f1;
   border: none;
   border-radius: 50%;
@@ -1160,34 +1369,43 @@ body {
   justify-content: center;
   opacity: 0.85;
 }
+
 .catalog-scroll-arrow:hover {
   background: #4eb5f1;
   color: #fff;
   opacity: 1;
 }
+
 .catalog-scroll-arrow.left {
   left: 0.5em;
 }
+
 .catalog-scroll-arrow.right {
-  right: 2em; /* Sposta la freccia destra più verso il centro */
+  right: 2em;
+  /* Sposta la freccia destra più verso il centro */
 }
+
 .catalog-scroll-arrow i {
   pointer-events: none;
 }
+
 @media (min-width: 901px) {
   .catalog-scroll-arrow {
     display: flex;
   }
+
   .catalog-grid-wrap {
     position: relative;
     width: 100%;
   }
 }
+
 @media (max-width: 900px) {
   .catalog-scroll-arrow {
     display: none !important;
   }
 }
+
 /* --- END FRECCE SCORRIMENTO DESKTOP --- */
 
 /* --- SCORRIMENTO ORIZZONTALE EPISODI E FRECCE --- */
@@ -1204,24 +1422,28 @@ body {
   scrollbar-width: thin;
   scrollbar-color: #4eb5f1 #23272f;
 }
+
 .episode-cards-wrap::-webkit-scrollbar {
   height: 8px;
   background: #23272f;
 }
+
 .episode-cards-wrap::-webkit-scrollbar-thumb {
   background: #4eb5f1;
   border-radius: 4px;
 }
+
 .episode-card {
   flex: 0 0 auto;
 }
+
 .episode-cards-arrow {
   display: none;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   z-index: 10;
-  background: rgba(24,28,34,0.92);
+  background: rgba(24, 28, 34, 0.92);
   color: #4eb5f1;
   border: none;
   border-radius: 50%;
@@ -1236,41 +1458,51 @@ body {
   justify-content: center;
   opacity: 0.85;
 }
+
 .episode-cards-arrow:hover {
   background: #4eb5f1;
   color: #fff;
   opacity: 1;
 }
+
 .episode-cards-arrow.left {
   left: 0.5em;
 }
+
 .episode-cards-arrow.right {
   right: 2em;
 }
+
 .episode-cards-arrow i {
   pointer-events: none;
 }
+
 @media (min-width: 901px) {
   .episode-cards-arrow {
     display: flex;
   }
+
   .episode-cards-wrap-wrap {
     position: relative;
     width: 100%;
   }
 }
+
 @media (max-width: 900px) {
   .episode-cards-wrap {
     gap: 0.7em;
     scrollbar-width: none;
   }
+
   .episode-cards-wrap::-webkit-scrollbar {
     display: none;
   }
+
   .episode-cards-arrow {
     display: none !important;
   }
 }
+
 /* --- END SCORRIMENTO ORIZZONTALE EPISODI E FRECCE --- */
 
 /* --- FIX: wrap stagioni/episodi e overflow --- */
@@ -1280,8 +1512,10 @@ body {
   width: 100%;
   box-sizing: border-box;
   margin-right: 0;
-  padding-right: 8px; /* spazio per scrollbar/frecce */
+  padding-right: 8px;
+  /* spazio per scrollbar/frecce */
 }
+
 .season-cards-wrap-wrap,
 .episode-cards-wrap-wrap {
   max-width: 100vw;
@@ -1290,7 +1524,9 @@ body {
   overflow-x: hidden;
   position: relative;
 }
+
 @media (max-width: 900px) {
+
   .season-cards-wrap,
   .episode-cards-wrap,
   .season-cards-wrap-wrap,
@@ -1302,4 +1538,5 @@ body {
     padding-right: 0;
   }
 }
+
 /* --- END FIX --- */

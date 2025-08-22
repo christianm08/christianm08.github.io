@@ -14,12 +14,17 @@
     <div class="sidebar">
         <div class="sidebar-title"><i class="fa-solid fa-clapperboard"></i> Streaming</div>
         <nav>
-            <ul>                
-                <li><a href="#" class="sidebar-link" id="home-link" onclick="goPage('index'); return false;"><i class="fa-solid fa-home"></i> <span>Torna alla home</span></a></li>
-                <li><a href="#" class="sidebar-link active" data-section="film"><i class="fa-solid fa-film"></i> <span>Film</span></a></li>
-                <li><a href="#" class="sidebar-link" data-section="serie-tv"><i class="fa-solid fa-tv"></i> <span>Serie TV</span></a></li>
-                <li><a href="#" class="sidebar-link" data-section="mia-lista"><i class="fa-solid fa-heart"></i> <span>Mia Lista</span></a></li>
-                <li><a href="#" class="sidebar-link" data-section="cerca" id="search-link"><i class="fa-solid fa-magnifying-glass"></i> <span>Cerca</span></a></li>
+            <ul>
+                <li><a href="#" class="sidebar-link" id="home-link" onclick="goPage('index'); return false;"><i
+                            class="fa-solid fa-home"></i> <span>Torna alla home</span></a></li>
+                <li><a href="#" class="sidebar-link active" data-section="film"><i class="fa-solid fa-film"></i>
+                        <span>Film</span></a></li>
+                <li><a href="#" class="sidebar-link" data-section="serie-tv"><i class="fa-solid fa-tv"></i> <span>Serie
+                            TV</span></a></li>
+                <li><a href="#" class="sidebar-link" data-section="mia-lista"><i class="fa-solid fa-heart"></i>
+                        <span>Mia Lista</span></a></li>
+                <li><a href="#" class="sidebar-link" data-section="cerca" id="search-link"><i
+                            class="fa-solid fa-magnifying-glass"></i> <span>Cerca</span></a></li>
             </ul>
         </nav>
     </div>
@@ -29,17 +34,17 @@
     </div>
     <script src="streaming_vecchio.js"></script>
     <script>
-    // Transizione fade-in per i contenuti dinamici
-    function showContent(html) {
-        const main = document.getElementById('mainContent');
-        main.style.opacity = 0;
-        setTimeout(() => {
-            main.innerHTML = html;
-            main.style.transition = 'opacity 0.5s cubic-bezier(0.22,1,0.36,1)';
-            main.style.opacity = 1;
-        }, 200);
-    }
-    // Esempio: puoi usare showContent('<h1>Nuovo contenuto</h1>') per vedere la transizione
+        // Transizione fade-in per i contenuti dinamici
+        function showContent(html) {
+            const main = document.getElementById('mainContent');
+            main.style.opacity = 0;
+            setTimeout(() => {
+                main.innerHTML = html;
+                main.style.transition = 'opacity 0.5s cubic-bezier(0.22,1,0.36,1)';
+                main.style.opacity = 1;
+            }, 200);
+        }
+        // Esempio: puoi usare showContent('<h1>Nuovo contenuto</h1>') per vedere la transizione
     </script>
 </body>
 

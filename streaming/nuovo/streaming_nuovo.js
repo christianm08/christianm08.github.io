@@ -5,7 +5,7 @@ class NetflixApp {
         this.apiBaseUrl = 'https://api.themoviedb.org/3';
         this.imageBaseUrl = 'https://image.tmdb.org/t/p/';
         this.vixSrcBaseUrl = 'https://vixsrc.to';
-        
+
         this.currentPage = 'home';
         this.currentContent = null;
         this.library = JSON.parse(localStorage.getItem('netflix-library') || '[]');
@@ -13,14 +13,14 @@ class NetflixApp {
         this.genres = [];
         this.searchTimeout = null;
         this.searchActive = false;
-        
+
         this.initializeApp();
     }
 
     async initializeApp() {
         this.setupEventListeners();
         await this.loadGenres();
-        
+
         // Handle URL hash on page load and hash changes
         window.addEventListener('hashchange', () => this.handleUrlHash());
         await this.handleUrlHash();
@@ -36,16 +36,16 @@ class NetflixApp {
 
         const parts = hash.split('/');
         const page = parts[0];
-        
+
         if (parts.length === 3 && (parts[1] === 'movie' || parts[1] === 'tv')) {
             // Handle content details: #page/type/id
             const type = parts[1];
             const id = parts[2];
-            
+
             // Load the basic content first
             await this.loadHomePage();
             this.showPage(page);
-            
+
             // Then fetch and show the specific content
             const content = await this.apiRequest(`/${type}/${id}`);
             if (content) {
@@ -74,7 +74,7 @@ class NetflixApp {
 
         searchToggle.addEventListener('click', () => {
             this.searchActive = !this.searchActive;
-            
+
             if (this.searchActive) {
                 searchInput.classList.add('active');
                 searchInput.focus();
@@ -91,7 +91,7 @@ class NetflixApp {
         searchInput.addEventListener('input', (e) => {
             clearTimeout(this.searchTimeout);
             const query = e.target.value.trim();
-            
+
             if (query.length > 2) {
                 this.searchTimeout = setTimeout(() => this.performSearch(query), 500);
             } else if (query.length === 0 && this.currentPage === 'search') {
@@ -176,11 +176,11 @@ class NetflixApp {
             });
 
             const response = await fetch(`${this.apiBaseUrl}${endpoint}?${queryParams}`);
-            
+
             if (!response.ok) {
                 throw new Error(`API Error: ${response.status}`);
             }
-            
+
             return await response.json();
         } catch (error) {
             console.error('API Request failed:', error);
@@ -237,9 +237,9 @@ class NetflixApp {
         if (pageLink) {
             pageLink.classList.add('active');
         }
-        
+
         document.getElementById('navMenu').classList.remove('active');
-        
+
         // Update URL hash for page navigation
         window.location.hash = page;
 
@@ -330,7 +330,7 @@ class NetflixApp {
         const heroInfoBtn = document.getElementById('heroInfoBtn');
 
         const title = content.title || content.name;
-        const backdropUrl = content.backdrop_path 
+        const backdropUrl = content.backdrop_path
             ? `${this.imageBaseUrl}original${content.backdrop_path}`
             : '';
 
@@ -385,9 +385,9 @@ class NetflixApp {
             const img = document.createElement('img');
             img.className = 'card-image loading';
             img.alt = title;
-            
+
             const posterUrl = `${this.imageBaseUrl}w500${posterPath}`;
-            
+
             this.loadImageWithFallback(posterUrl, (url) => {
                 img.src = url;
                 img.classList.remove('loading');
@@ -523,7 +523,7 @@ class NetflixApp {
 
     loadLibraryPage() {
         const libraryGrid = document.getElementById('libraryGrid');
-        
+
         if (this.library.length === 0) {
             libraryGrid.innerHTML = `
                 <div class="empty-library">
@@ -559,13 +559,13 @@ class NetflixApp {
             const response = await this.apiRequest('/search/multi', { query });
 
             if (response && response.results) {
-                const filteredResults = response.results.filter(item => 
-                    (item.media_type === 'movie' || item.media_type === 'tv') && 
+                const filteredResults = response.results.filter(item =>
+                    (item.media_type === 'movie' || item.media_type === 'tv') &&
                     (item.poster_path || item.title || item.name)
                 );
 
                 document.getElementById('searchQuery').textContent = `per "${query}"`;
-                
+
                 const searchGrid = document.getElementById('searchGrid');
                 if (filteredResults.length === 0) {
                     searchGrid.innerHTML = `
@@ -627,11 +627,11 @@ class NetflixApp {
     populateDetailsPage(content, type) {
         const detailsPage = document.getElementById('detailsPage');
         const detailsHero = detailsPage.querySelector('.details-hero');
-        
-        const backdropUrl = content.backdrop_path 
+
+        const backdropUrl = content.backdrop_path
             ? `${this.imageBaseUrl}original${content.backdrop_path}`
             : '';
-        
+
         if (backdropUrl) {
             this.loadImageWithFallback(backdropUrl, (url) => {
                 detailsHero.style.backgroundImage = `url(${url})`;
@@ -639,19 +639,19 @@ class NetflixApp {
         }
 
         document.getElementById('detailsTitle').textContent = content.title || content.name;
-        
+
         const year = content.release_date || content.first_air_date;
         document.getElementById('detailsYear').textContent = year ? new Date(year).getFullYear() : 'N/A';
-        
-        document.getElementById('detailsRating').innerHTML = 
+
+        document.getElementById('detailsRating').innerHTML =
             `<i class="fas fa-star"></i> ${content.vote_average ? content.vote_average.toFixed(1) : 'N/A'}`;
-        
-        const duration = type === 'movie' 
+
+        const duration = type === 'movie'
             ? `${content.runtime || 0} min`
             : `${content.number_of_seasons || 0} stagioni`;
         document.getElementById('detailsDuration').textContent = duration;
 
-        document.getElementById('detailsDescription').textContent = 
+        document.getElementById('detailsDescription').textContent =
             content.overview || 'Nessuna descrizione disponibile.';
 
         // Genres
@@ -673,10 +673,10 @@ class NetflixApp {
         playBtn.onclick = () => this.playContent(content, type);
 
         const isInLibrary = this.library.some(item => item.content.id === content.id && item.type === type);
-        libraryBtn.innerHTML = isInLibrary 
+        libraryBtn.innerHTML = isInLibrary
             ? '<i class="fas fa-check"></i> Nella Libreria'
             : '<i class="fas fa-plus"></i> La mia Libreria';
-        
+
         libraryBtn.onclick = () => this.toggleLibrary(content, type);
 
         // Cast
@@ -697,7 +697,7 @@ class NetflixApp {
 
         if (credits && credits.cast) {
             const mainCast = credits.cast.slice(0, 10);
-            
+
             mainCast.forEach(person => {
                 const castMember = document.createElement('div');
                 castMember.className = 'cast-member';
@@ -852,7 +852,7 @@ class NetflixApp {
     }
 
     toggleLibrary(content, type) {
-        const existingIndex = this.library.findIndex(item => 
+        const existingIndex = this.library.findIndex(item =>
             item.content.id === content.id && item.type === type
         );
 
@@ -869,7 +869,7 @@ class NetflixApp {
         // Update button
         const libraryBtn = document.getElementById('detailsLibraryBtn');
         const isInLibrary = existingIndex === -1;
-        libraryBtn.innerHTML = isInLibrary 
+        libraryBtn.innerHTML = isInLibrary
             ? '<i class="fas fa-check"></i> Nella Libreria'
             : '<i class="fas fa-plus"></i> La mia Libreria';
 
@@ -922,10 +922,10 @@ class NetflixApp {
             }
             const episodes = this.watchedContent[type][contentId].episodes;
             episodes[episodeId] = forceWatched || !episodes[episodeId];
-            
+
             // Update series watched status based on all episodes
             const allEpisodes = document.querySelectorAll(`[data-series-id="${contentId}"] .episode-card`);
-            const allWatched = Array.from(allEpisodes).every(ep => 
+            const allWatched = Array.from(allEpisodes).every(ep =>
                 episodes[ep.getAttribute('data-episode-id')]
             );
             this.watchedContent[type][contentId].fullyWatched = allWatched;
@@ -940,7 +940,7 @@ class NetflixApp {
 
         // Save to localStorage
         localStorage.setItem('netflix-watched', JSON.stringify(this.watchedContent));
-        
+
         // Update UI
         this.updateWatchedUI(contentId, type, episodeId);
     }
@@ -959,7 +959,7 @@ class NetflixApp {
 
     updateWatchedUI(contentId, type, episodeId = null) {
         const isWatched = this.isWatched(contentId, type, episodeId);
-        
+
         if (episodeId) {
             // Update episode UI
             const episodeCard = document.querySelector(`.episode-card[data-episode-id="${episodeId}"]`);
@@ -985,19 +985,19 @@ class NetflixApp {
         const watchedIcon = document.createElement('div');
         watchedIcon.className = 'watched-icon';
         watchedIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
-        
+
         const isWatched = this.isWatched(contentId, type, episodeId);
         if (isWatched) {
             watchedIcon.classList.add('watched');
         }
-        
+
         watchedIcon.title = isWatched ? 'Contrassegna come non visto' : 'Contrassegna come visto';
-        
+
         watchedIcon.addEventListener('click', (e) => {
             e.stopPropagation();
             this.toggleWatched(contentId, type, episodeId);
         });
-        
+
         element.appendChild(watchedIcon);
     }
 }
