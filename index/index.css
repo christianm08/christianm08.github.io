@@ -780,6 +780,24 @@ select.form-control {
   box-sizing: border-box;
 }
 
+footer {
+  background-color: var(--color-surface); /* stesso background delle card */
+  border-radius: var(--radius-lg);       /* stesso border-radius */
+  box-shadow: var(--shadow-sm);           /* ombra leggera come le card */
+  padding: var(--space-24);                /* padding simile alle card */
+  color: var(--color-text-secondary);     /* colore del testo coerente */
+  text-align: center;                      /* centratura testo */
+  display: flex;                          /* per centratura contenuto verticale orizzontale */
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  border: 1px solid var(--color-card-border); /* bordo coerente */
+  grid-row: 3 / 5;      /* Occupa riga 3 e 4 */
+  grid-column: 1 / -1;  /* Occupa tutte le colonne */
+}
+
+
 body {
   font-family: var(--font-family-base);
   background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%);
@@ -803,7 +821,7 @@ body {
 .grid-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-32);
+  gap: 15px;
   max-width: 1300px;
   width: 100%
 }
@@ -1050,6 +1068,10 @@ body {
     grid-template-columns: 1fr;
     gap: var(--space-20);
     max-width: 400px;
+  }
+
+  footer {
+    grid-row: 5 / 6;   /* occupa solo la riga 5 */
   }
 
   .card {
