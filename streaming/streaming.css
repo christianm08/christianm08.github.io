@@ -302,13 +302,6 @@ body::before {
   margin-bottom: 100px;
   max-width: 650px;
   z-index: 2;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.3) 100%);
-  backdrop-filter: blur(15px) saturate(150%);
-  -webkit-backdrop-filter: blur(15px) saturate(150%);
-  border-radius: var(--border-radius-lg);
-  padding: 40px;
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow-lg);
 }
 
 .hero-info {
@@ -319,12 +312,8 @@ body::before {
   font-size: 3.5rem;
   font-weight: 800;
   margin-bottom: 20px;
-  background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8));
+  color: var(--netflix-white);
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 .hero-description {
@@ -333,7 +322,7 @@ body::before {
   opacity: 0.95;
   color: #f0f0f0;
   line-height: 1.6;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
 }
 
 .hero-buttons {
@@ -704,12 +693,36 @@ body::before {
   padding: 0 4%;
   margin-bottom: 100px;
   max-width: 750px;
+  max-height: 70vh;
   z-index: 2;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--glass-bg-hover) transparent;
+}
+
+.details-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.details-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.details-content::-webkit-scrollbar-thumb {
+  background: var(--glass-bg-hover);
+  border-radius: 4px;
+}
+
+.details-content::-webkit-scrollbar-thumb:hover {
+  background: var(--netflix-red);
+}
+
+.details-info {
   background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.4) 100%);
   backdrop-filter: blur(20px) saturate(150%);
   -webkit-backdrop-filter: blur(20px) saturate(150%);
   border-radius: var(--border-radius-lg);
-  padding: 50px;
+  padding: 40px;
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow-lg);
 }
@@ -749,6 +762,7 @@ body::before {
   color: #f0f0f0;
   line-height: 1.7;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  max-height: none;
 }
 
 .details-genres {
@@ -1154,7 +1168,6 @@ body::before {
 
   .hero-content {
     max-width: 90%;
-    padding: 30px;
   }
 
   .hero-title {
@@ -1183,7 +1196,10 @@ body::before {
 
   .details-content {
     max-width: 90%;
-    padding: 35px;
+  }
+
+  .details-info {
+    padding: 30px;
   }
 
   .details-title {
@@ -1220,6 +1236,10 @@ body::before {
 
   .search-input.active {
     width: 140px;
+  }
+
+  .details-info {
+    padding: 25px;
   }
 
   .seasons-section,
