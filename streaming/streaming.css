@@ -897,6 +897,29 @@ body::before {
   margin-bottom: 60px;
 }
 
+.description-section,
+.seasons-section,
+.cast-section {
+  margin-bottom: 50px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  border-radius: var(--border-radius-lg);
+  padding: 40px;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+.description-section {
+  margin-bottom: 50px;
+}
+
+.description-section .details-description {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #e0e0e0;
+  margin: 0;
+}
+
 .seasons-section,
 .cast-section {
   margin-bottom: 50px;
@@ -1390,18 +1413,19 @@ body::before {
 
   /* Details page mobile */
   .details-hero {
-    height: 50vh;
+    height: 70vh;
     margin-bottom: 30px;
   }
 
   .details-content {
     /* Desktop e default: no background, no glass, no border */
     padding: 0 4%;
-    margin-bottom: 100px;
-    max-width: 750px;
-    max-height: 70vh;
+    margin-bottom: 20px;
+    width: 100%;
+    max-height: 66vh;
     z-index: 2;
     overflow-y: auto;
+    overflow-x: hidden;
     scrollbar-width: thin;
     scrollbar-color: var(--glass-bg-hover) transparent;
     background: none;
@@ -1423,7 +1447,7 @@ body::before {
   }
 
   .details-info {
-    padding: 25px 20px;
+    padding: 20px;
   }
 
   .details-title {
