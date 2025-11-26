@@ -59,11 +59,20 @@ class workflixApp {
     }
 
     setupEventListeners() {
-        // Navigation
+        // Desktop Navigation
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const page = e.target.getAttribute('data-page');
+                this.navigateToPage(page);
+            });
+        });
+
+        // Mobile Bottom Navigation
+        document.querySelectorAll('.mobile-nav-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const page = e.currentTarget.getAttribute('data-page');
                 this.navigateToPage(page);
             });
         });
@@ -229,13 +238,22 @@ class workflixApp {
     }
 
     navigateToPage(page) {
+        // Update desktop nav links
         document.querySelectorAll('.nav-link').forEach(link => {
             link.classList.remove('active');
         });
+        const desktopPageLink = document.querySelector(`.nav-link[data-page="${page}"]`);
+        if (desktopPageLink) {
+            desktopPageLink.classList.add('active');
+        }
 
-        const pageLink = document.querySelector(`[data-page="${page}"]`);
-        if (pageLink) {
-            pageLink.classList.add('active');
+        // Update mobile nav items
+        document.querySelectorAll('.mobile-nav-item').forEach(item => {
+            item.classList.remove('active');
+        });
+        const mobilePageLink = document.querySelector(`.mobile-nav-item[data-page="${page}"]`);
+        if (mobilePageLink) {
+            mobilePageLink.classList.add('active');
         }
 
         document.getElementById('navMenu').classList.remove('active');
