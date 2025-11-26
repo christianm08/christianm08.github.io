@@ -10,16 +10,7 @@ const cardsData = {
         subtitle: "accedi ai nuovi canali live",
         link: "#live"
     },
-    "streaming-old": {
-        title: "CHRISTIANM08",
-        subtitle: "Streaming (vecchio)",
-        link: "#christianm08"
-    },
-    "live-old": {
-        title: "Live (vecchio)",
-        subtitle: "",
-        link: "#live-old"
-    }
+
 };
 
 // Funzione per navigare senza .html nell'URL

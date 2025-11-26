@@ -780,6 +780,13 @@ select.form-control {
   box-sizing: border-box;
 }
 
+header {
+  margin-bottom: var(--space-32);
+  text-align: center;
+  grid-row: 0 / 2;      /* Occupa riga 0 e 1 */
+  grid-column: 1 / -1;  /* Occupa tutte le colonne */
+}
+
 footer {
   background-color: var(--color-surface); /* stesso background delle card */
   border-radius: var(--radius-lg);       /* stesso border-radius */
@@ -793,7 +800,7 @@ footer {
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
   border: 1px solid var(--color-card-border); /* bordo coerente */
-  grid-row: 3 / 5;      /* Occupa riga 3 e 4 */
+  grid-row: 5 / 7;      /* Occupa riga 5 e 6 */
   grid-column: 1 / -1;  /* Occupa tutte le colonne */
 }
 
