@@ -1067,8 +1067,8 @@ body::before {
 }
 
 .player-modal-content {
-  width: 70%;
-  height: 70%;
+  width: 80%;
+  height: 80%;
   max-width: 1200px;
   max-height: 825px;
   aspect-ratio: 16 / 11;
