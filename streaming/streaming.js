@@ -812,6 +812,7 @@ class workflixApp {
     playContent(content, type, seasonNumber = null, episodeNumber = null) {
         const playerTitle = document.getElementById('playerTitle');
         const playerIframe = document.getElementById('playerIframe');
+        const playerModal = document.getElementById('playerModal');
 
         // Mark as watched when playing
         if (type === 'movie') {
@@ -834,13 +835,14 @@ class workflixApp {
         playerTitle.textContent = title;
         playerIframe.src = videoUrl;
 
-        this.showPage('player');
+        playerModal.classList.remove('hidden');
     }
 
     async playTVEpisode(tvId, seasonNumber, episodeNumber, episodeTitle) {
         const content = this.currentContent;
         const playerTitle = document.getElementById('playerTitle');
         const playerIframe = document.getElementById('playerIframe');
+        const playerModal = document.getElementById('playerModal');
 
         // Get episode details to get the episode ID
         try {
@@ -861,12 +863,12 @@ class workflixApp {
         playerTitle.textContent = title;
         playerIframe.src = videoUrl;
 
-        this.showPage('player');
+        playerModal.classList.remove('hidden');
     }
 
     goBackFromPlayer() {
         document.getElementById('playerIframe').src = '';
-        this.showPage('details');
+        document.getElementById('playerModal').classList.add('hidden');
     }
 
     toggleLibrary(content, type) {
