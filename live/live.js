@@ -1,5 +1,5 @@
 // StreamHub App - Versione semplificata e funzionante
-let currentServer = 'dlhd.click';
+let currentServer = 'dlhd.dad/stream';
 let currentFilter = 'all';
 
 const channels = [
@@ -114,7 +114,7 @@ function openPlayer(channelName, streamFile) {
     }
 
     // Build URL
-    const streamUrl = `https://${currentServer}/embed/${streamFile}`;
+    const streamUrl = `https://${currentServer}/${streamFile}`;
     console.log('Stream URL:', streamUrl);
 
     setTimeout(() => {
