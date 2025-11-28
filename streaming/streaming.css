@@ -1,5 +1,8 @@
+/* =====================================================
+   VARIABILI CSS - DEFINIZIONE COLORI E ANIMAZIONI
+   ===================================================== */
 :root {
-  /* Primitive Color Tokens */
+  /* Tavolozza di colori primari */
   --color-white: rgba(255, 255, 255, 1);
   --color-black: rgba(0, 0, 0, 1);
   --color-cream-50: rgba(252, 252, 249, 1);
@@ -23,7 +26,7 @@
   --color-orange-400: rgba(230, 129, 97, 1);
   --color-orange-500: rgba(168, 75, 47, 1);
 
-  /* Liquid Glass Variables */
+  /* Effetti vetro liquido (glassmorphism) */
   --glass-bg: rgba(255, 255, 255, 0.05);
   --glass-bg-hover: rgba(255, 255, 255, 0.1);
   --glass-border: rgba(255, 255, 255, 0.15);
@@ -33,7 +36,7 @@
   --glass-glow: 0 0 20px rgba(229, 9, 20, 0.3);
   --glass-glow-bright: 0 0 30px rgba(229, 9, 20, 0.5);
 
-  /* Netflix-inspired colors */
+  /* Colori ispirati a Netflix */
   --netflix-red: #E50914;
   --netflix-red-dark: #B20710;
   --netflix-red-light: #FF1E29;
@@ -44,13 +47,13 @@
   --netflix-text-gray: #757575;
   --netflix-white: #FFFFFF;
 
-  /* Typography */
+  /* Tipografia */
   --font-family-base: "FKGroteskNeue", "Geist", "Inter", -apple-system,
     BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-family-mono: "Berkeley Mono", ui-monospace, SFMono-Regular, Menlo,
     Monaco, Consolas, monospace;
 
-  /* Spacing & Animations */
+  /* Spaziature e animazioni */
   --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-fast: all 0.2s ease-out;
   --border-radius: 12px;
@@ -75,6 +78,7 @@ body {
   position: relative;
 }
 
+/* Effetto background decorativo con sfumature radiali */
 body::before {
   content: '';
   position: fixed;
@@ -89,7 +93,9 @@ body::before {
   z-index: 0;
 }
 
-/* Liquid Glass Navbar */
+/* =====================================================
+   BARRA DI NAVIGAZIONE - GLASSMORPHISM
+   ===================================================== */
 .navbar {
   position: fixed;
   top: 0;
@@ -111,6 +117,7 @@ body::before {
   box-shadow: var(--glass-shadow-lg);
 }
 
+/* Contenuto della navbar con layout flex */
 .navbar-content {
   display: flex;
   justify-content: space-between;
@@ -138,6 +145,7 @@ body::before {
   transform: scale(1.05);
 }
 
+/* Menu navigazione */
 .nav-menu {
   display: flex;
   gap: 25px;
@@ -177,13 +185,16 @@ body::before {
   text-shadow: 0 0 10px rgba(229, 9, 20, 0.5);
 }
 
+/* Sezione destra della navbar */
 .navbar-right {
   display: flex;
   align-items: center;
   gap: 20px;
 }
 
-/* Liquid Glass Search */
+/* =====================================================
+   BARRA DI RICERCA - GLASSMORPHISM
+   ===================================================== */
 .search-container {
   position: relative;
   display: flex;
@@ -249,6 +260,7 @@ body::before {
   color: var(--netflix-text-gray);
 }
 
+/* Pulsante toggle menu mobile */
 .mobile-menu-toggle {
   display: none;
   color: var(--netflix-white);
@@ -266,7 +278,9 @@ body::before {
   box-shadow: var(--glass-glow);
 }
 
-/* Mobile Bottom Navigation Bar */
+/* =====================================================
+   NAVIGAZIONE MOBILE - BARRA INFERIORE
+   ===================================================== */
 .mobile-bottom-nav {
   display: none;
   position: fixed;
@@ -345,7 +359,9 @@ body::before {
   transform: scale(0.95);
 }
 
-/* Main Content */
+/* =====================================================
+   CONTENUTO PRINCIPALE
+   ===================================================== */
 .main-content {
   margin-top: 70px;
   min-height: calc(100vh - 70px);
@@ -362,7 +378,9 @@ body::before {
   display: none;
 }
 
-/* Liquid Glass Hero Banner */
+/* =====================================================
+   HERO BANNER - SEZIONE PRINCIPALE
+   ===================================================== */
 .hero-banner {
   height: 85vh;
   background-size: cover;
@@ -422,7 +440,9 @@ body::before {
       transparent 100%);
 }
 
-/* Liquid Glass Buttons */
+/* =====================================================
+   PULSANTI - GLASSMORPHISM
+   ===================================================== */
 .btn {
   padding: 14px 28px;
   border: none;
@@ -493,7 +513,9 @@ body::before {
   transform: translateY(0) scale(0.98);
 }
 
-/* Content Sections */
+/* =====================================================
+   SEZIONI CONTENUTO
+   ===================================================== */
 .content-sections {
   padding: 0 4%;
   margin-bottom: 60px;
@@ -541,7 +563,9 @@ body::before {
   background-clip: padding-box;
 }
 
-/* Liquid Glass Content Cards */
+/* =====================================================
+   CARTE CONTENUTO - GLASSMORPHISM
+   ===================================================== */
 .content-card {
   flex-shrink: 0;
   width: 200px;
@@ -567,6 +591,7 @@ body::before {
   padding: 1px;
   background: linear-gradient(135deg, var(--glass-border) 0%, transparent 100%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   opacity: 0;
@@ -658,7 +683,9 @@ body::before {
   opacity: 0.5;
 }
 
-/* Liquid Glass Page Headers */
+/* =====================================================
+   INTESTAZIONI PAGINA - GLASSMORPHISM
+   ===================================================== */
 .page-header {
   padding: 40px 4% 30px;
   display: flex;
@@ -715,7 +742,9 @@ body::before {
   color: var(--netflix-white);
 }
 
-/* Content Grid */
+/* =====================================================
+   GRIGLIA CONTENUTO
+   ===================================================== */
 .content-grid {
   padding: 0 4%;
   display: grid;
@@ -724,7 +753,9 @@ body::before {
   margin-bottom: 60px;
 }
 
-/* Empty States */
+/* =====================================================
+   STATI VUOTI - MESSAGGI PLACEHOLDER
+   ===================================================== */
 .empty-library,
 .no-results {
   text-align: center;
@@ -753,7 +784,9 @@ body::before {
   color: var(--netflix-white);
 }
 
-/* Details Page */
+/* =====================================================
+   PAGINA DETTAGLI - CONTENUTO DINAMICO
+   ===================================================== */
 .details-hero {
   height: 85vh;
   background-size: cover;
@@ -794,6 +827,7 @@ body::before {
   background: var(--netflix-red);
 }
 
+/* Riquadro informazioni dettagli con effetto glassmorphic */
 .details-info {
   background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.4) 100%);
   backdrop-filter: blur(20px) saturate(150%);
@@ -871,6 +905,7 @@ body::before {
   gap: 15px;
 }
 
+/* Overlay gradiente per hero banner dettagli */
 .details-overlay {
   position: absolute;
   top: 0;
@@ -884,7 +919,9 @@ body::before {
       transparent 100%);
 }
 
-/* Details Sections */
+/* =====================================================
+   SEZIONI DETTAGLI - SERIE TV E CAST
+   ===================================================== */
 .details-sections {
   padding: 0 4%;
   margin-bottom: 60px;
@@ -979,6 +1016,7 @@ body::before {
   color: #e0e0e0;
 }
 
+/* Elenco del cast - Scroll orizzontale */
 .cast-list {
   display: flex;
   gap: 25px;
@@ -1040,7 +1078,9 @@ body::before {
   color: var(--netflix-text-gray);
 }
 
-/* Video Player Modal */
+/* =====================================================
+   MODAL PLAYER VIDEO
+   ===================================================== */
 .player-modal {
   position: fixed;
   top: 0;
@@ -1060,6 +1100,7 @@ body::before {
   display: none;
 }
 
+/* Contenitore principale del player - Dimensioni responsive */
 .player-modal-content {
   width: 80%;
   height: 80%;
@@ -1076,6 +1117,7 @@ body::before {
   animation: playerSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Animazione apertura player */
 @keyframes playerSlideIn {
   from {
     transform: scale(0.95);
@@ -1088,6 +1130,7 @@ body::before {
   }
 }
 
+/* Intestazione del player video */
 .player-header {
   background: var(--glass-bg);
   backdrop-filter: blur(25px) saturate(180%);
@@ -1147,7 +1190,9 @@ body::before {
   border: none;
 }
 
-/* Loading States */
+/* =====================================================
+   STATI DI CARICAMENTO - SCHELETRI ANIMATI
+   ===================================================== */
 .loading-skeleton {
   padding: 0 4%;
 }
@@ -1188,6 +1233,7 @@ body::before {
   padding: 0 4%;
 }
 
+/* Animazione shimmer per scheletri di caricamento */
 @keyframes shimmer {
   0% {
     background-position: -200px 0;
@@ -1198,7 +1244,9 @@ body::before {
   }
 }
 
-/* Loading Spinner */
+/* =====================================================
+/* SPINNER DI CARICAMENTO
+   ===================================================== */
 .loading-spinner {
   position: fixed;
   top: 0;
@@ -1214,6 +1262,7 @@ body::before {
   z-index: 9999;
 }
 
+/* Spinner rotante */
 .spinner {
   width: 60px;
   height: 60px;
@@ -1225,6 +1274,7 @@ body::before {
   box-shadow: 0 0 20px rgba(229, 9, 20, 0.3);
 }
 
+/* Animazione rotazione spinner */
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -1235,7 +1285,10 @@ body::before {
   }
 }
 
-/* Toast Notification */
+/* =====================================================
+   NOTIFICHE TOAST
+   ===================================================== */
+/* Notifica toast con glassmorphism */
 .toast {
   position: fixed;
   bottom: 40px;
@@ -1253,6 +1306,7 @@ body::before {
   font-weight: 500;
 }
 
+/* Animazione scorrimento toast */
 @keyframes slideUp {
   from {
     transform: translate(-50%, 100px);
@@ -1265,7 +1319,9 @@ body::before {
   }
 }
 
-/* Search Page */
+/* =====================================================
+   PAGINA RICERCA
+   ===================================================== */
 .search-query {
   color: var(--netflix-text-gray);
   font-size: 1.3rem;
@@ -1276,7 +1332,9 @@ body::before {
   border: 1px solid var(--glass-border);
 }
 
-/* Responsive Design */
+/* =====================================================
+   DESIGN RESPONSIVO - TABLET (1024px E INFERIORE)
+   ===================================================== */
 @media (max-width: 1024px) {
   .content-card {
     width: 180px;
@@ -1292,6 +1350,9 @@ body::before {
   }
 }
 
+/* =====================================================
+   DESIGN RESPONSIVO - MOBILE (768px E INFERIORE)
+   ===================================================== */
 @media (max-width: 768px) {
 
   /* Hide desktop navbar elements */
@@ -1655,6 +1716,9 @@ body::before {
   }
 }
 
+/* =====================================================
+   DESIGN RESPONSIVO - SMARTPHONE (480px E INFERIORE)
+   ===================================================== */
 @media (max-width: 480px) {
   .hero-title {
     font-size: 1.6rem;
@@ -1715,11 +1779,14 @@ body::before {
   }
 }
 
-/* Utilities */
+/* =====================================================
+   UTILITY E STATO FOCUS - ACCESSIBILITÀ
+   ===================================================== */
 .hidden {
   display: none !important;
 }
 
+/* Animazione dissolvenza ingresso */
 .fade-in {
   animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -1736,17 +1803,20 @@ body::before {
   }
 }
 
-/* Enhanced Focus States for Accessibility */
+/* Stati focus migliorati per accessibilità */
 *:focus-visible {
   outline: 2px solid var(--netflix-red);
   outline-offset: 4px;
 }
 
-/* Smooth Scrolling */
+/* Scorrimento fluido per la pagina */
 html {
   scroll-behavior: smooth;
 }
 
+/* =====================================================
+   FONT PERSONALIZZATI
+   ===================================================== */
 @font-face {
   font-family: 'FKGroteskNeue';
   src: url('fonts/FKGroteskNeue.woff2') format('woff2');
