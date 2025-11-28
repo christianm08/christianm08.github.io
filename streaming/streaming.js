@@ -13,7 +13,6 @@ class workflixApp {
         this.genres = [];
         this.searchTimeout = null;
         this.searchActive = false;
-        this.isMobile = window.innerWidth <= 768;
 
         this.initializeApp();
     }
@@ -25,15 +24,10 @@ class workflixApp {
         // Handle URL hash on page load and hash changes
         window.addEventListener('hashchange', () => this.handleUrlHash());
         await this.handleUrlHash();
-        
-        // Update isMobile on window resize
-        window.addEventListener('resize', () => {
-            this.isMobile = window.innerWidth <= 768;
-        });
     }
 
     async handleUrlHash() {
-        const hash = window.location.hash.slice(1);
+        const hash = window.location.hash.slice(1); // Remove the # symbol
         if (!hash) {
             await this.loadHomePage();
             this.showPage('home');
@@ -44,17 +38,21 @@ class workflixApp {
         const page = parts[0];
 
         if (parts.length === 3 && (parts[1] === 'movie' || parts[1] === 'tv')) {
+            // Handle content details: #page/type/id
             const type = parts[1];
             const id = parts[2];
 
+            // Load the basic content first
             await this.loadHomePage();
             this.showPage(page);
 
+            // Then fetch and show the specific content
             const content = await this.apiRequest(`/${type}/${id}`);
             if (content) {
                 this.showContentDetails(content, type);
             }
         } else {
+            // Handle simple page navigation
             await this.loadHomePage();
             this.showPage(page);
         }
@@ -92,6 +90,7 @@ class workflixApp {
             } else {
                 searchInput.classList.remove('active');
                 searchInput.value = '';
+                // Return to previous page if currently on search
                 if (this.currentPage === 'search') {
                     this.navigateToPage('home');
                 }
@@ -118,6 +117,7 @@ class workflixApp {
             }
         });
 
+        // Click outside to close search
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.search-container') && this.searchActive) {
                 this.searchActive = false;
@@ -317,6 +317,7 @@ class workflixApp {
                 this.createContentRow('Serie TV Popolari', popularTV.results, 'tv');
             }
 
+            // Load genre-specific content
             const actionMovies = await this.apiRequest('/discover/movie', { with_genres: 28, page: 1 });
             if (actionMovies && actionMovies.results) {
                 this.createContentRow('Film d\'Azione', actionMovies.results, 'movie');
@@ -396,125 +397,35 @@ class workflixApp {
         card.setAttribute('data-type', type);
 
         const title = item.title || item.name;
-        
-        // Create image box wrapper
-        const imageBox = document.createElement('div');
-        imageBox.className = 'card-image-box';
-        
-        // Desktop: use backdrop (16:9), Mobile: use poster (2:3)
-        const imagePath = this.isMobile ? item.poster_path : item.backdrop_path;
-        const imageSize = this.isMobile ? 'w342' : 'w780';
-        
-        if (imagePath) {
-            const img = document.createElement('img');
-            img.className = 'card-image';
-            img.alt = title;
-            const imageUrl = `${this.imageBaseUrl}${imageSize}${imagePath}`;
-            
-            this.loadImageWithFallback(imageUrl, (url) => {
-                img.src = url;
-            }, () => {
-                img.src = this.createFallbackImageData(item, type);
-            });
-            
-            imageBox.appendChild(img);
-            
-            // Create hover preview popup (desktop only)
-            if (!this.isMobile) {
-                const popup = this.createPreviewPopup(item, type);
-                imageBox.appendChild(popup);
-            }
-        } else {
-            imageBox.innerHTML = this.createFallbackCard(item, type);
-        }
-        
-        card.appendChild(imageBox);
-        
-        // Mobile overlay
-        if (this.isMobile) {
-            const overlay = this.createMobileOverlay(item, type);
-            imageBox.appendChild(overlay);
-        }
-        
-        // Click handler to show details
-        card.addEventListener('click', (e) => {
-            // Prevent details if clicking on popup buttons
-            if (!e.target.closest('.card-preview-btn')) {
-                this.showContentDetails(item, type);
-            }
-        });
+        const posterPath = item.poster_path;
 
-        return card;
-    }
-    
-    createPreviewPopup(item, type) {
-        const popup = document.createElement('div');
-        popup.className = 'card-preview-popup';
-        
-        const title = item.title || item.name;
-        const backdropPath = item.backdrop_path;
-        const year = item.release_date || item.first_air_date;
-        const rating = item.vote_average ? Math.round(item.vote_average * 10) : null;
-        const duration = type === 'movie' ? (item.runtime || '—') : (item.number_of_seasons ? `${item.number_of_seasons} stagioni` : '—');
-        
-        // Get genre names
-        const genreIds = item.genre_ids || [];
-        const genreList = this.genres[type] || [];
-        const genres = genreIds.slice(0, 3).map(id => {
-            const genre = genreList.find(g => g.id === id);
-            return genre ? genre.name : null;
-        }).filter(Boolean);
-        
-        popup.innerHTML = `
-            <img class="card-preview-backdrop" src="${backdropPath ? this.imageBaseUrl + 'w780' + backdropPath : ''}" alt="${title}">
-            <div class="card-preview-details">
-                <div class="card-preview-title">${title}</div>
-                <div class="card-preview-meta">
-                    ${rating ? `<span class="card-preview-rating">${rating}% Match</span>` : ''}
-                    ${year ? `<span class="card-preview-year">${new Date(year).getFullYear()}</span>` : ''}
-                    <span class="card-preview-duration">${duration}</span>
-                </div>
-                ${genres.length > 0 ? `
-                    <div class="card-preview-genres">
-                        ${genres.map(g => `<span class="card-preview-genre">${g}</span>`).join('')}
-                    </div>
-                ` : ''}
-                <div class="card-preview-description">${this.truncateText(item.overview || 'Nessuna descrizione disponibile.', 140)}</div>
-                <div class="card-preview-buttons">
-                    <button class="card-preview-btn card-preview-btn-play" onclick="event.stopPropagation();">
-                        <i class="fas fa-play"></i> Play
-                    </button>
-                    <button class="card-preview-btn card-preview-btn-info" onclick="event.stopPropagation();">
-                        <i class="fas fa-info-circle"></i> Info
-                    </button>
-                </div>
-            </div>
-        `;
-        
-        // Add button event listeners
-        const playBtn = popup.querySelector('.card-preview-btn-play');
-        const infoBtn = popup.querySelector('.card-preview-btn-info');
-        
-        playBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.playContent(item, type);
-        });
-        
-        infoBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.showContentDetails(item, type);
-        });
-        
-        return popup;
-    }
-    
-    createMobileOverlay(item, type) {
+        if (posterPath) {
+            const img = document.createElement('img');
+            img.className = 'card-image loading';
+            img.alt = title;
+
+            const posterUrl = `${this.imageBaseUrl}w500${posterPath}`;
+
+            this.loadImageWithFallback(posterUrl, (url) => {
+                img.src = url;
+                img.classList.remove('loading');
+            }, () => {
+                // Fallback for failed image load
+                card.innerHTML = this.createFallbackCard(item, type);
+            });
+
+            card.appendChild(img);
+        } else {
+            // No poster available
+            card.innerHTML = this.createFallbackCard(item, type);
+        }
+
         const overlay = document.createElement('div');
         overlay.className = 'card-overlay';
 
         const cardTitle = document.createElement('div');
         cardTitle.className = 'card-title';
-        cardTitle.textContent = item.title || item.name;
+        cardTitle.textContent = title;
 
         const cardMeta = document.createElement('div');
         cardMeta.className = 'card-meta';
@@ -527,13 +438,26 @@ class workflixApp {
         rating.className = 'card-rating';
         rating.innerHTML = `<i class="fas fa-star"></i> ${item.vote_average ? item.vote_average.toFixed(1) : 'N/A'}`;
 
+        // Add watched button
+        this.addWatchedButton(overlay, item.id, type);
+
         cardMeta.appendChild(year);
         cardMeta.appendChild(rating);
 
         overlay.appendChild(cardTitle);
         overlay.appendChild(cardMeta);
-        
-        return overlay;
+
+        if (!posterPath) {
+            // For fallback cards, overlay should always be visible
+            overlay.style.opacity = '1';
+            overlay.style.background = 'rgba(0, 0, 0, 0.7)';
+        }
+
+        card.appendChild(overlay);
+
+        card.addEventListener('click', () => this.showContentDetails(item, type));
+
+        return card;
     }
 
     createFallbackCard(item, type) {
@@ -552,10 +476,6 @@ class workflixApp {
                 </div>
             </div>
         `;
-    }
-    
-    createFallbackImageData(item, type) {
-        return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='600' viewBox='0 0 400 600'%3E%3Crect width='400' height='600' fill='%23141414'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' fill='%23564D4D' font-size='48' font-family='Arial'%3E${type === 'movie' ? '🎬' : '📺'}%3C/text%3E%3C/svg%3E`;
     }
 
     loadImageWithFallback(url, onSuccess, onError) {
@@ -659,7 +579,7 @@ class workflixApp {
             if (response && response.results) {
                 const filteredResults = response.results.filter(item =>
                     (item.media_type === 'movie' || item.media_type === 'tv') &&
-                    (item.poster_path || item.backdrop_path || item.title || item.name)
+                    (item.poster_path || item.title || item.name)
                 );
 
                 document.getElementById('searchQuery').textContent = `per "${query}"`;
@@ -697,6 +617,7 @@ class workflixApp {
         try {
             this.showLoadingSpinner();
 
+            // Update URL hash with content type and ID
             window.location.hash = `${this.currentPage}/${type}/${content.id}`;
 
             const detailsResponse = await this.apiRequest(`/${type}/${content.id}`, {
@@ -751,6 +672,7 @@ class workflixApp {
         document.getElementById('detailsDescription').textContent =
             content.overview || 'Nessuna descrizione disponibile.';
 
+        // Genres
         const genresContainer = document.getElementById('detailsGenres');
         genresContainer.innerHTML = '';
         if (content.genres) {
@@ -762,6 +684,7 @@ class workflixApp {
             });
         }
 
+        // Buttons
         const playBtn = document.getElementById('detailsPlayBtn');
         const libraryBtn = document.getElementById('detailsLibraryBtn');
 
@@ -774,8 +697,10 @@ class workflixApp {
 
         libraryBtn.onclick = () => this.toggleLibrary(content, type);
 
+        // Cast
         this.populateCast(content.credits);
 
+        // Show/hide seasons section
         const seasonsSection = document.getElementById('seasonsSection');
         if (type === 'tv') {
             seasonsSection.classList.remove('hidden');
@@ -804,10 +729,10 @@ class workflixApp {
                     this.loadImageWithFallback(profileUrl, (url) => {
                         photo.src = url;
                     }, () => {
-                        photo.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="%23564D4D"%3E%3Cpath d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 4L13.5 7H10.5L9 4L3 7V9H21ZM21 10H3V15C3 16.1 3.9 17 5 17V20C5 21.1 5.9 22 7 22H17C18.1 22 19 21.1 19 20V17C20.1 17 21 16.1 21 15V10Z"/%3E%3C/svg%3E';
+                        photo.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="%23564D4D"><path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 4L13.5 7H10.5L9 4L3 7V9H21ZM21 10H3V15C3 16.1 3.9 17 5 17V20C5 21.1 5.9 22 7 22H17C18.1 22 19 21.1 19 20V17C20.1 17 21 16.1 21 15V10Z"/></svg>';
                     });
                 } else {
-                    photo.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="%23564D4D"%3E%3Cpath d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 4L13.5 7H10.5L9 4L3 7V9H21ZM21 10H3V15C3 16.1 3.9 17 5 17V20C5 21.1 5.9 22 7 22H17C18.1 22 19 21.1 19 20V17C20.1 17 21 16.1 21 15V10Z"/%3E%3C/svg%3E';
+                    photo.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="%23564D4D"><path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 4L13.5 7H10.5L9 4L3 7V9H21ZM21 10H3V15C3 16.1 3.9 17 5 17V20C5 21.1 5.9 22 7 22H17C18.1 22 19 21.1 19 20V17C20.1 17 21 16.1 21 15V10Z"/></svg>';
                 }
 
                 const name = document.createElement('div');
@@ -873,6 +798,9 @@ class workflixApp {
                         this.playTVEpisode(tvId, seasonNumber, episode.episode_number, episode.name);
                     });
 
+                    // Add watched button for episode
+                    this.addWatchedButton(episodeCard, tvId, 'tv', episode.id);
+
                     episodesList.appendChild(episodeCard);
                 });
             }
@@ -885,6 +813,11 @@ class workflixApp {
         const playerTitle = document.getElementById('playerTitle');
         const playerIframe = document.getElementById('playerIframe');
         const playerModal = document.getElementById('playerModal');
+
+        // Mark as watched when playing
+        if (type === 'movie') {
+            this.toggleWatched(content.id, type, null, true);
+        }
 
         let videoUrl = '';
         let title = content.title || content.name;
@@ -910,6 +843,19 @@ class workflixApp {
         const playerTitle = document.getElementById('playerTitle');
         const playerIframe = document.getElementById('playerIframe');
         const playerModal = document.getElementById('playerModal');
+
+        // Get episode details to get the episode ID
+        try {
+            const seasonData = await this.apiRequest(`/tv/${tvId}/season/${seasonNumber}`);
+            if (seasonData && seasonData.episodes) {
+                const episode = seasonData.episodes.find(ep => ep.episode_number === episodeNumber);
+                if (episode) {
+                    this.toggleWatched(tvId, 'tv', episode.id, true);
+                }
+            }
+        } catch (error) {
+            console.error('Failed to mark episode as watched:', error);
+        }
 
         const videoUrl = `${this.vixSrcBaseUrl}/tv/${tvId}/${seasonNumber}/${episodeNumber}?lang=it&primaryColor=E50914&secondaryColor=FFFFFF&autoplay=false`;
         const title = `${content.name} - ${episodeTitle}`;
@@ -940,12 +886,14 @@ class workflixApp {
 
         localStorage.setItem('workflix-library', JSON.stringify(this.library));
 
+        // Update button
         const libraryBtn = document.getElementById('detailsLibraryBtn');
         const isInLibrary = existingIndex === -1;
         libraryBtn.innerHTML = isInLibrary
             ? '<i class="fas fa-check"></i> Nella Libreria'
             : '<i class="fas fa-plus"></i> La mia Libreria';
 
+        // Reload library page if currently viewing it
         if (this.currentPage === 'library') {
             this.loadLibraryPage();
         }
@@ -981,8 +929,100 @@ class workflixApp {
         const genre = genreList.find(g => g.id === genreId);
         return genre ? genre.name : 'Sconosciuto';
     }
+
+    // Watched content management
+    toggleWatched(contentId, type, episodeId = null, forceWatched = false) {
+        if (!this.watchedContent[type]) {
+            this.watchedContent[type] = {};
+        }
+
+        if (type === 'tv' && episodeId) {
+            if (!this.watchedContent[type][contentId]) {
+                this.watchedContent[type][contentId] = { episodes: {} };
+            }
+            const episodes = this.watchedContent[type][contentId].episodes;
+            episodes[episodeId] = forceWatched || !episodes[episodeId];
+
+            // Update series watched status based on all episodes
+            const allEpisodes = document.querySelectorAll(`[data-series-id="${contentId}"] .episode-card`);
+            const allWatched = Array.from(allEpisodes).every(ep =>
+                episodes[ep.getAttribute('data-episode-id')]
+            );
+            this.watchedContent[type][contentId].fullyWatched = allWatched;
+        } else {
+            // For movies or entire TV series
+            if (!this.watchedContent[type][contentId]) {
+                this.watchedContent[type][contentId] = { fullyWatched: forceWatched || true };
+            } else {
+                this.watchedContent[type][contentId].fullyWatched = forceWatched || !this.watchedContent[type][contentId].fullyWatched;
+            }
+        }
+
+        // Save to localStorage
+        localStorage.setItem('workflix-watched', JSON.stringify(this.watchedContent));
+
+        // Update UI
+        this.updateWatchedUI(contentId, type, episodeId);
+    }
+
+    isWatched(contentId, type, episodeId = null) {
+        if (!this.watchedContent[type] || !this.watchedContent[type][contentId]) {
+            return false;
+        }
+
+        if (type === 'tv' && episodeId) {
+            return this.watchedContent[type][contentId]?.episodes?.[episodeId] || false;
+        }
+
+        return this.watchedContent[type][contentId]?.fullyWatched || false;
+    }
+
+    updateWatchedUI(contentId, type, episodeId = null) {
+        const isWatched = this.isWatched(contentId, type, episodeId);
+
+        if (episodeId) {
+            // Update episode UI
+            const episodeCard = document.querySelector(`.episode-card[data-episode-id="${episodeId}"]`);
+            if (episodeCard) {
+                const watchedIcon = episodeCard.querySelector('.watched-icon');
+                watchedIcon.classList.toggle('watched', isWatched);
+                watchedIcon.title = isWatched ? 'Contrassegna come non visto' : 'Contrassegna come visto';
+            }
+        } else {
+            // Update movie/series UI
+            const contentCards = document.querySelectorAll(`.content-card[data-id="${contentId}"][data-type="${type}"]`);
+            contentCards.forEach(card => {
+                const watchedIcon = card.querySelector('.watched-icon');
+                if (watchedIcon) {
+                    watchedIcon.classList.toggle('watched', isWatched);
+                    watchedIcon.title = isWatched ? 'Contrassegna come non visto' : 'Contrassegna come visto';
+                }
+            });
+        }
+    }
+
+    addWatchedButton(element, contentId, type, episodeId = null) {
+        const watchedIcon = document.createElement('div');
+        watchedIcon.className = 'watched-icon';
+        watchedIcon.innerHTML = '<i class="fas fa-check-circle"></i>';
+
+        const isWatched = this.isWatched(contentId, type, episodeId);
+        if (isWatched) {
+            watchedIcon.classList.add('watched');
+        }
+
+        watchedIcon.title = isWatched ? 'Contrassegna come non visto' : 'Contrassegna come visto';
+
+        watchedIcon.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.toggleWatched(contentId, type, episodeId);
+        });
+
+        element.appendChild(watchedIcon);
+    }
 }
 
+// Initialize the app when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     new workflixApp();
 });
