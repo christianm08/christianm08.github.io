@@ -606,7 +606,7 @@ body::before {
 }
 
 .content-card:hover::before {
-  opacity: 1:
+  opacity: 1;
 }
 
 .card-image {
