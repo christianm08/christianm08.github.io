@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Caccia - Esame Venatorio</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 Quiz Caccia - Esame Venatorio</h1>
+            <p style="color: var(--color-text-secondary);">Preparati all'esame con domande reali</p>
+        </header>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="switchTab('quiz')">Quiz</button>
+            <button class="nav-tab" onclick="switchTab('database')">Database Domande</button>
+        </div>
+
+        <!-- Quiz Tab -->
+        <div id="quiz-tab" class="tab-content active">
+            <div class="counter-display">
+                <div class="counter-item">
+                    <span class="counter-value passed" id="passed-count">0</span>
+                    <span class="counter-label">Quiz Passati</span>
+                </div>
+                <div class="counter-item">
+                    <span class="counter-value failed" id="failed-count">0</span>
+                    <span class="counter-label">Quiz Sbagliati</span>
+                </div>
+            </div>
+            <div id="start-screen" class="start-screen">
+                <h2>Inizia il Quiz</h2>
+                <p>15 domande casuali - Massimo 2 errori consentiti</p>
+                <button class="btn btn-primary" onclick="startQuiz()"
+                    style="font-size: 1.2rem; padding: 20px 50px;">Inizia Quiz</button>
+
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-value">450</div>
+                        <div class="stat-label">Domande Totali</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">15</div>
+                        <div class="stat-label">Domande per Quiz</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">2</div>
+                        <div class="stat-label">Errori Massimi</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="quiz-screen" class="hidden">
+
+                <div style="display:flex; justify-content:flex-start; gap:12px; margin-bottom:12px;">
+                    <button id="back-btn" class="btn btn-ghost" onclick="goBackToStart()">← Indietro</button>
+                </div>
+
+                <div id="questions-container"></div>
+
+                <button id="confirm-btn" class="btn btn-primary btn-block" onclick="confirmAnswers()">
+                    Conferma Risposte
+                </button>
+
+                <div id="result-container" class="hidden"></div>
+
+                <button id="restart-btn" class="btn btn-success btn-block hidden" onclick="restartQuiz()">
+                    Nuovo Quiz
+                </button>
+            </div>
+        </div>
+
+        <!-- Database Tab -->
+        <div id="database-tab" class="tab-content">
+            <div class="database-search">
+                <input type="text" id="search-input" placeholder="🔍 Cerca domande..." oninput="filterQuestions()">
+            </div>
+            <div id="database-container"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
