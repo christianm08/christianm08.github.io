@@ -4,22 +4,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WorkLive</title>
-    <link rel="stylesheet" href="live/live.css">
+    <title>WorkLive - Canali Live Streaming</title>
+    <meta name="description" content="Guarda i tuoi canali live preferiti in streaming. Sport, cinema, calcio e tanto altro.">
+    <meta name="keywords" content="live, streaming, sport, cinema, calcio, tv">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="WorkLive - Canali Live Streaming">
+    <meta property="og:description" content="Guarda i tuoi canali live preferiti in streaming.">
+    
+    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="live/images/favicon.png">
-    <script src="live/live.js"></script>
+    
+    <!-- Preload CSS -->
+    <link rel="preload" href="assets/css/base.css" as="style">
+    <link rel="preload" href="live/live.css" as="style">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="live/live.css">
+    
+    <!-- Defer JavaScript -->
+    <script src="live/live.js" defer></script>
 </head>
 
 <body>
+    <!-- Skip link for accessibility -->
+    <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+    
     <div class="app-container">
         <!-- Header -->
-        <header class="header">
+        <header class="header" role="banner">
             <div class="container">
                 <div class="header-content">
-                    <img src="live/images/logo.png" alt="Logo" class="logo">
+                    <img src="live/images/logo.png" alt="WorkLive Logo" class="logo">
                     <div class="server-selector">
                         <label for="server-select" class="form-label">Server:</label>
-                        <select id="server-select" class="form-control server-dropdown">
+                        <select id="server-select" class="form-control server-dropdown" aria-label="Seleziona server">
                             <option value="daddyhd.com/stream">Server 1</option>
                             <option value="daddyhd.com/cast">Server 2</option>
                             <option value="daddyhd.com/watch">Server 3</option>
@@ -33,18 +54,18 @@
         </header>
 
         <!-- Main Content -->
-        <main class="main-content">
+        <main class="main-content" id="main-content" tabindex="-1">
             <div class="container">
                 <div class="channels-section">
                     <h2>Canali Disponibili</h2>
-                    <div class="channels-filter">
-                        <button class="filter-btn active" data-category="all">Tutti</button>
-                        <button class="filter-btn" data-category="sport">Sport</button>
-                        <button class="filter-btn" data-category="cinema">Cinema</button>
-                        <button class="filter-btn" data-category="calcio">Calcio</button>
-                        <button class="filter-btn" data-category="tv">TV</button>
+                    <div class="channels-filter" role="group" aria-label="Filtra canali per categoria">
+                        <button class="filter-btn active" data-category="all" aria-pressed="true">Tutti</button>
+                        <button class="filter-btn" data-category="sport" aria-pressed="false">Sport</button>
+                        <button class="filter-btn" data-category="cinema" aria-pressed="false">Cinema</button>
+                        <button class="filter-btn" data-category="calcio" aria-pressed="false">Calcio</button>
+                        <button class="filter-btn" data-category="tv" aria-pressed="false">TV</button>
                     </div>
-                    <div class="channels-grid" id="channels-grid">
+                    <div class="channels-grid" id="channels-grid" role="list">
                         <!-- Channels will be populated by JavaScript -->
                     </div>
                 </div>
@@ -52,23 +73,23 @@
         </main>
 
         <!-- Player Modal -->
-        <div class="modal player-modal hidden" id="player-modal">
+        <div class="modal player-modal hidden" id="player-modal" role="dialog" aria-labelledby="channel-title" aria-modal="true">
             <div class="modal-backdrop" id="modal-backdrop"></div>
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 id="channel-title">Canale</h3>
-                    <button class="modal-close" id="close-modal">✕</button>
+                    <button class="modal-close" id="close-modal" aria-label="Chiudi modal">✕</button>
                 </div>
                 <div class="modal-body">
                     <div class="player-container">
-                        <iframe id="player-frame" src="" frameborder="0" allowfullscreen></iframe>
+                        <iframe id="player-frame" src="" frameborder="0" allowfullscreen title="Player video"></iframe>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Loading Overlay -->
-        <div class="loading-overlay hidden" id="loading-overlay">
+        <div class="loading-overlay hidden" id="loading-overlay" aria-live="polite">
             <div class="loading-spinner"></div>
             <p>Caricamento stream...</p>
         </div>

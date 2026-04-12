@@ -4,24 +4,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Caccia - Esame Venatorio</title>
+    <title>Quiz Caccia - Esame Venatorio | Preparati all'esame con domande reali</title>
+    <meta name="description" content="Preparati all'esame venatorio con quiz gratuiti. Oltre 450 domande reali per l'esame di caccia in Campania.">
+    <meta name="keywords" content="quiz caccia, esame venatorio, caccia campania, patente caccia, quiz esame">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Quiz Caccia - Esame Venatorio">
+    <meta property="og:description" content="Preparati all'esame venatorio con quiz gratuiti. Oltre 450 domande reali.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="caccia/images/favicon.png">
+    
+    <!-- Preload CSS -->
+    <link rel="preload" href="assets/css/base.css" as="style">
+    <link rel="preload" href="caccia/styles.css" as="style">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/base.css">
     <link rel="stylesheet" href="caccia/styles.css">
 </head>
 
 <body>
+    <!-- Skip link for accessibility -->
+    <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+    
     <div class="container">
-        <header>
+        <header role="banner">
             <h1>🎯 Quiz Caccia - Esame Venatorio</h1>
             <p style="color: var(--color-text-secondary);">Preparati all'esame con domande reali</p>
         </header>
 
-        <div class="nav-tabs">
-            <button class="nav-tab active" onclick="switchTab('quiz')">Quiz</button>
-            <button class="nav-tab" onclick="switchTab('database')">Database Domande</button>
-        </div>
+        <nav class="nav-tabs" role="tablist" aria-label="Navigazione sezioni">
+            <button class="nav-tab active" 
+                    role="tab" 
+                    aria-selected="true" 
+                    aria-controls="quiz-tab" 
+                    id="quiz-tab-btn"
+                    onclick="switchTab('quiz')">Quiz</button>
+            <button class="nav-tab" 
+                    role="tab" 
+                    aria-selected="false" 
+                    aria-controls="database-tab" 
+                    id="database-tab-btn"
+                    onclick="switchTab('database')">Database Domande</button>
+        </nav>
 
         <!-- Quiz Tab -->
-        <div id="quiz-tab" class="tab-content active">
+        <div id="quiz-tab" class="tab-content active" role="tabpanel" aria-labelledby="quiz-tab-btn">
             <div class="counter-display">
                 <div class="counter-item">
                     <span class="counter-value passed" id="passed-count">0</span>
@@ -75,15 +106,19 @@
         </div>
 
         <!-- Database Tab -->
-        <div id="database-tab" class="tab-content">
+        <div id="database-tab" class="tab-content" role="tabpanel" aria-labelledby="database-tab-btn">
             <div class="database-search">
-                <input type="text" id="search-input" placeholder="🔍 Cerca domande..." oninput="filterQuestions()">
+                <input type="text" 
+                       id="search-input" 
+                       placeholder="🔍 Cerca domande..." 
+                       oninput="filterQuestions()"
+                       aria-label="Cerca nel database delle domande">
             </div>
             <div id="database-container"></div>
         </div>
     </div>
 
-    <script src="caccia/script.js"></script>
+    <script src="caccia/script.js" defer></script>
 </body>
 
 </html>

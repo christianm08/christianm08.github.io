@@ -4,57 +4,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChriStreaming</title>
-    <link rel="stylesheet" href="index/index.css">
+    <title>ChriStreaming - Piattaforma di Streaming e Live</title>
+    <meta name="description" content="Piattaforma educativa per streaming, canali live e quiz venatori. Accedi a contenuti multimediali di qualità.">
+    <meta name="keywords" content="streaming, live, quiz, caccia, esame venatorio, educational">
+    <meta name="author" content="Christianm08">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="ChriStreaming - Piattaforma di Streaming e Live">
+    <meta property="og:description" content="Piattaforma educativa per streaming, canali live e quiz venatori.">
+    <meta property="og:url" content="https://christreaming.com">
+    
+    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="index/images/favicon.png">
+    <link rel="apple-touch-icon" href="index/images/favicon.png">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="assets/css/base.css" as="style">
+    <link rel="preload" href="index/index.css" as="style">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="index/index.css">
+    
+    <!-- Schema.org structured data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "ChriStreaming",
+        "url": "https://christreaming.com",
+        "description": "Piattaforma educativa per streaming, canali live e quiz venatori",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
 </head>
 
 <body>
+    <!-- Skip link for accessibility -->
+    <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+    
     <div class="container">
-        <main class="grid-container">
-            <header id="header">
+        <main class="grid-container" id="main-content" tabindex="-1">
+            <header id="header" role="banner">
                 <h1>Christianm08</h1>
             </header>
 
-            <a href="#" class="button-section" onclick="goPage('streaming');return false;">
-                <div class="card" data-id="streaming-new">
-                    <div class="card-content">
-                        <h2 class="card-title">Streaming</h2>
-
+            <nav aria-label="Navigazione principale">
+                <a href="streaming.html" class="button-section" aria-label="Vai alla sezione Streaming">
+                    <div class="card" data-id="streaming-new" role="button" tabindex="0">
+                        <div class="card-content">
+                            <h2 class="card-title">Streaming</h2>
+                        </div>
+                        <div class="card-background">
+                            <iframe data-src="streaming.html" class="card-iframe" loading="lazy" title="Streaming preview"
+                                    aria-hidden="true"></iframe>
+                        </div>
                     </div>
-                    <div class="card-background"><iframe src="streaming.html" class="card-iframe" scrolling="no"
-                            aria-hidden="true"></iframe></div>
-                </div>
-            </a>
+                </a>
 
-            <a href="#" class="button-section" onclick="goPage('live');return false;">
-                <div class="card" data-id="live-new">
-                    <div class="card-content">
-                        <h2 class="card-title">Live</h2>
+                <a href="live.html" class="button-section" aria-label="Vai alla sezione Live">
+                    <div class="card" data-id="live-new" role="button" tabindex="0">
+                        <div class="card-content">
+                            <h2 class="card-title">Live</h2>
+                        </div>
+                        <div class="card-background">
+                            <iframe data-src="live.html" class="card-iframe" loading="lazy" title="Live preview"
+                                    aria-hidden="true"></iframe>
+                        </div>
                     </div>
-                    <div class="card-background"><iframe src="live.html" class="card-iframe" scrolling="no"
-                            aria-hidden="true"></iframe></div>
-                </div>
-            </a>
+                </a>
 
-            <a href="#" class="button-section" onclick="goPage('caccia');return false;">
-                <div class="card" data-id="caccia-new">
-                    <div class="card-content">
-                        <h2 class="card-title">Quiz Campania Caccia</h2>
-
+                <a href="caccia.html" class="button-section" aria-label="Vai ai Quiz Campania Caccia">
+                    <div class="card" data-id="caccia-new" role="button" tabindex="0">
+                        <div class="card-content">
+                            <h2 class="card-title">Quiz Campania Caccia</h2>
+                        </div>
+                        <div class="card-background">
+                            <iframe data-src="caccia.html" class="card-iframe" loading="lazy" title="Quiz preview"
+                                    aria-hidden="true"></iframe>
+                        </div>
                     </div>
-                    <div class="card-background"><iframe src="caccia.html" class="card-iframe" scrolling="no"
-                            aria-hidden="true"></iframe></div>
-                </div>
-            </a>
+                </a>
+            </nav>
 
-
-            <footer id="footer">Sito per scopi educativi - <a href="#" onclick="goPage('readme/README');return false;"
-                    target="_blank">README</a></footer>
+            <footer id="footer" role="contentinfo">
+                <p>Sito per scopi educativi - 
+                    <a href="readme/README.html" aria-label="Leggi il README del progetto">README</a>
+                </p>
+            </footer>
         </main>
     </div>
 
-    <script src="index/index.js"></script>
+    <!-- Load app module with defer -->
+    <script type="module" src="app.js" defer></script>
 </body>
 
 </html>
